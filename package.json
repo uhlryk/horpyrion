@@ -1,6 +1,6 @@
 {
-    "name": "function-overloader",
-    "version": "2.1.2",
+    "name": "horpyrion",
+    "version": "0.0.1",
     "description": "Persistent data manager for crm/cms systems",
     "main": "dist/index.js",
     "scripts": {
@@ -16,15 +16,15 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/uhlryk/function-overloader.git"
+        "url": "git+https://github.com/uhlryk/horpyrion.git"
     },
     "keywords": [],
     "author": "Krzysztof Sztompka <sztompka.krzysztof@gmail.com>",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/uhlryk/function-overloader/issues"
+        "url": "https://github.com/uhlryk/horpyrion/issues"
     },
-    "homepage": "https://github.com/uhlryk/function-overloader#readme",
+    "homepage": "https://github.com/uhlryk/horpyrion#readme",
     "devDependencies": {
         "babel-cli": "^6.24.1",
         "babel-core": "^6.26.3",
