@@ -6,7 +6,7 @@
     "scripts": {
         "prettier-all": "prettier --config .prettierrc --write 'src/**/*.js'",
         "prettier-changed": "git diff --name-only --diff-filter=ACMRTU HEAD | grep \".*\\.js$\" | xargs prettier --config .prettierrc --write",
-        "test": "mocha --require source-map-support --require babel-register --require babel-polyfill --require init.mocha.js --check-leaks --timeout 3000 'src/**/*.spec.js'",
+        "test": "mocha --require source-map-support --require babel-register --require babel-polyfill --require init.mocha.js --check-leaks --timeout 3000 'src/**/*.spec.js' --exit",
         "coverage": "nyc --reporter=html --reporter=text mocha --require source-map-support --require babel-register --require babel-polyfill --require init.mocha.js --check-leaks --timeout 3000 'src/**/*.spec.js' && echo report available ./coverage/index.html",
         "complexity": "plato -r --eslint .eslintrc --exclude .spec.js -d report src && echo report available ./report/index.html",
         "linter": "eslint src",
@@ -53,7 +53,7 @@
         "mongo-mock": "^2.4.0",
         "nyc": "^12.0.2",
         "plato": "^1.7.0",
-        "prettier": "^1.6.1",
+        "prettier": "^1.15.3",
         "sinon": "^2.3.6",
         "sinon-chai": "^2.13.0",
         "supertest": "^3.0.0",

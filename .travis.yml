@@ -1,7 +1,9 @@
 language: node_js
 cache:
-  directories:
+    directories:
     - node_modules
 node_js:
-  - '6.0'
+- '10.0'
+services:
+- mongodb
 
