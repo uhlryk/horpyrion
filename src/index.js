@@ -1,1 +1,1 @@
-export default from "./Horpyrion";
+export default from "./horpyrion";

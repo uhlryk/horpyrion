@@ -15,13 +15,14 @@ npm install horpyrion
 ## usage
 
 ```javascript
-import Horpyrion from "horpyrion";
+import horpyrion from "horpyrion";
 ```
 
 
 ```javascript
-const horpyrion = new Horpyrion();
-await horpyrion.start("mongodb://localhost:27017/testProject");
+horpyrion("mongodb://localhost:27017/testProject")
+.setUser()
+.then()
   ```     
       
 ## License
