@@ -21,7 +21,7 @@ import Horpyrion from "horpyrion";
 
 ```javascript
 const horpyrion = new Horpyrion();
-await horpyrion.connect();
+await horpyrion.start("mongodb://localhost:27017/testProject");
   ```     
       
 ## License
