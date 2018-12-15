@@ -121,20 +121,19 @@ var _currentUser2 = _interopRequireDefault(_currentUser);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function horpyrion(mongoUrl) {
-    var dbPromise = new Promise(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
         _mongodb.MongoClient.connect(mongoUrl, function (err, db) {
             if (err) {
                 return reject(err);
             }
             console.log("Connected correctly to database server");
-            return resolve(db);
+            return resolve({
+                setUser: function setUser(user) {
+                    return (0, _currentUser2.default)(db, user);
+                }
+            });
         });
     });
-    return {
-        setUser: function setUser(user) {
-            return (0, _currentUser2.default)(dbPromise, user);
-        }
-    };
 }
 
 /***/ }),

@@ -20,9 +20,8 @@ import horpyrion from "horpyrion";
 
 
 ```javascript
-horpyrion("mongodb://localhost:27017/testProject")
-.setUser()
-.then()
+const connHorpyrion = await horpyrion("mongodb://localhost:27017/testProject")
+const userHorpyrion = await connHorpyrion.setUser(<userId>);
   ```     
       
 ## License
