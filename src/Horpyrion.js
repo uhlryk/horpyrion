@@ -1,10 +1,10 @@
 import { MongoClient } from "mongodb";
 
 export default class Horpyrion {
-    async connect() {
+    async start(mongoUrl) {
         this._db = await new Promise((resolve, reject) => {
             MongoClient.connect(
-                "mongodb://localhost:27017/storeTest",
+                mongoUrl,
                 (err, db) => {
                     if (err) {
                         return reject(err);
@@ -17,7 +17,7 @@ export default class Horpyrion {
         return true;
     }
 
-    async disconnect() {
+    async stop() {
         return this._db.close();
     }
 }

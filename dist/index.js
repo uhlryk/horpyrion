@@ -125,16 +125,16 @@ var Horpyrion = function () {
     }
 
     _createClass(Horpyrion, [{
-        key: "connect",
+        key: "start",
         value: function () {
-            var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+            var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(mongoUrl) {
                 return regeneratorRuntime.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
                                 _context.next = 2;
                                 return new Promise(function (resolve, reject) {
-                                    _mongodb.MongoClient.connect("mongodb://localhost:27017/storeTest", function (err, db) {
+                                    _mongodb.MongoClient.connect(mongoUrl, function (err, db) {
                                         if (err) {
                                             return reject(err);
                                         }
@@ -155,14 +155,14 @@ var Horpyrion = function () {
                 }, _callee, this);
             }));
 
-            function connect() {
+            function start(_x) {
                 return _ref.apply(this, arguments);
             }
 
-            return connect;
+            return start;
         }()
     }, {
-        key: "disconnect",
+        key: "stop",
         value: function () {
             var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
                 return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -179,11 +179,11 @@ var Horpyrion = function () {
                 }, _callee2, this);
             }));
 
-            function disconnect() {
+            function stop() {
                 return _ref2.apply(this, arguments);
             }
 
-            return disconnect;
+            return stop;
         }()
     }]);
 

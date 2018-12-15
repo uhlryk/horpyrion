@@ -13,7 +13,7 @@ describe("Horpyrion", () => {
         });
 
         it("should connect to database", async () => {
-            const connection = await horpyrion.connect();
+            const connection = await horpyrion.start("mongodb://localhost:27017/testProject");
             expect(connection).to.be.true();
         });
     });
