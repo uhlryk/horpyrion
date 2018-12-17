@@ -1,4 +1,5 @@
 import { MongoClient } from "mongodb";
+import UserContext from "./UserContext";
 
 export default class Horpyrion {
     constructor(mongoUrl) {
@@ -18,5 +19,17 @@ export default class Horpyrion {
                 }
             );
         });
+    }
+
+    async authorize() {
+        return UserContext.Authorize();
+    }
+
+    getRootUser() {
+        return new UserContext(UserContext.ROOT_USER_TOKEN, this._db);
+    }
+
+    getUser(userToken) {
+        return new UserContext(userToken, this._db);
     }
 }

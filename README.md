@@ -26,12 +26,13 @@ await horpyrion.sync();
 Do stuff as root user.
 ```javascript
 await horpyrion
+    .getRootUser()
     .createResource(<resource name>)
     .addAttribute(<attribute name>, <attribute type>); 
 ```    
 Do stuff as normal user.  
 ```javascript    
-const userToken = await horpyrion.authUser(<auth credentials>);
+const userToken = await horpyrion.authorize(<auth credentials>);
 await horpyrion
     .getUser(userToken)
     .createResource(<resource name>)
