@@ -92,13 +92,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _horpyrion = __webpack_require__(2);
+var _Horpyrion = __webpack_require__(2);
 
-var _horpyrion2 = _interopRequireDefault(_horpyrion);
+var _Horpyrion2 = _interopRequireDefault(_Horpyrion);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = _horpyrion2.default;
+exports.default = _Horpyrion2.default;
 
 /***/ }),
 /* 2 */
@@ -110,53 +110,69 @@ exports.default = _horpyrion2.default;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = horpyrion;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _mongodb = __webpack_require__(3);
 
-var _currentUser = __webpack_require__(4);
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-var _currentUser2 = _interopRequireDefault(_currentUser);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var Horpyrion = function () {
+    function Horpyrion(mongoUrl) {
+        _classCallCheck(this, Horpyrion);
 
-function horpyrion(mongoUrl) {
-    return new Promise(function (resolve, reject) {
-        _mongodb.MongoClient.connect(mongoUrl, function (err, db) {
-            if (err) {
-                return reject(err);
+        this._mongoUrl = mongoUrl;
+    }
+
+    _createClass(Horpyrion, [{
+        key: "sync",
+        value: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+                var _this = this;
+
+                return regeneratorRuntime.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                return _context.abrupt("return", new Promise(function (resolve, reject) {
+                                    _mongodb.MongoClient.connect(_this._mongoUrl, function (err, db) {
+                                        if (err) {
+                                            return reject(err);
+                                        }
+                                        console.log("Connected correctly to database server");
+                                        _this._db = db;
+                                        return resolve(db);
+                                    });
+                                }));
+
+                            case 1:
+                            case "end":
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function sync() {
+                return _ref.apply(this, arguments);
             }
-            console.log("Connected correctly to database server");
-            return resolve({
-                setUser: function setUser(user) {
-                    return (0, _currentUser2.default)(db, user);
-                }
-            });
-        });
-    });
-}
+
+            return sync;
+        }()
+    }]);
+
+    return Horpyrion;
+}();
+
+exports.default = Horpyrion;
 
 /***/ }),
 /* 3 */
 /***/ (function(module, exports) {
 
 module.exports = require("mongodb");
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = currentUser;
-function currentUser(dbPromise, currentUser) {
-    console.log("Current user ", currentUser);
-    return dbPromise;
-}
 
 /***/ })
 /******/ ]);
