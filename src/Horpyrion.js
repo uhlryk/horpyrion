@@ -15,10 +15,10 @@ export default class Horpyrion {
     }
 
     getRootUser() {
-        return new UserContext(UserContext.ROOT_USER_TOKEN, this._modelManager);
+        return new UserContext(UserContext.ROOT_USER_ID, this._modelManager);
     }
 
-    getUser(userToken) {
-        return new UserContext(userToken, this._modelManager);
+    getUser(userId) {
+        return new UserContext(userId, this._modelManager);
     }
 }

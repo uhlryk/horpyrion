@@ -32,13 +32,12 @@ await horpyrion
 ```    
 Do stuff as normal user.  
 ```javascript    
-const userToken = await horpyrion.authorize(<auth credentials>);
 await horpyrion
-    .getUser(userToken)
+    .getUser(<user id>)
     .createResource(<resource name>)
     .addAttribute(<attribute name>, <attribute type>);
 await horpyrion
-    .getUser(userToken)
+    .getUser(<user id>)
     .getResource(<resourceName>)
     .addAttribute(<attribute name>, <attribute type>);
 ```

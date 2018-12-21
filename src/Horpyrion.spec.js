@@ -23,14 +23,6 @@ describe("Horpyrion", () => {
             await horpyrion.sync();
         });
 
-        describe("when authorizing user", () => {
-            it("should return false", () => {
-                return horpyrion.authorize().then(resp => {
-                    expect(resp).be.false();
-                });
-            });
-        });
-
         describe("when there is root user context", () => {
             describe("when creating resource", () => {
                 it("should return false", () => {
@@ -115,10 +107,11 @@ describe("Horpyrion", () => {
         });
 
         describe("when there is standard user context", () => {
+            const USER_ID = "USER_ID";
             describe("when creating resource", () => {
                 it("should return false", () => {
                     return horpyrion
-                        .getUser()
+                        .getUser(USER_ID)
                         .createResource("SOME_RESOURCE")
                         .then(resp => {
                             expect(resp).be.false();
@@ -129,7 +122,7 @@ describe("Horpyrion", () => {
                 describe("when creating attribute", () => {
                     it("should return false", () => {
                         return horpyrion
-                            .getUser()
+                            .getUser(USER_ID)
                             .getResource("SOME_RESOURCE")
                             .addAttribute("SOME_ATTRIBUTE", "SOME_TYPE")
                             .then(resp => {
@@ -141,7 +134,7 @@ describe("Horpyrion", () => {
                 describe("when getting record", () => {
                     it("should return false", () => {
                         return horpyrion
-                            .getUser()
+                            .getUser(USER_ID)
                             .getResource("SOME_RESOURCE")
                             .getRecord("SOME_RECORD_ID")
                             .then(resp => {
@@ -153,7 +146,7 @@ describe("Horpyrion", () => {
                 describe("when getting records", () => {
                     it("should return false", () => {
                         return horpyrion
-                            .getUser()
+                            .getUser(USER_ID)
                             .getResource("SOME_RESOURCE")
                             .getRecords()
                             .then(resp => {
@@ -164,7 +157,7 @@ describe("Horpyrion", () => {
                 describe("when creating record", () => {
                     it("should return false", () => {
                         return horpyrion
-                            .getUser()
+                            .getUser(USER_ID)
                             .getResource("SOME_RESOURCE")
                             .createRecord()
                             .then(resp => {
@@ -175,7 +168,7 @@ describe("Horpyrion", () => {
                 describe("when updating record", () => {
                     it("should return false", () => {
                         return horpyrion
-                            .getUser()
+                            .getUser(USER_ID)
                             .getResource("SOME_RESOURCE")
                             .updateRecord()
                             .then(resp => {
@@ -186,7 +179,7 @@ describe("Horpyrion", () => {
                 describe("when getting attributes", () => {
                     it("should return false", () => {
                         return horpyrion
-                            .getUser()
+                            .getUser(USER_ID)
                             .getResource("SOME_RESOURCE")
                             .getAttributes()
                             .then(resp => {

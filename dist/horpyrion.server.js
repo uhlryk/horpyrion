@@ -193,12 +193,12 @@ var Horpyrion = function () {
     }, {
         key: "getRootUser",
         value: function getRootUser() {
-            return new _UserContext2.default(_UserContext2.default.ROOT_USER_TOKEN, this._modelManager);
+            return new _UserContext2.default(_UserContext2.default.ROOT_USER_ID, this._modelManager);
         }
     }, {
         key: "getUser",
-        value: function getUser(userToken) {
-            return new _UserContext2.default(userToken, this._modelManager);
+        value: function getUser(userId) {
+            return new _UserContext2.default(userId, this._modelManager);
         }
     }]);
 
@@ -231,10 +231,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var UserContext = function () {
-    function UserContext(user, modelManager) {
+    function UserContext(userId, modelManager) {
         _classCallCheck(this, UserContext);
 
-        this._user = user;
+        this._userId = userId;
         this._modelManager = modelManager;
     }
 
@@ -246,7 +246,7 @@ var UserContext = function () {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
-                                return _context.abrupt("return", _ResourceContext2.default.CreateResource(resourceName, this._user, this._modelManager));
+                                return _context.abrupt("return", _ResourceContext2.default.CreateResource(resourceName, this._userId, this._modelManager));
 
                             case 1:
                             case "end":
@@ -265,38 +265,14 @@ var UserContext = function () {
     }, {
         key: "getResource",
         value: function getResource(resourceName) {
-            return new _ResourceContext2.default(resourceName, this._user, this._modelManager);
+            return new _ResourceContext2.default(resourceName, this._userId, this._modelManager);
         }
-    }], [{
-        key: "Authorize",
-        value: function () {
-            var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-                return regeneratorRuntime.wrap(function _callee2$(_context2) {
-                    while (1) {
-                        switch (_context2.prev = _context2.next) {
-                            case 0:
-                                return _context2.abrupt("return", false);
-
-                            case 1:
-                            case "end":
-                                return _context2.stop();
-                        }
-                    }
-                }, _callee2, this);
-            }));
-
-            function Authorize() {
-                return _ref2.apply(this, arguments);
-            }
-
-            return Authorize;
-        }()
     }]);
 
     return UserContext;
 }();
 
-UserContext.ROOT_USER_TOKEN = Symbol("ROOT_USER_TOKEN");
+UserContext.ROOT_USER_ID = Symbol("ROOT_USER_ID");
 exports.default = UserContext;
 
 /***/ }),
@@ -317,11 +293,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ResourceContext = function () {
-    function ResourceContext(resource, user, modelManager) {
+    function ResourceContext(resource, userId, modelManager) {
         _classCallCheck(this, ResourceContext);
 
         this._resource = resource;
-        this._user = user;
+        this._userId = userId;
         this._modelManager = modelManager;
     }
 
@@ -472,7 +448,7 @@ var ResourceContext = function () {
     }], [{
         key: "CreateResource",
         value: function () {
-            var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(resourceName, user, modelManager) {
+            var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(resourceName, userId, modelManager) {
                 return regeneratorRuntime.wrap(function _callee7$(_context7) {
                     while (1) {
                         switch (_context7.prev = _context7.next) {
