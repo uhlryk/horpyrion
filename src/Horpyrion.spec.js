@@ -1,15 +1,23 @@
 import Horpyrion from "./Horpyrion";
 
+const dbConfiguration = {
+    type: "postgres",
+    host: "localhost",
+    dbname: "test",
+    user: "test",
+    pass: "test",
+    port: "5432"
+};
 describe("Horpyrion", () => {
     it("should create instance", () => {
-        const horpyrion = new Horpyrion("mongodb://localhost:27017/testProject");
+        const horpyrion = new Horpyrion(dbConfiguration);
         expect(horpyrion).to.be.instanceof(Horpyrion);
     });
 
     describe("when instance exist", () => {
         let horpyrion;
         beforeEach(() => {
-            horpyrion = new Horpyrion("mongodb://localhost:27017/testProject");
+            horpyrion = new Horpyrion(dbConfiguration);
         });
         it("should connect to database", async () => {
             await horpyrion.sync();

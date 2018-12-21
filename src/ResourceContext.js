@@ -1,11 +1,11 @@
 export default class ResourceContext {
-    constructor(resource, user, db) {
+    constructor(resource, user, modelManager) {
         this._resource = resource;
         this._user = user;
-        this._db = db;
+        this._modelManager = modelManager;
     }
 
-    static async CreateResource(resourceName, user, db) {
+    static async CreateResource(resourceName, user, modelManager) {
         return false;
     }
 

@@ -2,10 +2,11 @@ import path from "path";
 import ExternalsPlugin from "webpack2-externals-plugin";
 
 export default {
-    entry: ["./src/index.js"],
+    entry: ["babel-polyfill", "./src/index.js"],
+    target: "node",
     output: {
         libraryTarget: "umd",
-        filename: "index.js",
+        filename: "horpyrion.server.js",
         path: path.resolve(__dirname, "dist")
     },
     module: {
@@ -15,7 +16,15 @@ export default {
                 use: {
                     loader: "babel-loader",
                     options: {
-                        presets: ["es2015", "es2016", "es2017", "stage-0"]
+                        presets: ["es2015", "es2016", "es2017", "stage-0"],
+                        plugins: [
+                            [
+                                "babel-plugin-transform-builtin-extend",
+                                {
+                                    globals: ["Error", "Array"]
+                                }
+                            ]
+                        ]
                     }
                 }
             }

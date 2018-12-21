@@ -2,7 +2,7 @@
     "name": "horpyrion",
     "version": "0.4.0",
     "description": "Persistent data manager for crm/cms systems",
-    "main": "dist/index.js",
+    "main": "dist/horpyrion.server.js",
     "scripts": {
         "prettier-all": "prettier --config .prettierrc --write 'src/**/*.js'",
         "prettier-changed": "git diff --name-only --diff-filter=ACMRTU HEAD | grep \".*\\.js$\" | xargs prettier --config .prettierrc --write",
@@ -30,6 +30,7 @@
         "babel-core": "^6.26.3",
         "babel-eslint": "^8.2.4",
         "babel-loader": "^7.1.1",
+        "babel-plugin-transform-builtin-extend": "^1.1.2",
         "babel-polyfill": "^6.23.0",
         "babel-preset-es2015": "^6.24.1",
         "babel-preset-es2016": "^6.24.1",
@@ -50,7 +51,6 @@
         "istanbul": "^0.4.5",
         "lint-staged": "^6.0.0",
         "mocha": "^5.2.0",
-        "mongo-mock": "^2.4.0",
         "nyc": "^12.0.2",
         "plato": "^1.7.0",
         "prettier": "^1.15.3",
@@ -62,7 +62,9 @@
     },
     "dependencies": {
         "check-complex-types": "^1.8.3",
-        "mongodb": "^2.2.29"
+        "fs": "0.0.1-security",
+        "pg": "^7.7.1",
+        "sequelize": "^4.42.0"
     },
     "lint-staged": {
         "*.js": [

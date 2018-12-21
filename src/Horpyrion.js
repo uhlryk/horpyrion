@@ -1,24 +1,13 @@
-import { MongoClient } from "mongodb";
 import UserContext from "./UserContext";
+import ModelManager from "./ModelManager";
 
 export default class Horpyrion {
-    constructor(mongoUrl) {
-        this._mongoUrl = mongoUrl;
+    constructor(configuration) {
+        this._configuration = configuration;
     }
     async sync() {
-        return new Promise((resolve, reject) => {
-            MongoClient.connect(
-                this._mongoUrl,
-                (err, db) => {
-                    if (err) {
-                        return reject(err);
-                    }
-                    console.log("Connected correctly to database server");
-                    this._db = db;
-                    return resolve(db);
-                }
-            );
-        });
+        this._modelManager = new ModelManager(this._configuration);
+        return this._modelManager.authenticate();
     }
 
     async authorize() {
@@ -26,10 +15,10 @@ export default class Horpyrion {
     }
 
     getRootUser() {
-        return new UserContext(UserContext.ROOT_USER_TOKEN, this._db);
+        return new UserContext(UserContext.ROOT_USER_TOKEN, this._modelManager);
     }
 
     getUser(userToken) {
-        return new UserContext(userToken, this._db);
+        return new UserContext(userToken, this._modelManager);
     }
 }
