@@ -544,7 +544,7 @@ var ModelManager = function () {
         _fs2.default.readdirSync(_path2.default.join(__dirname, "models")).filter(function (file) {
             return file.indexOf(".") !== 0;
         }).forEach(function (file) {
-            var model = _this._sequelize.import(_path2.default.join(__dirname, file));
+            var model = _this._sequelize.import(_path2.default.join(__dirname, "models", file));
             _this._models[model.name] = model;
         });
 

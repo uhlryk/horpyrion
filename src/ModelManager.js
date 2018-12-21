@@ -15,7 +15,7 @@ export default class ModelManager {
                 return file.indexOf(".") !== 0;
             })
             .forEach(file => {
-                const model = this._sequelize.import(path.join(__dirname, file));
+                const model = this._sequelize.import(path.join(__dirname, "models", file));
                 this._models[model.name] = model;
             });
 
