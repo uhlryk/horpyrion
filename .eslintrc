@@ -30,6 +30,7 @@
         "beforeEach": true,
         "before": true,
         "afterEach": true,
-        "after": true
+        "after": true,
+        "DB_CONFIGURATION": true
     }
 }

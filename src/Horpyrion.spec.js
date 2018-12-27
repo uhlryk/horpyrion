@@ -1,23 +1,15 @@
 import Horpyrion from "./Horpyrion";
 
-const dbConfiguration = {
-    type: "postgres",
-    host: process.env.POSTGRES_HOST,
-    dbname: process.env.POSTGRES_DB,
-    user: process.env.POSTGRES_USER,
-    password: process.env.POSTGRES_PASSWORD,
-    port: "5432"
-};
 describe("Horpyrion", () => {
     it("should create instance", () => {
-        const horpyrion = new Horpyrion(dbConfiguration);
+        const horpyrion = new Horpyrion(DB_CONFIGURATION);
         expect(horpyrion).to.be.instanceof(Horpyrion);
     });
 
     describe("when instance exist", () => {
         let horpyrion;
         beforeEach(() => {
-            horpyrion = new Horpyrion(dbConfiguration);
+            horpyrion = new Horpyrion(DB_CONFIGURATION);
         });
         it("should connect to database", async () => {
             await horpyrion.sync();

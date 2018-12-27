@@ -42,6 +42,26 @@ await horpyrion
     .addAttribute(<attribute name>, <attribute type>);
 ```
 
+## testing
+
+### localhost testing:
+1. install postgress 
+1. create user "test"
+1. password "test"
+1. database "test"
+
+### docker testing
+ - run:
+```
+docker-compose up --exit-code-from test
+```
+
+or
+
+ - run:
+```
+bash docker-test.sh
+```
 ## License
 
 MIT
