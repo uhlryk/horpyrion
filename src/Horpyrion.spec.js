@@ -2,10 +2,10 @@ import Horpyrion from "./Horpyrion";
 
 const dbConfiguration = {
     type: "postgres",
-    host: "localhost",
-    dbname: "test",
-    user: "test",
-    pass: "test",
+    host: process.env.POSTGRES_HOST,
+    dbname: process.env.POSTGRES_DB,
+    user: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
     port: "5432"
 };
 describe("Horpyrion", () => {

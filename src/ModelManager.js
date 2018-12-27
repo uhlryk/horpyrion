@@ -4,9 +4,10 @@ import Sequelize from "sequelize";
 
 export default class ModelManager {
     constructor(config) {
-        this._sequelize = new Sequelize(config.dbname, config.user, config.pass, {
+        this._sequelize = new Sequelize(config.dbname, config.user, config.password, {
             dialect: config.type,
-            port: config.port
+            port: config.port,
+            host: config.host
         });
         this._models = {};
 

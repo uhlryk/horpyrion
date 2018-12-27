@@ -511,9 +511,10 @@ var ModelManager = function () {
 
         _classCallCheck(this, ModelManager);
 
-        this._sequelize = new _sequelize2.default(config.dbname, config.user, config.pass, {
+        this._sequelize = new _sequelize2.default(config.dbname, config.user, config.password, {
             dialect: config.type,
-            port: config.port
+            port: config.port,
+            host: config.host
         });
         this._models = {};
 
