@@ -10,7 +10,6 @@ export default class ModelManager {
             host: config.host
         });
         this._models = {};
-
         fs.readdirSync(path.join(__dirname, "models"))
             .filter(file => {
                 return file.indexOf(".") !== 0;
@@ -19,7 +18,6 @@ export default class ModelManager {
                 const model = this._sequelize.import(path.join(__dirname, "models", file));
                 this._models[model.name] = model;
             });
-
         Object.values(this._models).forEach(model => {
             if (model.associate) {
                 model.associate(this._models);
@@ -27,7 +25,19 @@ export default class ModelManager {
         });
     }
 
-    authenticate() {
+    getDbInstance() {
+        return this._sequelize;
+    }
+
+    async sync() {
+        return this._sequelize.sync();
+    }
+
+    getModels() {
+        return this._models;
+    }
+
+    async authenticate() {
         return this._sequelize
             .authenticate()
             .then(() => {

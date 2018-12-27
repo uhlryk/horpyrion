@@ -1,6 +1,6 @@
 export default function(sequelize, DataTypes) {
-    var Entity = sequelize.define(
-        "entity",
+    const EntitySchema = sequelize.define(
+        "EntitySchema",
         {
             name: {
                 type: DataTypes.STRING(50),
@@ -12,11 +12,11 @@ export default function(sequelize, DataTypes) {
             paranoid: true,
             classMethods: {
                 associate: function(models) {
-                    Entity.belongsTo(models.User, { as: "owner" });
-                    Entity.hasMany(models.Attribute);
+                    EntitySchema.belongsTo(models.User, { as: "owner" });
+                    EntitySchema.hasMany(models.Attribute);
                 }
             }
         }
     );
-    return Entity;
+    return EntitySchema;
 }

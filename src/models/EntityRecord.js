@@ -1,6 +1,6 @@
 export default function(sequelize, DataTypes) {
-    var EntityValue = sequelize.define(
-        "entityValue",
+    const EntityRecord = sequelize.define(
+        "EntityRecord",
         {
             name: {
                 type: DataTypes.STRING(50),
@@ -14,11 +14,11 @@ export default function(sequelize, DataTypes) {
             paranoid: true,
             classMethods: {
                 associate: function(models) {
-                    EntityValue.belongsTo(models.User, { as: "owner" });
-                    EntityValue.belongsTo(models.Enity);
+                    EntityRecord.belongsTo(models.User, { as: "owner" });
+                    EntityRecord.belongsTo(models.EnitySchema);
                 }
             }
         }
     );
-    return EntityValue;
+    return EntityRecord;
 }

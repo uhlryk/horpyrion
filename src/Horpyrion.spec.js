@@ -14,169 +14,174 @@ describe("Horpyrion", () => {
         it("should connect to database", async () => {
             await horpyrion.sync();
         });
+        describe("when connected to database", () => {
+            beforeEach(async () => {
+                await horpyrion.sync();
+            });
 
-        describe("when there is root user context", () => {
-            describe("when creating resource", () => {
-                it("should return false", () => {
-                    return horpyrion
-                        .getRootUser()
-                        .createResource("SOME_RESOURCE")
-                        .then(resp => {
-                            expect(resp).be.false();
+            describe("when there is root user context", () => {
+                describe("when creating resource", () => {
+                    it("should return false", () => {
+                        return horpyrion
+                            .getRootUser()
+                            .createResource("SOME_RESOURCE")
+                            .then(resp => {
+                                expect(resp).be.equal(1);
+                            });
+                    });
+                });
+                describe("when there is specific resource context", () => {
+                    describe("when creating attribute", () => {
+                        it("should return false", () => {
+                            return horpyrion
+                                .getRootUser()
+                                .getResource("SOME_RESOURCE")
+                                .addAttribute("SOME_ATTRIBUTE", "SOME_TYPE")
+                                .then(resp => {
+                                    expect(resp).be.false();
+                                });
                         });
-                });
-            });
-            describe("when there is specific resource context", () => {
-                describe("when creating attribute", () => {
-                    it("should return false", () => {
-                        return horpyrion
-                            .getRootUser()
-                            .getResource("SOME_RESOURCE")
-                            .addAttribute("SOME_ATTRIBUTE", "SOME_TYPE")
-                            .then(resp => {
-                                expect(resp).be.false();
-                            });
                     });
-                });
 
-                describe("when getting record", () => {
-                    it("should return false", () => {
-                        return horpyrion
-                            .getRootUser()
-                            .getResource("SOME_RESOURCE")
-                            .getRecord("SOME_RECORD_ID")
-                            .then(resp => {
-                                expect(resp).be.false();
-                            });
-                    });
-                });
-
-                describe("when getting records", () => {
-                    it("should return false", () => {
-                        return horpyrion
-                            .getRootUser()
-                            .getResource("SOME_RESOURCE")
-                            .getRecords()
-                            .then(resp => {
-                                expect(resp).be.false();
-                            });
-                    });
-                });
-                describe("when creating record", () => {
-                    it("should return false", () => {
-                        return horpyrion
-                            .getRootUser()
-                            .getResource("SOME_RESOURCE")
-                            .createRecord()
-                            .then(resp => {
-                                expect(resp).be.false();
-                            });
-                    });
-                });
-                describe("when updating record", () => {
-                    it("should return false", () => {
-                        return horpyrion
-                            .getRootUser()
-                            .getResource("SOME_RESOURCE")
-                            .updateRecord()
-                            .then(resp => {
-                                expect(resp).be.false();
-                            });
-                    });
-                });
-                describe("when getting attributes", () => {
-                    it("should return false", () => {
-                        return horpyrion
-                            .getRootUser()
-                            .getResource("SOME_RESOURCE")
-                            .getAttributes()
-                            .then(resp => {
-                                expect(resp).be.false();
-                            });
-                    });
-                });
-            });
-        });
-
-        describe("when there is standard user context", () => {
-            const USER_ID = "USER_ID";
-            describe("when creating resource", () => {
-                it("should return false", () => {
-                    return horpyrion
-                        .getUser(USER_ID)
-                        .createResource("SOME_RESOURCE")
-                        .then(resp => {
-                            expect(resp).be.false();
+                    describe("when getting record", () => {
+                        it("should return false", () => {
+                            return horpyrion
+                                .getRootUser()
+                                .getResource("SOME_RESOURCE")
+                                .getRecord("SOME_RECORD_ID")
+                                .then(resp => {
+                                    expect(resp).be.false();
+                                });
                         });
+                    });
+
+                    describe("when getting records", () => {
+                        it("should return false", () => {
+                            return horpyrion
+                                .getRootUser()
+                                .getResource("SOME_RESOURCE")
+                                .getRecords()
+                                .then(resp => {
+                                    expect(resp).be.false();
+                                });
+                        });
+                    });
+                    describe("when creating record", () => {
+                        it("should return false", () => {
+                            return horpyrion
+                                .getRootUser()
+                                .getResource("SOME_RESOURCE")
+                                .createRecord()
+                                .then(resp => {
+                                    expect(resp).be.false();
+                                });
+                        });
+                    });
+                    describe("when updating record", () => {
+                        it("should return false", () => {
+                            return horpyrion
+                                .getRootUser()
+                                .getResource("SOME_RESOURCE")
+                                .updateRecord()
+                                .then(resp => {
+                                    expect(resp).be.false();
+                                });
+                        });
+                    });
+                    describe("when getting attributes", () => {
+                        it("should return false", () => {
+                            return horpyrion
+                                .getRootUser()
+                                .getResource("SOME_RESOURCE")
+                                .getAttributes()
+                                .then(resp => {
+                                    expect(resp).be.false();
+                                });
+                        });
+                    });
                 });
             });
-            describe("when there is specific resource context", () => {
-                describe("when creating attribute", () => {
-                    it("should return false", () => {
-                        return horpyrion
-                            .getUser(USER_ID)
-                            .getResource("SOME_RESOURCE")
-                            .addAttribute("SOME_ATTRIBUTE", "SOME_TYPE")
-                            .then(resp => {
-                                expect(resp).be.false();
-                            });
-                    });
-                });
 
-                describe("when getting record", () => {
+            describe("when there is standard user context", () => {
+                const USER_ID = "USER_ID";
+                describe("when creating resource", () => {
                     it("should return false", () => {
                         return horpyrion
                             .getUser(USER_ID)
-                            .getResource("SOME_RESOURCE")
-                            .getRecord("SOME_RECORD_ID")
+                            .createResource("SOME_RESOURCE")
                             .then(resp => {
-                                expect(resp).be.false();
+                                expect(resp).be.equal(2);
                             });
                     });
                 });
+                describe("when there is specific resource context", () => {
+                    describe("when creating attribute", () => {
+                        it("should return false", () => {
+                            return horpyrion
+                                .getUser(USER_ID)
+                                .getResource("SOME_RESOURCE")
+                                .addAttribute("SOME_ATTRIBUTE", "SOME_TYPE")
+                                .then(resp => {
+                                    expect(resp).be.false();
+                                });
+                        });
+                    });
 
-                describe("when getting records", () => {
-                    it("should return false", () => {
-                        return horpyrion
-                            .getUser(USER_ID)
-                            .getResource("SOME_RESOURCE")
-                            .getRecords()
-                            .then(resp => {
-                                expect(resp).be.false();
-                            });
+                    describe("when getting record", () => {
+                        it("should return false", () => {
+                            return horpyrion
+                                .getUser(USER_ID)
+                                .getResource("SOME_RESOURCE")
+                                .getRecord("SOME_RECORD_ID")
+                                .then(resp => {
+                                    expect(resp).be.false();
+                                });
+                        });
                     });
-                });
-                describe("when creating record", () => {
-                    it("should return false", () => {
-                        return horpyrion
-                            .getUser(USER_ID)
-                            .getResource("SOME_RESOURCE")
-                            .createRecord()
-                            .then(resp => {
-                                expect(resp).be.false();
-                            });
+
+                    describe("when getting records", () => {
+                        it("should return false", () => {
+                            return horpyrion
+                                .getUser(USER_ID)
+                                .getResource("SOME_RESOURCE")
+                                .getRecords()
+                                .then(resp => {
+                                    expect(resp).be.false();
+                                });
+                        });
                     });
-                });
-                describe("when updating record", () => {
-                    it("should return false", () => {
-                        return horpyrion
-                            .getUser(USER_ID)
-                            .getResource("SOME_RESOURCE")
-                            .updateRecord()
-                            .then(resp => {
-                                expect(resp).be.false();
-                            });
+                    describe("when creating record", () => {
+                        it("should return false", () => {
+                            return horpyrion
+                                .getUser(USER_ID)
+                                .getResource("SOME_RESOURCE")
+                                .createRecord()
+                                .then(resp => {
+                                    expect(resp).be.false();
+                                });
+                        });
                     });
-                });
-                describe("when getting attributes", () => {
-                    it("should return false", () => {
-                        return horpyrion
-                            .getUser(USER_ID)
-                            .getResource("SOME_RESOURCE")
-                            .getAttributes()
-                            .then(resp => {
-                                expect(resp).be.false();
-                            });
+                    describe("when updating record", () => {
+                        it("should return false", () => {
+                            return horpyrion
+                                .getUser(USER_ID)
+                                .getResource("SOME_RESOURCE")
+                                .updateRecord()
+                                .then(resp => {
+                                    expect(resp).be.false();
+                                });
+                        });
+                    });
+                    describe("when getting attributes", () => {
+                        it("should return false", () => {
+                            return horpyrion
+                                .getUser(USER_ID)
+                                .getResource("SOME_RESOURCE")
+                                .getAttributes()
+                                .then(resp => {
+                                    expect(resp).be.false();
+                                });
+                        });
                     });
                 });
             });

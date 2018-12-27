@@ -1,6 +1,6 @@
 export default function(sequelize, DataTypes) {
-    var User = sequelize.define(
-        "user",
+    const User = sequelize.define(
+        "User",
         {
             name: {
                 type: DataTypes.STRING(50),
@@ -12,7 +12,7 @@ export default function(sequelize, DataTypes) {
             paranoid: true,
             classMethods: {
                 associate: models => {
-                    User.hasMany(models.Entity);
+                    User.hasMany(models.EntitySchema);
                 }
             }
         }

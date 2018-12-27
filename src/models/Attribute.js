@@ -1,6 +1,6 @@
 export default function(sequelize, DataTypes) {
-    var Attribute = sequelize.define(
-        "attribute",
+    const Attribute = sequelize.define(
+        "Attribute",
         {
             name: {
                 type: DataTypes.STRING(50),
@@ -12,7 +12,7 @@ export default function(sequelize, DataTypes) {
             paranoid: true,
             classMethods: {
                 associate: function(models) {
-                    Attribute.belongsTo(models.Entity);
+                    Attribute.belongsTo(models.EntitySchema);
                 }
             }
         }

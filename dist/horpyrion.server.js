@@ -124,7 +124,7 @@ var _UserContext = __webpack_require__(4);
 
 var _UserContext2 = _interopRequireDefault(_UserContext);
 
-var _ModelManager = __webpack_require__(6);
+var _ModelManager = __webpack_require__(7);
 
 var _ModelManager2 = _interopRequireDefault(_ModelManager);
 
@@ -150,9 +150,14 @@ var Horpyrion = function () {
                         switch (_context.prev = _context.next) {
                             case 0:
                                 this._modelManager = new _ModelManager2.default(this._configuration);
-                                return _context.abrupt("return", this._modelManager.authenticate());
+                                _context.next = 3;
+                                return this._modelManager.authenticate();
 
-                            case 2:
+                            case 3:
+                                _context.next = 5;
+                                return this._modelManager.sync();
+
+                            case 5:
                             case "end":
                                 return _context.stop();
                         }
@@ -165,30 +170,6 @@ var Horpyrion = function () {
             }
 
             return sync;
-        }()
-    }, {
-        key: "authorize",
-        value: function () {
-            var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-                return regeneratorRuntime.wrap(function _callee2$(_context2) {
-                    while (1) {
-                        switch (_context2.prev = _context2.next) {
-                            case 0:
-                                return _context2.abrupt("return", _UserContext2.default.Authorize());
-
-                            case 1:
-                            case "end":
-                                return _context2.stop();
-                        }
-                    }
-                }, _callee2, this);
-            }));
-
-            function authorize() {
-                return _ref2.apply(this, arguments);
-            }
-
-            return authorize;
         }()
     }, {
         key: "getRootUser",
@@ -287,6 +268,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _createResource = __webpack_require__(6);
+
+var _createResource2 = _interopRequireDefault(_createResource);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
@@ -453,7 +440,7 @@ var ResourceContext = function () {
                     while (1) {
                         switch (_context7.prev = _context7.next) {
                             case 0:
-                                return _context7.abrupt("return", false);
+                                return _context7.abrupt("return", (0, _createResource2.default)(resourceName, userId, modelManager));
 
                             case 1:
                             case "end":
@@ -481,6 +468,25 @@ exports.default = ResourceContext;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = createResource;
+function createResource(resourceName, userId, modelManager) {
+    return modelManager.getModels().EntitySchema.create({
+        name: resourceName
+    }, {}).then(function (entitySchema) {
+        return entitySchema.id;
+    });
+}
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(__dirname) {
 
 Object.defineProperty(exports, "__esModule", {
@@ -489,19 +495,21 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _fs = __webpack_require__(7);
+var _fs = __webpack_require__(8);
 
 var _fs2 = _interopRequireDefault(_fs);
 
-var _path = __webpack_require__(8);
+var _path = __webpack_require__(9);
 
 var _path2 = _interopRequireDefault(_path);
 
-var _sequelize = __webpack_require__(9);
+var _sequelize = __webpack_require__(10);
 
 var _sequelize2 = _interopRequireDefault(_sequelize);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -517,14 +525,12 @@ var ModelManager = function () {
             host: config.host
         });
         this._models = {};
-
         _fs2.default.readdirSync(_path2.default.join(__dirname, "models")).filter(function (file) {
             return file.indexOf(".") !== 0;
         }).forEach(function (file) {
             var model = _this._sequelize.import(_path2.default.join(__dirname, "models", file));
             _this._models[model.name] = model;
         });
-
         Object.values(this._models).forEach(function (model) {
             if (model.associate) {
                 model.associate(_this._models);
@@ -533,14 +539,67 @@ var ModelManager = function () {
     }
 
     _createClass(ModelManager, [{
-        key: "authenticate",
-        value: function authenticate() {
-            return this._sequelize.authenticate().then(function () {
-                console.log("Connection has been established successfully.");
-            }).catch(function (err) {
-                console.error("Unable to connect to the database:", err);
-            });
+        key: "getDbInstance",
+        value: function getDbInstance() {
+            return this._sequelize;
         }
+    }, {
+        key: "sync",
+        value: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+                return regeneratorRuntime.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                return _context.abrupt("return", this._sequelize.sync());
+
+                            case 1:
+                            case "end":
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function sync() {
+                return _ref.apply(this, arguments);
+            }
+
+            return sync;
+        }()
+    }, {
+        key: "getModels",
+        value: function getModels() {
+            return this._models;
+        }
+    }, {
+        key: "authenticate",
+        value: function () {
+            var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+                return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                return _context2.abrupt("return", this._sequelize.authenticate().then(function () {
+                                    console.log("Connection has been established successfully.");
+                                }).catch(function (err) {
+                                    console.error("Unable to connect to the database:", err);
+                                }));
+
+                            case 1:
+                            case "end":
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this);
+            }));
+
+            function authenticate() {
+                return _ref2.apply(this, arguments);
+            }
+
+            return authenticate;
+        }()
     }]);
 
     return ModelManager;
@@ -550,19 +609,19 @@ exports.default = ModelManager;
 /* WEBPACK VAR INJECTION */}.call(exports, "/"))
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = require("sequelize");

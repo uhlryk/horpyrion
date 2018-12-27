@@ -7,11 +7,8 @@ export default class Horpyrion {
     }
     async sync() {
         this._modelManager = new ModelManager(this._configuration);
-        return this._modelManager.authenticate();
-    }
-
-    async authorize() {
-        return UserContext.Authorize();
+        await this._modelManager.authenticate();
+        await this._modelManager.sync();
     }
 
     getRootUser() {

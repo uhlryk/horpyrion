@@ -1,3 +1,5 @@
+import createResource from "./actions/createResource";
+
 export default class ResourceContext {
     constructor(resource, userId, modelManager) {
         this._resource = resource;
@@ -6,7 +8,7 @@ export default class ResourceContext {
     }
 
     static async CreateResource(resourceName, userId, modelManager) {
-        return false;
+        return createResource(resourceName, userId, modelManager);
     }
 
     async addAttribute(attributeName, attributeType) {
