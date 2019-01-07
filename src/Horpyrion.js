@@ -18,4 +18,8 @@ export default class Horpyrion {
     getUser(userId) {
         return new UserContext(userId, this._modelManager);
     }
+
+    getDbInstance() {
+        return this._modelManager.getDbInstance();
+    }
 }

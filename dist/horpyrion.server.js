@@ -181,6 +181,11 @@ var Horpyrion = function () {
         value: function getUser(userId) {
             return new _UserContext2.default(userId, this._modelManager);
         }
+    }, {
+        key: "getDbInstance",
+        value: function getDbInstance() {
+            return this._modelManager.getDbInstance();
+        }
     }]);
 
     return Horpyrion;

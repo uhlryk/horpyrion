@@ -1,4 +1,5 @@
 import Horpyrion from "./Horpyrion";
+import Sequelize from "sequelize";
 
 describe("Horpyrion", () => {
     it("should create instance", () => {
@@ -17,6 +18,10 @@ describe("Horpyrion", () => {
         describe("when connected to database", () => {
             beforeEach(async () => {
                 await horpyrion.sync({ force: true });
+            });
+
+            it("should return sequelize instance", () => {
+                expect(horpyrion.getDbInstance()).to.be.instanceOf(Sequelize);
             });
 
             describe("when there is root user context", () => {
