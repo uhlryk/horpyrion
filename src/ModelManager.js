@@ -29,8 +29,8 @@ export default class ModelManager {
         return this._sequelize;
     }
 
-    async sync() {
-        return this._sequelize.sync();
+    async sync(options) {
+        return this._sequelize.sync(options);
     }
 
     getModels() {

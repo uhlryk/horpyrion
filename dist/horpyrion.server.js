@@ -144,7 +144,7 @@ var Horpyrion = function () {
     _createClass(Horpyrion, [{
         key: "sync",
         value: function () {
-            var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+            var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(options) {
                 return regeneratorRuntime.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -155,7 +155,7 @@ var Horpyrion = function () {
 
                             case 3:
                                 _context.next = 5;
-                                return this._modelManager.sync();
+                                return this._modelManager.sync(options);
 
                             case 5:
                             case "end":
@@ -165,7 +165,7 @@ var Horpyrion = function () {
                 }, _callee, this);
             }));
 
-            function sync() {
+            function sync(_x) {
                 return _ref.apply(this, arguments);
             }
 
@@ -546,12 +546,12 @@ var ModelManager = function () {
     }, {
         key: "sync",
         value: function () {
-            var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+            var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(options) {
                 return regeneratorRuntime.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
-                                return _context.abrupt("return", this._sequelize.sync());
+                                return _context.abrupt("return", this._sequelize.sync(options));
 
                             case 1:
                             case "end":
@@ -561,7 +561,7 @@ var ModelManager = function () {
                 }, _callee, this);
             }));
 
-            function sync() {
+            function sync(_x) {
                 return _ref.apply(this, arguments);
             }
 

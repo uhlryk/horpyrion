@@ -12,11 +12,11 @@ describe("Horpyrion", () => {
             horpyrion = new Horpyrion(DB_CONFIGURATION);
         });
         it("should connect to database", async () => {
-            await horpyrion.sync();
+            await horpyrion.sync({ force: true });
         });
         describe("when connected to database", () => {
             beforeEach(async () => {
-                await horpyrion.sync();
+                await horpyrion.sync({ force: true });
             });
 
             describe("when there is root user context", () => {
@@ -105,12 +105,12 @@ describe("Horpyrion", () => {
             describe("when there is standard user context", () => {
                 const USER_ID = "USER_ID";
                 describe("when creating resource", () => {
-                    it("should return false", () => {
+                    it("should return 1", () => {
                         return horpyrion
                             .getUser(USER_ID)
                             .createResource("SOME_RESOURCE")
                             .then(resp => {
-                                expect(resp).be.equal(2);
+                                expect(resp).be.equal(1);
                             });
                     });
                 });

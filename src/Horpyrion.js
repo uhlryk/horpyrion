@@ -5,10 +5,10 @@ export default class Horpyrion {
     constructor(configuration) {
         this._configuration = configuration;
     }
-    async sync() {
+    async sync(options) {
         this._modelManager = new ModelManager(this._configuration);
         await this._modelManager.authenticate();
-        await this._modelManager.sync();
+        await this._modelManager.sync(options);
     }
 
     getRootUser() {
