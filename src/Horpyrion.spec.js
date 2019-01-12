@@ -15,6 +15,21 @@ describe("Horpyrion", () => {
         it("should connect to database", async () => {
             await horpyrion.sync({ force: true });
         });
+
+        describe("when not connected to database", () => {
+            it("should throw error", () => {
+                return horpyrion
+                    .getRootUser()
+                    .createResource("SOME_RESOURCE")
+                    .then(() => {
+                        expect.fail();
+                    })
+                    .catch(err => {
+                        expect(err.message).to.be.eql("No synchronization with database. Run sync() method");
+                    });
+            });
+        });
+
         describe("when connected to database", () => {
             beforeEach(async () => {
                 await horpyrion.sync({ force: true });

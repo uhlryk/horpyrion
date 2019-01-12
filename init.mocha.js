@@ -13,5 +13,6 @@ global.DB_CONFIGURATION = {
     dbname: process.env.POSTGRES_DB || "test",
     user: process.env.POSTGRES_USER || "test",
     password: process.env.POSTGRES_PASSWORD || "test",
-    port: "5432"
+    port: "5432",
+    logging: false
 };

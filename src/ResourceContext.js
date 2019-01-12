@@ -1,4 +1,5 @@
 import createResource from "./actions/createResource";
+import throwIfNoSync from "./throwIfNoSync";
 
 export default class ResourceContext {
     constructor(resource, userId, modelManager) {
@@ -8,7 +9,7 @@ export default class ResourceContext {
     }
 
     static async CreateResource(resourceName, userId, modelManager) {
-        return createResource(resourceName, userId, modelManager);
+        return throwIfNoSync(modelManager).then(() => createResource(resourceName, userId, modelManager));
     }
 
     async addAttribute(attributeName, attributeType) {

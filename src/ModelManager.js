@@ -4,10 +4,12 @@ import Sequelize from "sequelize";
 
 export default class ModelManager {
     constructor(config) {
+        this._isSync = false;
         this._sequelize = new Sequelize(config.dbname, config.user, config.password, {
             dialect: config.type,
             port: config.port,
-            host: config.host
+            host: config.host,
+            logging: config.logging
         });
         this._models = {};
         fs.readdirSync(path.join(__dirname, "models"))
@@ -30,7 +32,13 @@ export default class ModelManager {
     }
 
     async sync(options) {
-        return this._sequelize.sync(options);
+        return this._sequelize.sync(options).then(() => {
+            this._isSync = true;
+        });
+    }
+
+    isSync() {
+        return this._isSync;
     }
 
     getModels() {

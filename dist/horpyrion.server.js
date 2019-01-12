@@ -124,7 +124,7 @@ var _UserContext = __webpack_require__(4);
 
 var _UserContext2 = _interopRequireDefault(_UserContext);
 
-var _ModelManager = __webpack_require__(7);
+var _ModelManager = __webpack_require__(8);
 
 var _ModelManager2 = _interopRequireDefault(_ModelManager);
 
@@ -277,6 +277,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _createResource = __webpack_require__(6);
 
 var _createResource2 = _interopRequireDefault(_createResource);
+
+var _throwIfNoSync = __webpack_require__(7);
+
+var _throwIfNoSync2 = _interopRequireDefault(_throwIfNoSync);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -445,7 +449,9 @@ var ResourceContext = function () {
                     while (1) {
                         switch (_context7.prev = _context7.next) {
                             case 0:
-                                return _context7.abrupt("return", (0, _createResource2.default)(resourceName, userId, modelManager));
+                                return _context7.abrupt("return", (0, _throwIfNoSync2.default)(modelManager).then(function () {
+                                    return (0, _createResource2.default)(resourceName, userId, modelManager);
+                                }));
 
                             case 1:
                             case "end":
@@ -492,6 +498,25 @@ function createResource(resourceName, userId, modelManager) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = throwIfNoSync;
+function throwIfNoSync(modelManager) {
+    if (modelManager && modelManager.isSync()) {
+        return Promise.resolve();
+    } else {
+        return Promise.reject(new Error("No synchronization with database. Run sync() method"));
+    }
+}
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(__dirname) {
 
 Object.defineProperty(exports, "__esModule", {
@@ -500,15 +525,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _fs = __webpack_require__(8);
+var _fs = __webpack_require__(9);
 
 var _fs2 = _interopRequireDefault(_fs);
 
-var _path = __webpack_require__(9);
+var _path = __webpack_require__(10);
 
 var _path2 = _interopRequireDefault(_path);
 
-var _sequelize = __webpack_require__(10);
+var _sequelize = __webpack_require__(11);
 
 var _sequelize2 = _interopRequireDefault(_sequelize);
 
@@ -524,10 +549,12 @@ var ModelManager = function () {
 
         _classCallCheck(this, ModelManager);
 
+        this._isSync = false;
         this._sequelize = new _sequelize2.default(config.dbname, config.user, config.password, {
             dialect: config.type,
             port: config.port,
-            host: config.host
+            host: config.host,
+            logging: config.logging
         });
         this._models = {};
         _fs2.default.readdirSync(_path2.default.join(__dirname, "models")).filter(function (file) {
@@ -552,11 +579,15 @@ var ModelManager = function () {
         key: "sync",
         value: function () {
             var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(options) {
+                var _this2 = this;
+
                 return regeneratorRuntime.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
-                                return _context.abrupt("return", this._sequelize.sync(options));
+                                return _context.abrupt("return", this._sequelize.sync(options).then(function () {
+                                    _this2._isSync = true;
+                                }));
 
                             case 1:
                             case "end":
@@ -572,6 +603,11 @@ var ModelManager = function () {
 
             return sync;
         }()
+    }, {
+        key: "isSync",
+        value: function isSync() {
+            return this._isSync;
+        }
     }, {
         key: "getModels",
         value: function getModels() {
@@ -614,19 +650,19 @@ exports.default = ModelManager;
 /* WEBPACK VAR INJECTION */}.call(exports, "/"))
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports) {
 
 module.exports = require("sequelize");
