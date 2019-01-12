@@ -124,7 +124,7 @@ var _UserContext = __webpack_require__(4);
 
 var _UserContext2 = _interopRequireDefault(_UserContext);
 
-var _ModelManager = __webpack_require__(8);
+var _ModelManager = __webpack_require__(9);
 
 var _ModelManager2 = _interopRequireDefault(_ModelManager);
 
@@ -278,7 +278,11 @@ var _createResource = __webpack_require__(6);
 
 var _createResource2 = _interopRequireDefault(_createResource);
 
-var _throwIfNoSync = __webpack_require__(7);
+var _createRecord2 = __webpack_require__(7);
+
+var _createRecord3 = _interopRequireDefault(_createRecord2);
+
+var _throwIfNoSync = __webpack_require__(8);
 
 var _throwIfNoSync2 = _interopRequireDefault(_throwIfNoSync);
 
@@ -289,10 +293,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ResourceContext = function () {
-    function ResourceContext(resource, userId, modelManager) {
+    function ResourceContext(resourceName, userId, modelManager) {
         _classCallCheck(this, ResourceContext);
 
-        this._resource = resource;
+        this._resourceName = resourceName;
         this._userId = userId;
         this._modelManager = modelManager;
     }
@@ -372,12 +376,16 @@ var ResourceContext = function () {
     }, {
         key: "createRecord",
         value: function () {
-            var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+            var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(data) {
+                var _this = this;
+
                 return regeneratorRuntime.wrap(function _callee4$(_context4) {
                     while (1) {
                         switch (_context4.prev = _context4.next) {
                             case 0:
-                                return _context4.abrupt("return", false);
+                                return _context4.abrupt("return", (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
+                                    return (0, _createRecord3.default)(_this._resourceName, _this._userId, data, _this._modelManager);
+                                }));
 
                             case 1:
                             case "end":
@@ -387,7 +395,7 @@ var ResourceContext = function () {
                 }, _callee4, this);
             }));
 
-            function createRecord() {
+            function createRecord(_x4) {
                 return _ref4.apply(this, arguments);
             }
 
@@ -461,7 +469,7 @@ var ResourceContext = function () {
                 }, _callee7, this);
             }));
 
-            function CreateResource(_x4, _x5, _x6) {
+            function CreateResource(_x5, _x6, _x7) {
                 return _ref7.apply(this, arguments);
             }
 
@@ -503,6 +511,37 @@ function createResource(resourceName, userId, modelManager) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.default = createResource;
+function createResource(resourceName, userId, data, modelManager) {
+    return modelManager.getModels().EntitySchema.findOne({
+        where: {
+            name: resourceName
+        },
+        include: [{
+            model: modelManager.getModels().Attribute
+        }]
+    }).then(function (entitySchema) {
+        // TODO: test data with entitySchema
+        // for now assume that it pass
+        return modelManager.getModels().EntityRecord.create({
+            EntitySchemaId: entitySchema.id,
+            data: data
+        });
+    }).then(function (entityRecord) {
+        return entityRecord.id;
+    });
+}
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 exports.default = throwIfNoSync;
 function throwIfNoSync(modelManager) {
     if (modelManager && modelManager.isSync()) {
@@ -513,7 +552,7 @@ function throwIfNoSync(modelManager) {
 }
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -525,19 +564,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _fs = __webpack_require__(9);
+var _fs = __webpack_require__(10);
 
 var _fs2 = _interopRequireDefault(_fs);
 
-var _path = __webpack_require__(10);
+var _path = __webpack_require__(11);
 
 var _path2 = _interopRequireDefault(_path);
 
-var _sequelize = __webpack_require__(11);
+var _sequelize = __webpack_require__(12);
 
 var _sequelize2 = _interopRequireDefault(_sequelize);
 
-var _functionOverloader = __webpack_require__(12);
+var _functionOverloader = __webpack_require__(13);
 
 var _functionOverloader2 = _interopRequireDefault(_functionOverloader);
 
@@ -659,25 +698,25 @@ exports.default = ModelManager;
 /* WEBPACK VAR INJECTION */}.call(exports, "/"))
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports) {
 
 module.exports = require("sequelize");
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports) {
 
 module.exports = require("function-overloader");

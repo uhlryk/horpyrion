@@ -1,9 +1,10 @@
 import createResource from "./actions/createResource";
+import createRecord from "./actions/createRecord";
 import throwIfNoSync from "./throwIfNoSync";
 
 export default class ResourceContext {
-    constructor(resource, userId, modelManager) {
-        this._resource = resource;
+    constructor(resourceName, userId, modelManager) {
+        this._resourceName = resourceName;
         this._userId = userId;
         this._modelManager = modelManager;
     }
@@ -24,8 +25,10 @@ export default class ResourceContext {
         return false;
     }
 
-    async createRecord() {
-        return false;
+    async createRecord(data) {
+        return throwIfNoSync(this._modelManager).then(() =>
+            createRecord(this._resourceName, this._userId, data, this._modelManager)
+        );
     }
 
     async updateRecord() {

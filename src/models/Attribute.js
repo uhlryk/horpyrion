@@ -9,13 +9,11 @@ export default function(sequelize, DataTypes) {
             }
         },
         {
-            paranoid: true,
-            classMethods: {
-                associate: function(models) {
-                    Attribute.belongsTo(models.EntitySchema);
-                }
-            }
+            paranoid: true
         }
     );
+    Attribute.associate = function(models) {
+        Attribute.belongsTo(models.EntitySchema);
+    };
     return Attribute;
 }

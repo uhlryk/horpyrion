@@ -9,14 +9,13 @@ export default function(sequelize, DataTypes) {
             }
         },
         {
-            paranoid: true,
-            classMethods: {
-                associate: function(models) {
-                    EntitySchema.belongsTo(models.User, { as: "owner" });
-                    EntitySchema.hasMany(models.Attribute);
-                }
-            }
+            paranoid: true
         }
     );
+    EntitySchema.associate = function(models) {
+        EntitySchema.belongsTo(models.User, { as: "owner" });
+        EntitySchema.hasMany(models.Attribute);
+        EntitySchema.hasMany(models.EntityRecord);
+    };
     return EntitySchema;
 }

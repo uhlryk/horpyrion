@@ -60,6 +60,10 @@ describe("Horpyrion", () => {
                     });
                 });
                 describe("when there is specific resource context", () => {
+                    beforeEach(() => {
+                        return horpyrion.getRootUser().createResource("SOME_RESOURCE");
+                    });
+
                     describe("when creating attribute", () => {
                         it("should return false", () => {
                             return horpyrion
@@ -96,13 +100,16 @@ describe("Horpyrion", () => {
                         });
                     });
                     describe("when creating record", () => {
-                        it("should return false", () => {
+                        it("should return record id", () => {
                             return horpyrion
                                 .getRootUser()
                                 .getResource("SOME_RESOURCE")
-                                .createRecord()
+                                .createRecord({
+                                    testA: "AAA",
+                                    testB: "BBB"
+                                })
                                 .then(resp => {
-                                    expect(resp).be.false();
+                                    expect(resp).be.equal(1);
                                 });
                         });
                     });
@@ -144,6 +151,9 @@ describe("Horpyrion", () => {
                     });
                 });
                 describe("when there is specific resource context", () => {
+                    beforeEach(() => {
+                        return horpyrion.getRootUser().createResource("SOME_RESOURCE");
+                    });
                     describe("when creating attribute", () => {
                         it("should return false", () => {
                             return horpyrion
@@ -180,13 +190,16 @@ describe("Horpyrion", () => {
                         });
                     });
                     describe("when creating record", () => {
-                        it("should return false", () => {
+                        it("should return record id", () => {
                             return horpyrion
-                                .getUser(USER_ID)
+                                .getUser()
                                 .getResource("SOME_RESOURCE")
-                                .createRecord()
+                                .createRecord({
+                                    testA: "AAA",
+                                    testB: "BBB"
+                                })
                                 .then(resp => {
-                                    expect(resp).be.false();
+                                    expect(resp).be.equal(1);
                                 });
                         });
                     });

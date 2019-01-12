@@ -10,12 +10,11 @@ export default function(sequelize, DataTypes) {
         },
         {
             paranoid: true,
-            classMethods: {
-                associate: models => {
-                    User.hasMany(models.EntitySchema);
-                }
-            }
+            classMethods: {}
         }
     );
+    User.associate = function(models) {
+        User.hasMany(models.EntitySchema);
+    };
     return User;
 }
