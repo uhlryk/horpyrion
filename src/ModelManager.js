@@ -1,16 +1,24 @@
 import fs from "fs";
 import path from "path";
 import Sequelize from "sequelize";
+import Overload from "function-overloader";
 
 export default class ModelManager {
-    constructor(config) {
+    constructor() {
         this._isSync = false;
-        this._sequelize = new Sequelize(config.dbname, config.user, config.password, {
-            dialect: config.type,
-            port: config.port,
-            host: config.host,
-            logging: config.logging
-        });
+        Overload.when(Overload.INSTANCE(Sequelize))
+            .do(sequelize => {
+                this._sequelize = sequelize;
+            })
+            .else(config => {
+                this._sequelize = new Sequelize(config.dbname, config.user, config.password, {
+                    dialect: config.type,
+                    port: config.port,
+                    host: config.host,
+                    logging: config.logging
+                });
+            })
+            .execute(...arguments);
         this._models = {};
         fs.readdirSync(path.join(__dirname, "models"))
             .filter(file => {

@@ -537,6 +537,10 @@ var _sequelize = __webpack_require__(11);
 
 var _sequelize2 = _interopRequireDefault(_sequelize);
 
+var _functionOverloader = __webpack_require__(12);
+
+var _functionOverloader2 = _interopRequireDefault(_functionOverloader);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -544,18 +548,23 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ModelManager = function () {
-    function ModelManager(config) {
-        var _this = this;
+    function ModelManager() {
+        var _Overload$when$do$els,
+            _this = this;
 
         _classCallCheck(this, ModelManager);
 
         this._isSync = false;
-        this._sequelize = new _sequelize2.default(config.dbname, config.user, config.password, {
-            dialect: config.type,
-            port: config.port,
-            host: config.host,
-            logging: config.logging
-        });
+        (_Overload$when$do$els = _functionOverloader2.default.when(_functionOverloader2.default.INSTANCE(_sequelize2.default)).do(function (sequelize) {
+            _this._sequelize = sequelize;
+        }).else(function (config) {
+            _this._sequelize = new _sequelize2.default(config.dbname, config.user, config.password, {
+                dialect: config.type,
+                port: config.port,
+                host: config.host,
+                logging: config.logging
+            });
+        })).execute.apply(_Overload$when$do$els, arguments);
         this._models = {};
         _fs2.default.readdirSync(_path2.default.join(__dirname, "models")).filter(function (file) {
             return file.indexOf(".") !== 0;
@@ -666,6 +675,12 @@ module.exports = require("path");
 /***/ (function(module, exports) {
 
 module.exports = require("sequelize");
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports) {
+
+module.exports = require("function-overloader");
 
 /***/ })
 /******/ ]);
