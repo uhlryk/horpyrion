@@ -1,6 +1,6 @@
 {
     "name": "horpyrion",
-    "version": "0.9.0",
+    "version": "0.10.0",
     "description": "Persistent data manager for crm/cms systems",
     "main": "dist/horpyrion.server.js",
     "scripts": {
