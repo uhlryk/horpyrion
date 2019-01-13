@@ -1,6 +1,6 @@
 export default function(sequelize, DataTypes) {
-    const Attribute = sequelize.define(
-        "Attribute",
+    const Schema = sequelize.define(
+        "Schema",
         {
             name: {
                 type: DataTypes.STRING(50),
@@ -12,8 +12,10 @@ export default function(sequelize, DataTypes) {
             paranoid: true
         }
     );
-    Attribute.associate = function(models) {
-        Attribute.belongsTo(models.Schema);
+    Schema.associate = function(models) {
+        Schema.belongsTo(models.User);
+        Schema.hasMany(models.Attribute);
+        Schema.hasMany(models.Record);
     };
-    return Attribute;
+    return Schema;
 }

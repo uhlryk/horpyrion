@@ -14,7 +14,7 @@ export default function(sequelize, DataTypes) {
         }
     );
     User.associate = function(models) {
-        User.hasMany(models.EntitySchema);
+        User.hasMany(models.Schema);
     };
     return User;
 }

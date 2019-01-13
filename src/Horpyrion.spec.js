@@ -28,8 +28,8 @@ describe("Horpyrion", () => {
         describe("when not connected to database", () => {
             it("should throw error", () => {
                 return horpyrion
-                    .getRootUser()
-                    .createResource("SOME_RESOURCE")
+                    .setRootUser()
+                    .createSchema("SOME_RESOURCE")
                     .then(() => {
                         expect.fail();
                     })
@@ -49,26 +49,30 @@ describe("Horpyrion", () => {
             });
 
             describe("when there is root user context", () => {
-                describe("when creating resource", () => {
-                    it("should return false", () => {
+                describe("when creating schema", () => {
+                    it("should return schema data", () => {
                         return horpyrion
-                            .getRootUser()
-                            .createResource("SOME_RESOURCE")
+                            .setRootUser()
+                            .createSchema("SOME_RESOURCE")
                             .then(resp => {
-                                expect(resp).be.equal(1);
+                                expect(resp).to.deep.include({
+                                    id: 1,
+                                    name: "SOME_RESOURCE",
+                                    UserId: null
+                                });
                             });
                     });
                 });
-                describe("when there is specific resource context", () => {
+                describe("when there is specific schema context", () => {
                     beforeEach(() => {
-                        return horpyrion.getRootUser().createResource("SOME_RESOURCE");
+                        return horpyrion.setRootUser().createSchema("SOME_RESOURCE");
                     });
 
                     describe("when creating attribute", () => {
                         it("should return false", () => {
                             return horpyrion
-                                .getRootUser()
-                                .getResource("SOME_RESOURCE")
+                                .setRootUser()
+                                .setSchema("SOME_RESOURCE")
                                 .addAttribute("SOME_ATTRIBUTE", "SOME_TYPE")
                                 .then(resp => {
                                     expect(resp).be.false();
@@ -79,8 +83,8 @@ describe("Horpyrion", () => {
                     describe("when getting record", () => {
                         it("should return false", () => {
                             return horpyrion
-                                .getRootUser()
-                                .getResource("SOME_RESOURCE")
+                                .setRootUser()
+                                .setSchema("SOME_RESOURCE")
                                 .getRecord("SOME_RECORD_ID")
                                 .then(resp => {
                                     expect(resp).be.false();
@@ -91,8 +95,8 @@ describe("Horpyrion", () => {
                     describe("when getting records", () => {
                         it("should return false", () => {
                             return horpyrion
-                                .getRootUser()
-                                .getResource("SOME_RESOURCE")
+                                .setRootUser()
+                                .setSchema("SOME_RESOURCE")
                                 .getRecords()
                                 .then(resp => {
                                     expect(resp).be.false();
@@ -100,24 +104,32 @@ describe("Horpyrion", () => {
                         });
                     });
                     describe("when creating record", () => {
-                        it("should return record id", () => {
+                        it("should return record data", () => {
                             return horpyrion
-                                .getRootUser()
-                                .getResource("SOME_RESOURCE")
+                                .setRootUser()
+                                .setSchema("SOME_RESOURCE")
                                 .createRecord({
                                     testA: "AAA",
                                     testB: "BBB"
                                 })
                                 .then(resp => {
-                                    expect(resp).be.equal(1);
+                                    expect(resp).to.deep.include({
+                                        id: 1,
+                                        SchemaId: 1,
+                                        data: {
+                                            testA: "AAA",
+                                            testB: "BBB"
+                                        },
+                                        UserId: null
+                                    });
                                 });
                         });
                     });
                     describe("when updating record", () => {
                         it("should return false", () => {
                             return horpyrion
-                                .getRootUser()
-                                .getResource("SOME_RESOURCE")
+                                .setRootUser()
+                                .setSchema("SOME_RESOURCE")
                                 .updateRecord()
                                 .then(resp => {
                                     expect(resp).be.false();
@@ -127,8 +139,8 @@ describe("Horpyrion", () => {
                     describe("when getting attributes", () => {
                         it("should return false", () => {
                             return horpyrion
-                                .getRootUser()
-                                .getResource("SOME_RESOURCE")
+                                .setRootUser()
+                                .setSchema("SOME_RESOURCE")
                                 .getAttributes()
                                 .then(resp => {
                                     expect(resp).be.false();
@@ -140,25 +152,29 @@ describe("Horpyrion", () => {
 
             describe("when there is standard user context", () => {
                 const USER_ID = "USER_ID";
-                describe("when creating resource", () => {
-                    it("should return 1", () => {
+                describe("when creating schema", () => {
+                    it("should return schema data", () => {
                         return horpyrion
-                            .getUser(USER_ID)
-                            .createResource("SOME_RESOURCE")
+                            .setUser(USER_ID)
+                            .createSchema("SOME_RESOURCE")
                             .then(resp => {
-                                expect(resp).be.equal(1);
+                                expect(resp).to.deep.include({
+                                    id: 1,
+                                    name: "SOME_RESOURCE",
+                                    UserId: null
+                                });
                             });
                     });
                 });
-                describe("when there is specific resource context", () => {
+                describe("when there is specific schema context", () => {
                     beforeEach(() => {
-                        return horpyrion.getRootUser().createResource("SOME_RESOURCE");
+                        return horpyrion.setRootUser().createSchema("SOME_RESOURCE");
                     });
                     describe("when creating attribute", () => {
                         it("should return false", () => {
                             return horpyrion
-                                .getUser(USER_ID)
-                                .getResource("SOME_RESOURCE")
+                                .setUser(USER_ID)
+                                .setSchema("SOME_RESOURCE")
                                 .addAttribute("SOME_ATTRIBUTE", "SOME_TYPE")
                                 .then(resp => {
                                     expect(resp).be.false();
@@ -169,8 +185,8 @@ describe("Horpyrion", () => {
                     describe("when getting record", () => {
                         it("should return false", () => {
                             return horpyrion
-                                .getUser(USER_ID)
-                                .getResource("SOME_RESOURCE")
+                                .setUser(USER_ID)
+                                .setSchema("SOME_RESOURCE")
                                 .getRecord("SOME_RECORD_ID")
                                 .then(resp => {
                                     expect(resp).be.false();
@@ -181,8 +197,8 @@ describe("Horpyrion", () => {
                     describe("when getting records", () => {
                         it("should return false", () => {
                             return horpyrion
-                                .getUser(USER_ID)
-                                .getResource("SOME_RESOURCE")
+                                .setUser(USER_ID)
+                                .setSchema("SOME_RESOURCE")
                                 .getRecords()
                                 .then(resp => {
                                     expect(resp).be.false();
@@ -190,24 +206,32 @@ describe("Horpyrion", () => {
                         });
                     });
                     describe("when creating record", () => {
-                        it("should return record id", () => {
+                        it("should return record data", () => {
                             return horpyrion
-                                .getUser()
-                                .getResource("SOME_RESOURCE")
+                                .setUser()
+                                .setSchema("SOME_RESOURCE")
                                 .createRecord({
                                     testA: "AAA",
                                     testB: "BBB"
                                 })
                                 .then(resp => {
-                                    expect(resp).be.equal(1);
+                                    expect(resp).to.deep.include({
+                                        id: 1,
+                                        SchemaId: 1,
+                                        data: {
+                                            testA: "AAA",
+                                            testB: "BBB"
+                                        },
+                                        UserId: null
+                                    });
                                 });
                         });
                     });
                     describe("when updating record", () => {
                         it("should return false", () => {
                             return horpyrion
-                                .getUser(USER_ID)
-                                .getResource("SOME_RESOURCE")
+                                .setUser(USER_ID)
+                                .setSchema("SOME_RESOURCE")
                                 .updateRecord()
                                 .then(resp => {
                                     expect(resp).be.false();
@@ -217,8 +241,8 @@ describe("Horpyrion", () => {
                     describe("when getting attributes", () => {
                         it("should return false", () => {
                             return horpyrion
-                                .getUser(USER_ID)
-                                .getResource("SOME_RESOURCE")
+                                .setUser(USER_ID)
+                                .setSchema("SOME_RESOURCE")
                                 .getAttributes()
                                 .then(resp => {
                                     expect(resp).be.false();

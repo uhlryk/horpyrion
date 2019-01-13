@@ -70,25 +70,44 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(1);
-module.exports = __webpack_require__(2);
+"use strict";
 
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = throwIfNoSync;
+function throwIfNoSync(modelManager) {
+    if (modelManager && modelManager.isSync()) {
+        return Promise.resolve();
+    } else {
+        return Promise.reject(new Error("No synchronization with database. Run sync() method"));
+    }
+}
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(2);
+module.exports = __webpack_require__(3);
+
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-polyfill");
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -99,7 +118,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _Horpyrion = __webpack_require__(3);
+var _Horpyrion = __webpack_require__(4);
 
 var _Horpyrion2 = _interopRequireDefault(_Horpyrion);
 
@@ -108,7 +127,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _Horpyrion2.default;
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -120,13 +139,21 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _UserContext = __webpack_require__(4);
+var _UserAndSchemaContext = __webpack_require__(5);
 
-var _UserContext2 = _interopRequireDefault(_UserContext);
+var _UserAndSchemaContext2 = _interopRequireDefault(_UserAndSchemaContext);
 
-var _ModelManager = __webpack_require__(9);
+var _RootUser = __webpack_require__(10);
+
+var _RootUser2 = _interopRequireDefault(_RootUser);
+
+var _ModelManager = __webpack_require__(11);
 
 var _ModelManager2 = _interopRequireDefault(_ModelManager);
+
+var _getUserFactory = __webpack_require__(16);
+
+var _getUserFactory2 = _interopRequireDefault(_getUserFactory);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -172,14 +199,16 @@ var Horpyrion = function () {
             return sync;
         }()
     }, {
-        key: "getRootUser",
-        value: function getRootUser() {
-            return new _UserContext2.default(_UserContext2.default.ROOT_USER_ID, this._modelManager);
+        key: "setRootUser",
+        value: function setRootUser() {
+            var userAction = (0, _getUserFactory2.default)(_RootUser2.default.ROOT_USER_ID, this._modelManager);
+            return new _UserAndSchemaContext2.default(userAction, this._modelManager);
         }
     }, {
-        key: "getUser",
-        value: function getUser(userId) {
-            return new _UserContext2.default(userId, this._modelManager);
+        key: "setUser",
+        value: function setUser(userId) {
+            var userAction = (0, _getUserFactory2.default)(userId, this._modelManager);
+            return new _UserAndSchemaContext2.default(userAction, this._modelManager);
         }
     }, {
         key: "getDbInstance",
@@ -194,74 +223,6 @@ var Horpyrion = function () {
 exports.default = Horpyrion;
 
 /***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _ResourceContext = __webpack_require__(5);
-
-var _ResourceContext2 = _interopRequireDefault(_ResourceContext);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var UserContext = function () {
-    function UserContext(userId, modelManager) {
-        _classCallCheck(this, UserContext);
-
-        this._userId = userId;
-        this._modelManager = modelManager;
-    }
-
-    _createClass(UserContext, [{
-        key: "createResource",
-        value: function () {
-            var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(resourceName) {
-                return regeneratorRuntime.wrap(function _callee$(_context) {
-                    while (1) {
-                        switch (_context.prev = _context.next) {
-                            case 0:
-                                return _context.abrupt("return", _ResourceContext2.default.CreateResource(resourceName, this._userId, this._modelManager));
-
-                            case 1:
-                            case "end":
-                                return _context.stop();
-                        }
-                    }
-                }, _callee, this);
-            }));
-
-            function createResource(_x) {
-                return _ref.apply(this, arguments);
-            }
-
-            return createResource;
-        }()
-    }, {
-        key: "getResource",
-        value: function getResource(resourceName) {
-            return new _ResourceContext2.default(resourceName, this._userId, this._modelManager);
-        }
-    }]);
-
-    return UserContext;
-}();
-
-UserContext.ROOT_USER_ID = Symbol("ROOT_USER_ID");
-exports.default = UserContext;
-
-/***/ }),
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -274,15 +235,80 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _createResource = __webpack_require__(6);
+var _RecordContext = __webpack_require__(6);
 
-var _createResource2 = _interopRequireDefault(_createResource);
+var _RecordContext2 = _interopRequireDefault(_RecordContext);
 
-var _createRecord2 = __webpack_require__(7);
+var _getSchemaFactory = __webpack_require__(8);
 
-var _createRecord3 = _interopRequireDefault(_createRecord2);
+var _getSchemaFactory2 = _interopRequireDefault(_getSchemaFactory);
 
-var _throwIfNoSync = __webpack_require__(8);
+var _createSchemaFactory = __webpack_require__(9);
+
+var _createSchemaFactory2 = _interopRequireDefault(_createSchemaFactory);
+
+var _throwIfNoSync = __webpack_require__(0);
+
+var _throwIfNoSync2 = _interopRequireDefault(_throwIfNoSync);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var UserAndSchemaContext = function () {
+    function UserAndSchemaContext(userAction, modelManager) {
+        _classCallCheck(this, UserAndSchemaContext);
+
+        this._userAction = userAction;
+        this._modelManager = modelManager;
+    }
+
+    _createClass(UserAndSchemaContext, [{
+        key: "createSchema",
+        value: function createSchema(schemaName) {
+            var schemaAction = (0, _createSchemaFactory2.default)(schemaName, this._modelManager);
+            return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
+                return schemaAction();
+            }).then(function (schema) {
+                return schema.toJSON();
+            });
+        }
+    }, {
+        key: "setSchema",
+        value: function setSchema(schemaName) {
+            var schemaAction = (0, _getSchemaFactory2.default)(schemaName, this._modelManager);
+            return new _RecordContext2.default(this._userAction, schemaAction, this._modelManager);
+        }
+    }, {
+        key: "createUser",
+        value: function createUser() {
+            return false;
+        }
+    }]);
+
+    return UserAndSchemaContext;
+}();
+
+exports.default = UserAndSchemaContext;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _createRecordFactory = __webpack_require__(7);
+
+var _createRecordFactory2 = _interopRequireDefault(_createRecordFactory);
+
+var _throwIfNoSync = __webpack_require__(0);
 
 var _throwIfNoSync2 = _interopRequireDefault(_throwIfNoSync);
 
@@ -292,16 +318,16 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var ResourceContext = function () {
-    function ResourceContext(resourceName, userId, modelManager) {
-        _classCallCheck(this, ResourceContext);
+var RecordContext = function () {
+    function RecordContext(userAction, schemaAction, modelManager) {
+        _classCallCheck(this, RecordContext);
 
-        this._resourceName = resourceName;
-        this._userId = userId;
+        this._userAction = userAction;
+        this._schemaAction = schemaAction;
         this._modelManager = modelManager;
     }
 
-    _createClass(ResourceContext, [{
+    _createClass(RecordContext, [{
         key: "addAttribute",
         value: function () {
             var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(attributeName, attributeType) {
@@ -375,17 +401,28 @@ var ResourceContext = function () {
         }()
     }, {
         key: "createRecord",
-        value: function () {
-            var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(data) {
-                var _this = this;
+        value: function createRecord(data) {
+            var _this = this;
 
+            var recordAction = (0, _createRecordFactory2.default)(data, this._modelManager);
+
+            return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
+                return _this._schemaAction();
+            }).then(function (schema) {
+                return recordAction(schema);
+            }).then(function (record) {
+                return record.toJSON();
+            });
+        }
+    }, {
+        key: "updateRecord",
+        value: function () {
+            var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
                 return regeneratorRuntime.wrap(function _callee4$(_context4) {
                     while (1) {
                         switch (_context4.prev = _context4.next) {
                             case 0:
-                                return _context4.abrupt("return", (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
-                                    return (0, _createRecord3.default)(_this._resourceName, _this._userId, data, _this._modelManager);
-                                }));
+                                return _context4.abrupt("return", false);
 
                             case 1:
                             case "end":
@@ -395,14 +432,14 @@ var ResourceContext = function () {
                 }, _callee4, this);
             }));
 
-            function createRecord(_x4) {
+            function updateRecord() {
                 return _ref4.apply(this, arguments);
             }
 
-            return createRecord;
+            return updateRecord;
         }()
     }, {
-        key: "updateRecord",
+        key: "getAttributes",
         value: function () {
             var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
                 return regeneratorRuntime.wrap(function _callee5$(_context5) {
@@ -419,87 +456,18 @@ var ResourceContext = function () {
                 }, _callee5, this);
             }));
 
-            function updateRecord() {
-                return _ref5.apply(this, arguments);
-            }
-
-            return updateRecord;
-        }()
-    }, {
-        key: "getAttributes",
-        value: function () {
-            var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-                return regeneratorRuntime.wrap(function _callee6$(_context6) {
-                    while (1) {
-                        switch (_context6.prev = _context6.next) {
-                            case 0:
-                                return _context6.abrupt("return", false);
-
-                            case 1:
-                            case "end":
-                                return _context6.stop();
-                        }
-                    }
-                }, _callee6, this);
-            }));
-
             function getAttributes() {
-                return _ref6.apply(this, arguments);
+                return _ref5.apply(this, arguments);
             }
 
             return getAttributes;
         }()
-    }], [{
-        key: "CreateResource",
-        value: function () {
-            var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(resourceName, userId, modelManager) {
-                return regeneratorRuntime.wrap(function _callee7$(_context7) {
-                    while (1) {
-                        switch (_context7.prev = _context7.next) {
-                            case 0:
-                                return _context7.abrupt("return", (0, _throwIfNoSync2.default)(modelManager).then(function () {
-                                    return (0, _createResource2.default)(resourceName, userId, modelManager);
-                                }));
-
-                            case 1:
-                            case "end":
-                                return _context7.stop();
-                        }
-                    }
-                }, _callee7, this);
-            }));
-
-            function CreateResource(_x5, _x6, _x7) {
-                return _ref7.apply(this, arguments);
-            }
-
-            return CreateResource;
-        }()
     }]);
 
-    return ResourceContext;
+    return RecordContext;
 }();
 
-exports.default = ResourceContext;
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = createResource;
-function createResource(resourceName, userId, modelManager) {
-    return modelManager.getModels().EntitySchema.create({
-        name: resourceName
-    }, {}).then(function (entitySchema) {
-        return entitySchema.id;
-    });
-}
+exports.default = RecordContext;
 
 /***/ }),
 /* 7 */
@@ -511,25 +479,16 @@ function createResource(resourceName, userId, modelManager) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = createResource;
-function createResource(resourceName, userId, data, modelManager) {
-    return modelManager.getModels().EntitySchema.findOne({
-        where: {
-            name: resourceName
-        },
-        include: [{
-            model: modelManager.getModels().Attribute
-        }]
-    }).then(function (entitySchema) {
-        // TODO: test data with entitySchema
-        // for now assume that it pass
-        return modelManager.getModels().EntityRecord.create({
-            EntitySchemaId: entitySchema.id,
+exports.default = createRecordFactory;
+function createRecordFactory(data, modelManager) {
+    return function (schema) {
+        return modelManager.getModels().Record.create({
+            SchemaId: schema.id,
             data: data
+        }).then(function (record) {
+            return record;
         });
-    }).then(function (entityRecord) {
-        return entityRecord.id;
-    });
+    };
 }
 
 /***/ }),
@@ -542,17 +501,56 @@ function createResource(resourceName, userId, data, modelManager) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = throwIfNoSync;
-function throwIfNoSync(modelManager) {
-    if (modelManager && modelManager.isSync()) {
-        return Promise.resolve();
-    } else {
-        return Promise.reject(new Error("No synchronization with database. Run sync() method"));
-    }
+exports.default = getSchemaFactory;
+function getSchemaFactory(schemaName, modelManager) {
+    return function () {
+        return modelManager.getModels().Schema.findOne({
+            where: {
+                name: schemaName
+            }
+        }).then(function (schema) {
+            if (!schema) {}
+            return schema;
+        });
+    };
 }
 
 /***/ }),
 /* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = createSchemaFactory;
+function createSchemaFactory(schemaName, modelManager) {
+    return function () {
+        return modelManager.getModels().Schema.create({
+            name: schemaName
+        }, {}).then(function (entitySchema) {
+            return entitySchema;
+        });
+    };
+}
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var ROOT_USER_ID = Symbol("ROOT_USER_ID");
+exports.default = ROOT_USER_ID;
+
+/***/ }),
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -564,19 +562,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _fs = __webpack_require__(10);
+var _fs = __webpack_require__(12);
 
 var _fs2 = _interopRequireDefault(_fs);
 
-var _path = __webpack_require__(11);
+var _path = __webpack_require__(13);
 
 var _path2 = _interopRequireDefault(_path);
 
-var _sequelize = __webpack_require__(12);
+var _sequelize = __webpack_require__(14);
 
 var _sequelize2 = _interopRequireDefault(_sequelize);
 
-var _functionOverloader = __webpack_require__(13);
+var _functionOverloader = __webpack_require__(15);
 
 var _functionOverloader2 = _interopRequireDefault(_functionOverloader);
 
@@ -698,28 +696,52 @@ exports.default = ModelManager;
 /* WEBPACK VAR INJECTION */}.call(exports, "/"))
 
 /***/ }),
-/* 10 */
+/* 12 */
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ }),
-/* 11 */
+/* 13 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 12 */
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = require("sequelize");
 
 /***/ }),
-/* 13 */
+/* 15 */
 /***/ (function(module, exports) {
 
 module.exports = require("function-overloader");
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = getUserFactory;
+function getUserFactory(userId, modelManager) {
+    return function () {
+        return modelManager.getModels().User.findOne({
+            where: {
+                UserId: userId
+            }
+        }).then(function (user) {
+            if (!user) {}
+            return user;
+        });
+    };
+}
 
 /***/ })
 /******/ ]);
