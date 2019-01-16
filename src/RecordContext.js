@@ -1,5 +1,6 @@
 import createRecordFactory from "./actions/createRecordFactory";
 import getRecordListFactory from "./actions/getRecordListFactory";
+import getRecordFactory from "./actions/getRecordFactory";
 import throwIfNoSync from "./throwIfNoSync";
 
 export default class RecordContext {
@@ -14,7 +15,18 @@ export default class RecordContext {
     }
 
     async getRecord(recordId) {
-        return false;
+        const recordAction = getRecordFactory(recordId, this._modelManager);
+
+        return throwIfNoSync(this._modelManager)
+            .then(() => this._schemaAction())
+            .then(schema => recordAction(schema))
+            .then(record => {
+                if (record) {
+                    return record;
+                } else {
+                    return null;
+                }
+            });
     }
 
     getRecords(query) {

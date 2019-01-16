@@ -80,18 +80,6 @@ describe("Horpyrion", () => {
                         });
                     });
 
-                    describe("when getting record", () => {
-                        it("should return false", () => {
-                            return horpyrion
-                                .setRootUser()
-                                .setSchema("SOME_RESOURCE")
-                                .getRecord("SOME_RECORD_ID")
-                                .then(resp => {
-                                    expect(resp).be.false();
-                                });
-                        });
-                    });
-
                     describe("when creating record", () => {
                         it("should return record data", () => {
                             return horpyrion
@@ -124,6 +112,18 @@ describe("Horpyrion", () => {
                                     .getRecords()
                                     .then(resp => {
                                         expect(resp).be.eql([]);
+                                    });
+                            });
+                        });
+
+                        describe("when getting record", () => {
+                            it("should return null", () => {
+                                return horpyrion
+                                    .setRootUser()
+                                    .setSchema("SOME_RESOURCE")
+                                    .getRecord(1)
+                                    .then(resp => {
+                                        expect(resp).be.equal(null);
                                     });
                             });
                         });
@@ -168,6 +168,23 @@ describe("Horpyrion", () => {
                                                 SchemaId: 1
                                             }
                                         ]);
+                                    });
+                            });
+                        });
+
+                        describe("when getting record", () => {
+                            it("should return null", () => {
+                                return horpyrion
+                                    .setRootUser()
+                                    .setSchema("SOME_RESOURCE")
+                                    .getRecord(1)
+                                    .then(resp => {
+                                        expect(resp).to.deep.include({
+                                            id: 1,
+                                            data: { testA: "AAA1", testB: "BBB1" },
+                                            UserId: null,
+                                            SchemaId: 1
+                                        });
                                     });
                             });
                         });
@@ -230,18 +247,6 @@ describe("Horpyrion", () => {
                         });
                     });
 
-                    describe("when getting record", () => {
-                        it("should return false", () => {
-                            return horpyrion
-                                .setUser(USER_ID)
-                                .setSchema("SOME_RESOURCE")
-                                .getRecord("SOME_RECORD_ID")
-                                .then(resp => {
-                                    expect(resp).be.false();
-                                });
-                        });
-                    });
-
                     describe("when creating record", () => {
                         it("should return record data", () => {
                             return horpyrion
@@ -274,6 +279,18 @@ describe("Horpyrion", () => {
                                     .getRecords()
                                     .then(resp => {
                                         expect(resp).be.eql([]);
+                                    });
+                            });
+                        });
+
+                        describe("when getting record", () => {
+                            it("should return null", () => {
+                                return horpyrion
+                                    .setUser(USER_ID)
+                                    .setSchema("SOME_RESOURCE")
+                                    .getRecord(1)
+                                    .then(resp => {
+                                        expect(resp).be.equal(null);
                                     });
                             });
                         });
@@ -319,6 +336,23 @@ describe("Horpyrion", () => {
                                                 SchemaId: 1
                                             }
                                         ]);
+                                    });
+                            });
+                        });
+
+                        describe("when getting record", () => {
+                            it("should return null", () => {
+                                return horpyrion
+                                    .setUser(USER_ID)
+                                    .setSchema("SOME_RESOURCE")
+                                    .getRecord(1)
+                                    .then(resp => {
+                                        expect(resp).to.deep.include({
+                                            id: 1,
+                                            data: { testA: "AAA1", testB: "BBB1" },
+                                            UserId: null,
+                                            SchemaId: 1
+                                        });
                                     });
                             });
                         });
