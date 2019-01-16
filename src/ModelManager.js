@@ -56,9 +56,7 @@ export default class ModelManager {
     async authenticate() {
         return this._sequelize
             .authenticate()
-            .then(() => {
-                console.log("Connection has been established successfully.");
-            })
+            .then(() => {})
             .catch(err => {
                 console.error("Unable to connect to the database:", err);
             });

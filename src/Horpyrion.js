@@ -1,7 +1,7 @@
 import UserAndSchemaContext from "./UserAndSchemaContext";
 import RootUser from "./RootUser";
 import ModelManager from "./ModelManager";
-import getUserFactory from "./actions/getUserFactory";
+import getContextUserFactory from "./contextActions/getContextUserFactory";
 
 export default class Horpyrion {
     constructor(configuration) {
@@ -14,13 +14,13 @@ export default class Horpyrion {
     }
 
     setRootUser() {
-        const userAction = getUserFactory(RootUser.ROOT_USER_ID, this._modelManager);
-        return new UserAndSchemaContext(userAction, this._modelManager);
+        const contextUserAction = getContextUserFactory(RootUser.ROOT_USER_ID, this._modelManager);
+        return new UserAndSchemaContext(contextUserAction, this._modelManager);
     }
 
     setUser(userId) {
-        const userAction = getUserFactory(userId, this._modelManager);
-        return new UserAndSchemaContext(userAction, this._modelManager);
+        const contextUserAction = getContextUserFactory(userId, this._modelManager);
+        return new UserAndSchemaContext(contextUserAction, this._modelManager);
     }
 
     getDbInstance() {

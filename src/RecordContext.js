@@ -1,10 +1,11 @@
 import createRecordFactory from "./actions/createRecordFactory";
+import getRecordListFactory from "./actions/getRecordListFactory";
 import throwIfNoSync from "./throwIfNoSync";
 
 export default class RecordContext {
-    constructor(userAction, schemaAction, modelManager) {
-        this._userAction = userAction;
-        this._schemaAction = schemaAction;
+    constructor(contextUserAction, contextSchemaAction, modelManager) {
+        this._userAction = contextUserAction;
+        this._schemaAction = contextSchemaAction;
         this._modelManager = modelManager;
     }
 
@@ -16,8 +17,13 @@ export default class RecordContext {
         return false;
     }
 
-    async getRecords() {
-        return false;
+    getRecords(query) {
+        const recordAction = getRecordListFactory(query, this._modelManager);
+
+        return throwIfNoSync(this._modelManager)
+            .then(() => this._schemaAction())
+            .then(schema => recordAction(schema))
+            .then(recordList => recordList);
     }
 
     createRecord(data) {

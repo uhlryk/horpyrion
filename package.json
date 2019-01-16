@@ -38,6 +38,7 @@
         "babel-preset-stage-0": "^6.24.1",
         "babel-register": "^6.24.1",
         "chai": "^4.0.2",
+        "chai-subset": "^1.6.0",
         "dirty-chai": "^2.0.1",
         "eslint": "^4.19.1",
         "eslint-config-prettier": "^2.5.0",

@@ -3,6 +3,8 @@ const expect = chai.expect;
 global.expect = expect;
 import dirtyChai from "dirty-chai";
 chai.use(dirtyChai);
+import chaiSubset from "chai-subset";
+chai.use(chaiSubset);
 import request from "supertest";
 global.request = request;
 import sinon from "sinon";

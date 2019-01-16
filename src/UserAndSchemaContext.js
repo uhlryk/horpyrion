@@ -1,11 +1,11 @@
 import RecordContext from "./RecordContext";
-import getSchemaFactory from "./actions/getSchemaFactory";
+import getContextSchemaFactory from "./contextActions/getContextSchemaFactory";
 import createSchemaFactory from "./actions/createSchemaFactory";
 import throwIfNoSync from "./throwIfNoSync";
 
 export default class UserAndSchemaContext {
-    constructor(userAction, modelManager) {
-        this._userAction = userAction;
+    constructor(contextUserAction, modelManager) {
+        this._userAction = contextUserAction;
         this._modelManager = modelManager;
     }
 
@@ -17,8 +17,8 @@ export default class UserAndSchemaContext {
     }
 
     setSchema(schemaName) {
-        const schemaAction = getSchemaFactory(schemaName, this._modelManager);
-        return new RecordContext(this._userAction, schemaAction, this._modelManager);
+        const contextSchemaAction = getContextSchemaFactory(schemaName, this._modelManager);
+        return new RecordContext(this._userAction, contextSchemaAction, this._modelManager);
     }
 
     createUser() {

@@ -92,17 +92,6 @@ describe("Horpyrion", () => {
                         });
                     });
 
-                    describe("when getting records", () => {
-                        it("should return false", () => {
-                            return horpyrion
-                                .setRootUser()
-                                .setSchema("SOME_RESOURCE")
-                                .getRecords()
-                                .then(resp => {
-                                    expect(resp).be.false();
-                                });
-                        });
-                    });
                     describe("when creating record", () => {
                         it("should return record data", () => {
                             return horpyrion
@@ -125,6 +114,65 @@ describe("Horpyrion", () => {
                                 });
                         });
                     });
+
+                    describe("when no records in database", () => {
+                        describe("when getting records", () => {
+                            it("should return empty array", () => {
+                                return horpyrion
+                                    .setRootUser()
+                                    .setSchema("SOME_RESOURCE")
+                                    .getRecords()
+                                    .then(resp => {
+                                        expect(resp).be.eql([]);
+                                    });
+                            });
+                        });
+                    });
+                    describe("when records are in database", () => {
+                        beforeEach(() => {
+                            return Promise.all([
+                                horpyrion
+                                    .setRootUser()
+                                    .setSchema("SOME_RESOURCE")
+                                    .createRecord({
+                                        testA: "AAA1",
+                                        testB: "BBB1"
+                                    }),
+                                horpyrion
+                                    .setRootUser()
+                                    .setSchema("SOME_RESOURCE")
+                                    .createRecord({
+                                        testA: "AAA2",
+                                        testB: "BBB2"
+                                    })
+                            ]);
+                        });
+                        describe("when getting records", () => {
+                            it("should return array of records", () => {
+                                return horpyrion
+                                    .setRootUser()
+                                    .setSchema("SOME_RESOURCE")
+                                    .getRecords()
+                                    .then(resp => {
+                                        expect(resp).to.containSubset([
+                                            {
+                                                id: 1,
+                                                data: { testA: "AAA1", testB: "BBB1" },
+                                                UserId: null,
+                                                SchemaId: 1
+                                            },
+                                            {
+                                                id: 2,
+                                                data: { testA: "AAA2", testB: "BBB2" },
+                                                UserId: null,
+                                                SchemaId: 1
+                                            }
+                                        ]);
+                                    });
+                            });
+                        });
+                    });
+
                     describe("when updating record", () => {
                         it("should return false", () => {
                             return horpyrion
@@ -194,17 +242,6 @@ describe("Horpyrion", () => {
                         });
                     });
 
-                    describe("when getting records", () => {
-                        it("should return false", () => {
-                            return horpyrion
-                                .setUser(USER_ID)
-                                .setSchema("SOME_RESOURCE")
-                                .getRecords()
-                                .then(resp => {
-                                    expect(resp).be.false();
-                                });
-                        });
-                    });
                     describe("when creating record", () => {
                         it("should return record data", () => {
                             return horpyrion
@@ -227,6 +264,66 @@ describe("Horpyrion", () => {
                                 });
                         });
                     });
+
+                    describe("when no records in database", () => {
+                        describe("when getting records", () => {
+                            it("should return empty array", () => {
+                                return horpyrion
+                                    .setUser()
+                                    .setSchema("SOME_RESOURCE")
+                                    .getRecords()
+                                    .then(resp => {
+                                        expect(resp).be.eql([]);
+                                    });
+                            });
+                        });
+                    });
+
+                    describe("when records are in database", () => {
+                        beforeEach(() => {
+                            return Promise.all([
+                                horpyrion
+                                    .setUser()
+                                    .setSchema("SOME_RESOURCE")
+                                    .createRecord({
+                                        testA: "AAA1",
+                                        testB: "BBB1"
+                                    }),
+                                horpyrion
+                                    .setUser()
+                                    .setSchema("SOME_RESOURCE")
+                                    .createRecord({
+                                        testA: "AAA2",
+                                        testB: "BBB2"
+                                    })
+                            ]);
+                        });
+                        describe("when getting records", () => {
+                            it("should return array of records", () => {
+                                return horpyrion
+                                    .setUser()
+                                    .setSchema("SOME_RESOURCE")
+                                    .getRecords()
+                                    .then(resp => {
+                                        expect(resp).to.containSubset([
+                                            {
+                                                id: 1,
+                                                data: { testA: "AAA1", testB: "BBB1" },
+                                                UserId: null,
+                                                SchemaId: 1
+                                            },
+                                            {
+                                                id: 2,
+                                                data: { testA: "AAA2", testB: "BBB2" },
+                                                UserId: null,
+                                                SchemaId: 1
+                                            }
+                                        ]);
+                                    });
+                            });
+                        });
+                    });
+
                     describe("when updating record", () => {
                         it("should return false", () => {
                             return horpyrion
