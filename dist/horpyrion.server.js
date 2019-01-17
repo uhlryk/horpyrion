@@ -269,8 +269,8 @@ var UserContext = function () {
         }
     }, {
         key: "setSchema",
-        value: function setSchema(schemaName) {
-            return new _SchemaContext2.default(schemaName, this._userContextAction, this._modelManager);
+        value: function setSchema(schemaId) {
+            return new _SchemaContext2.default(schemaId, this._userContextAction, this._modelManager);
         }
     }, {
         key: "createUser",
@@ -324,11 +324,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var SchemaContext = function () {
-    function SchemaContext(schemaName, userContextAction, modelManager) {
+    function SchemaContext(schemaId, userContextAction, modelManager) {
         _classCallCheck(this, SchemaContext);
 
         this._userContextAction = userContextAction;
-        this._schemaContextAction = (0, _getSchemaFactory2.default)(schemaName, modelManager);
+        this._schemaContextAction = (0, _getSchemaFactory2.default)(schemaId, modelManager);
         this._modelManager = modelManager;
     }
 
@@ -561,11 +561,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = getContextSchemaFactory;
-function getContextSchemaFactory(schemaName, modelManager) {
+function getContextSchemaFactory(schemaId, modelManager) {
     return function () {
         return modelManager.getModels().Schema.findOne({
             where: {
-                name: schemaName
+                id: schemaId
             },
             raw: true
         }).then(function (schema) {

@@ -16,8 +16,8 @@ export default class UserContext {
             .then(schema => schema.toJSON());
     }
 
-    setSchema(schemaName) {
-        return new SchemaContext(schemaName, this._userContextAction, this._modelManager);
+    setSchema(schemaId) {
+        return new SchemaContext(schemaId, this._userContextAction, this._modelManager);
     }
 
     createUser() {

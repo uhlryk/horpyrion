@@ -1,10 +1,10 @@
-export default function getContextSchemaFactory(schemaName, modelManager) {
+export default function getContextSchemaFactory(schemaId, modelManager) {
     return () =>
         modelManager
             .getModels()
             .Schema.findOne({
                 where: {
-                    name: schemaName
+                    id: schemaId
                 },
                 raw: true
             })

@@ -5,9 +5,9 @@ import throwIfNoSync from "../../throwIfNoSync";
 import getSchemaFactory from "../../contextActions/getSchemaFactory";
 
 export default class SchemaContext {
-    constructor(schemaName, userContextAction, modelManager) {
+    constructor(schemaId, userContextAction, modelManager) {
         this._userContextAction = userContextAction;
-        this._schemaContextAction = getSchemaFactory(schemaName, modelManager);
+        this._schemaContextAction = getSchemaFactory(schemaId, modelManager);
         this._modelManager = modelManager;
     }
 

@@ -64,15 +64,21 @@ describe("Horpyrion", () => {
                     });
                 });
                 describe("when there is specific schema context", () => {
+                    let SCHEMA_ID;
                     beforeEach(() => {
-                        return horpyrion.setRootUser().createSchema("SOME_RESOURCE");
+                        return horpyrion
+                            .setRootUser()
+                            .createSchema("SOME_RESOURCE")
+                            .then(schema => {
+                                SCHEMA_ID = schema.id;
+                            });
                     });
 
                     describe("when creating attribute", () => {
                         it("should return false", () => {
                             return horpyrion
                                 .setRootUser()
-                                .setSchema("SOME_RESOURCE")
+                                .setSchema(SCHEMA_ID)
                                 .addAttribute("SOME_ATTRIBUTE", "SOME_TYPE")
                                 .then(resp => {
                                     expect(resp).be.false();
@@ -84,7 +90,7 @@ describe("Horpyrion", () => {
                         it("should return record data", () => {
                             return horpyrion
                                 .setRootUser()
-                                .setSchema("SOME_RESOURCE")
+                                .setSchema(SCHEMA_ID)
                                 .createRecord({
                                     testA: "AAA",
                                     testB: "BBB"
@@ -108,7 +114,7 @@ describe("Horpyrion", () => {
                             it("should return empty array", () => {
                                 return horpyrion
                                     .setRootUser()
-                                    .setSchema("SOME_RESOURCE")
+                                    .setSchema(SCHEMA_ID)
                                     .getRecords()
                                     .then(resp => {
                                         expect(resp).be.eql([]);
@@ -120,7 +126,7 @@ describe("Horpyrion", () => {
                             it("should return null", () => {
                                 return horpyrion
                                     .setRootUser()
-                                    .setSchema("SOME_RESOURCE")
+                                    .setSchema(SCHEMA_ID)
                                     .getRecord(1)
                                     .then(resp => {
                                         expect(resp).be.equal(null);
@@ -133,14 +139,14 @@ describe("Horpyrion", () => {
                             return Promise.all([
                                 horpyrion
                                     .setRootUser()
-                                    .setSchema("SOME_RESOURCE")
+                                    .setSchema(SCHEMA_ID)
                                     .createRecord({
                                         testA: "AAA1",
                                         testB: "BBB1"
                                     }),
                                 horpyrion
                                     .setRootUser()
-                                    .setSchema("SOME_RESOURCE")
+                                    .setSchema(SCHEMA_ID)
                                     .createRecord({
                                         testA: "AAA2",
                                         testB: "BBB2"
@@ -151,7 +157,7 @@ describe("Horpyrion", () => {
                             it("should return array of records", () => {
                                 return horpyrion
                                     .setRootUser()
-                                    .setSchema("SOME_RESOURCE")
+                                    .setSchema(SCHEMA_ID)
                                     .getRecords()
                                     .then(resp => {
                                         expect(resp).to.containSubset([
@@ -176,7 +182,7 @@ describe("Horpyrion", () => {
                             it("should return null", () => {
                                 return horpyrion
                                     .setRootUser()
-                                    .setSchema("SOME_RESOURCE")
+                                    .setSchema(SCHEMA_ID)
                                     .getRecord(1)
                                     .then(resp => {
                                         expect(resp).to.deep.include({
@@ -194,7 +200,7 @@ describe("Horpyrion", () => {
                         it("should return false", () => {
                             return horpyrion
                                 .setRootUser()
-                                .setSchema("SOME_RESOURCE")
+                                .setSchema(SCHEMA_ID)
                                 .updateRecord()
                                 .then(resp => {
                                     expect(resp).be.false();
@@ -205,7 +211,7 @@ describe("Horpyrion", () => {
                         it("should return false", () => {
                             return horpyrion
                                 .setRootUser()
-                                .setSchema("SOME_RESOURCE")
+                                .setSchema(SCHEMA_ID)
                                 .getAttributes()
                                 .then(resp => {
                                     expect(resp).be.false();
@@ -217,6 +223,7 @@ describe("Horpyrion", () => {
 
             describe("when there is standard user context", () => {
                 const USER_ID = "USER_ID";
+                let SCHEMA_ID;
                 describe("when creating schema", () => {
                     it("should return schema data", () => {
                         return horpyrion
@@ -233,13 +240,18 @@ describe("Horpyrion", () => {
                 });
                 describe("when there is specific schema context", () => {
                     beforeEach(() => {
-                        return horpyrion.setRootUser().createSchema("SOME_RESOURCE");
+                        return horpyrion
+                            .setRootUser()
+                            .createSchema("SOME_RESOURCE")
+                            .then(schema => {
+                                SCHEMA_ID = schema.id;
+                            });
                     });
                     describe("when creating attribute", () => {
                         it("should return false", () => {
                             return horpyrion
                                 .setUser(USER_ID)
-                                .setSchema("SOME_RESOURCE")
+                                .setSchema(SCHEMA_ID)
                                 .addAttribute("SOME_ATTRIBUTE", "SOME_TYPE")
                                 .then(resp => {
                                     expect(resp).be.false();
@@ -251,7 +263,7 @@ describe("Horpyrion", () => {
                         it("should return record data", () => {
                             return horpyrion
                                 .setUser()
-                                .setSchema("SOME_RESOURCE")
+                                .setSchema(SCHEMA_ID)
                                 .createRecord({
                                     testA: "AAA",
                                     testB: "BBB"
@@ -275,7 +287,7 @@ describe("Horpyrion", () => {
                             it("should return empty array", () => {
                                 return horpyrion
                                     .setUser()
-                                    .setSchema("SOME_RESOURCE")
+                                    .setSchema(SCHEMA_ID)
                                     .getRecords()
                                     .then(resp => {
                                         expect(resp).be.eql([]);
@@ -287,7 +299,7 @@ describe("Horpyrion", () => {
                             it("should return null", () => {
                                 return horpyrion
                                     .setUser(USER_ID)
-                                    .setSchema("SOME_RESOURCE")
+                                    .setSchema(SCHEMA_ID)
                                     .getRecord(1)
                                     .then(resp => {
                                         expect(resp).be.equal(null);
@@ -301,14 +313,14 @@ describe("Horpyrion", () => {
                             return Promise.all([
                                 horpyrion
                                     .setUser()
-                                    .setSchema("SOME_RESOURCE")
+                                    .setSchema(SCHEMA_ID)
                                     .createRecord({
                                         testA: "AAA1",
                                         testB: "BBB1"
                                     }),
                                 horpyrion
                                     .setUser()
-                                    .setSchema("SOME_RESOURCE")
+                                    .setSchema(SCHEMA_ID)
                                     .createRecord({
                                         testA: "AAA2",
                                         testB: "BBB2"
@@ -319,7 +331,7 @@ describe("Horpyrion", () => {
                             it("should return array of records", () => {
                                 return horpyrion
                                     .setUser()
-                                    .setSchema("SOME_RESOURCE")
+                                    .setSchema(SCHEMA_ID)
                                     .getRecords()
                                     .then(resp => {
                                         expect(resp).to.containSubset([
@@ -344,7 +356,7 @@ describe("Horpyrion", () => {
                             it("should return null", () => {
                                 return horpyrion
                                     .setUser(USER_ID)
-                                    .setSchema("SOME_RESOURCE")
+                                    .setSchema(SCHEMA_ID)
                                     .getRecord(1)
                                     .then(resp => {
                                         expect(resp).to.deep.include({
@@ -362,7 +374,7 @@ describe("Horpyrion", () => {
                         it("should return false", () => {
                             return horpyrion
                                 .setUser(USER_ID)
-                                .setSchema("SOME_RESOURCE")
+                                .setSchema(SCHEMA_ID)
                                 .updateRecord()
                                 .then(resp => {
                                     expect(resp).be.false();
@@ -373,7 +385,7 @@ describe("Horpyrion", () => {
                         it("should return false", () => {
                             return horpyrion
                                 .setUser(USER_ID)
-                                .setSchema("SOME_RESOURCE")
+                                .setSchema(SCHEMA_ID)
                                 .getAttributes()
                                 .then(resp => {
                                     expect(resp).be.false();
