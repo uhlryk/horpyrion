@@ -276,6 +276,33 @@ describe("Horpyrion", () => {
                                     });
                             });
                         });
+
+                        describe("when removing record", () => {
+                            it("should return true", () => {
+                                return horpyrion
+                                    .setRootUser()
+                                    .setSchema(SCHEMA_ID)
+                                    .removeRecord(RECORD_ID)
+                                    .then(resp => {
+                                        expect(resp).to.be.true();
+                                        return horpyrion
+                                            .setRootUser()
+                                            .setSchema(SCHEMA_ID)
+                                            .getRecords()
+                                            .then(resp => {
+                                                expect(resp.length).to.be.equal(1);
+                                                expect(resp).to.containSubset([
+                                                    {
+                                                        id: 2,
+                                                        data: { testA: "AAA2", testB: "BBB2" },
+                                                        UserId: null,
+                                                        SchemaId: 1
+                                                    }
+                                                ]);
+                                            });
+                                    });
+                            });
+                        });
                     });
                     describe("when getting attributes", () => {
                         it("should return false", () => {
@@ -503,7 +530,8 @@ describe("Horpyrion", () => {
                                     .setUser(USER_ID)
                                     .setSchema(SCHEMA_ID)
                                     .updateRecord(RECORD_ID, { testA: "AAA2", testB: "BBB2" })
-                                    .then(() => {
+                                    .then(resp => {
+                                        expect(resp).to.be.true();
                                         return horpyrion
                                             .setRootUser()
                                             .setSchema(SCHEMA_ID)
@@ -515,6 +543,33 @@ describe("Horpyrion", () => {
                                                     UserId: null,
                                                     SchemaId: 1
                                                 });
+                                            });
+                                    });
+                            });
+                        });
+
+                        describe("when removing record", () => {
+                            it("should return true", () => {
+                                return horpyrion
+                                    .setUser(USER_ID)
+                                    .setSchema(SCHEMA_ID)
+                                    .removeRecord(RECORD_ID)
+                                    .then(resp => {
+                                        expect(resp).to.be.true();
+                                        return horpyrion
+                                            .setRootUser()
+                                            .setSchema(SCHEMA_ID)
+                                            .getRecords()
+                                            .then(resp => {
+                                                expect(resp.length).to.be.equal(1);
+                                                expect(resp).to.containSubset([
+                                                    {
+                                                        id: 2,
+                                                        data: { testA: "AAA2", testB: "BBB2" },
+                                                        UserId: null,
+                                                        SchemaId: 1
+                                                    }
+                                                ]);
                                             });
                                     });
                             });

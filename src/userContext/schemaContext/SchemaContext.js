@@ -2,6 +2,7 @@ import createRecordFactory from "../../actions/createRecordFactory";
 import getRecordListFactory from "../../actions/getRecordListFactory";
 import getRecordFactory from "../../actions/getRecordFactory";
 import updateRecordFactory from "../../actions/updateRecordFactory";
+import removeRecordFactory from "../../actions/removeRecordFactory";
 import throwIfNoSync from "../../throwIfNoSync";
 import getSchemaContextFactory from "./getSchemaContextFactory";
 import RecordContext from "./recordContext/RecordContext";
@@ -54,12 +55,21 @@ export default class SchemaContext {
             .then(record => record.toJSON());
     }
 
-    async updateRecord(recordId, data) {
+    updateRecord(recordId, data) {
         const updateRecordAction = updateRecordFactory(data, this._modelManager);
 
         return throwIfNoSync(this._modelManager)
             .then(() => this._schemaContextAction())
             .then(schema => updateRecordAction(recordId, schema.id))
+            .then(() => true);
+    }
+
+    removeRecord(recordId) {
+        const removeRecordAction = removeRecordFactory(this._modelManager);
+
+        return throwIfNoSync(this._modelManager)
+            .then(() => this._schemaContextAction())
+            .then(schema => removeRecordAction(recordId, schema.id))
             .then(() => true);
     }
 
