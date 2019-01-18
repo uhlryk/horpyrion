@@ -2,6 +2,7 @@ import Horpyrion from "./Horpyrion";
 import Sequelize from "sequelize";
 
 describe("Horpyrion", () => {
+    const SOME_UUID = "11111111-1111-1111-1111-111111111111";
     it("should create instance from configuration", () => {
         const horpyrion = new Horpyrion(DB_CONFIGURATION);
         expect(horpyrion).to.be.instanceof(Horpyrion);
@@ -55,8 +56,8 @@ describe("Horpyrion", () => {
                             .setRootUser()
                             .createSchema("SOME_RESOURCE")
                             .then(resp => {
-                                expect(resp).to.deep.include({
-                                    id: 1,
+                                expect(resp).to.containSubset({
+                                    id: expectedValue => expectedValue,
                                     name: "SOME_RESOURCE",
                                     UserId: null
                                 });
@@ -96,9 +97,9 @@ describe("Horpyrion", () => {
                                     testB: "BBB"
                                 })
                                 .then(resp => {
-                                    expect(resp).to.deep.include({
-                                        id: 1,
-                                        SchemaId: 1,
+                                    expect(resp).to.containSubset({
+                                        id: expectedValue => expectedValue,
+                                        SchemaId: expectedValue => expectedValue,
                                         data: {
                                             testA: "AAA",
                                             testB: "BBB"
@@ -127,7 +128,7 @@ describe("Horpyrion", () => {
                                 return horpyrion
                                     .setRootUser()
                                     .setSchema(SCHEMA_ID)
-                                    .getRecord(1)
+                                    .getRecord(SOME_UUID)
                                     .then(resp => {
                                         expect(resp).be.equal(null);
                                     });
@@ -165,16 +166,16 @@ describe("Horpyrion", () => {
                                     .then(resp => {
                                         expect(resp).to.containSubset([
                                             {
-                                                id: 1,
+                                                id: expectedValue => expectedValue,
                                                 data: { testA: "AAA1", testB: "BBB1" },
                                                 UserId: null,
-                                                SchemaId: 1
+                                                SchemaId: expectedValue => expectedValue
                                             },
                                             {
-                                                id: 2,
+                                                id: expectedValue => expectedValue,
                                                 data: { testA: "AAA2", testB: "BBB2" },
                                                 UserId: null,
-                                                SchemaId: 1
+                                                SchemaId: expectedValue => expectedValue
                                             }
                                         ]);
                                     });
@@ -199,11 +200,11 @@ describe("Horpyrion", () => {
                                                 .setSchema(SCHEMA_ID)
                                                 .getRecord(RECORD_ID)
                                                 .then(resp => {
-                                                    expect(resp).to.deep.include({
+                                                    expect(resp).to.containSubset({
                                                         id: RECORD_ID,
                                                         data: { testA: "AAA2", testB: "BBB2" },
                                                         UserId: null,
-                                                        SchemaId: 1
+                                                        SchemaId: expectedValue => expectedValue
                                                     });
                                                 });
                                         });
@@ -226,10 +227,10 @@ describe("Horpyrion", () => {
                                                     expect(resp.length).to.be.equal(1);
                                                     expect(resp).to.containSubset([
                                                         {
-                                                            id: 2,
+                                                            id: expectedValue => expectedValue,
                                                             data: { testA: "AAA2", testB: "BBB2" },
                                                             UserId: null,
-                                                            SchemaId: 1
+                                                            SchemaId: expectedValue => expectedValue
                                                         }
                                                     ]);
                                                 });
@@ -239,17 +240,17 @@ describe("Horpyrion", () => {
                         });
 
                         describe("when getting record", () => {
-                            it("should return null", () => {
+                            it("should return record", () => {
                                 return horpyrion
                                     .setRootUser()
                                     .setSchema(SCHEMA_ID)
                                     .getRecord(RECORD_ID)
                                     .then(resp => {
-                                        expect(resp).to.deep.include({
+                                        expect(resp).to.containSubset({
                                             id: RECORD_ID,
                                             data: { testA: "AAA1", testB: "BBB1" },
                                             UserId: null,
-                                            SchemaId: 1
+                                            SchemaId: expectedValue => expectedValue
                                         });
                                     });
                             });
@@ -266,11 +267,11 @@ describe("Horpyrion", () => {
                                             .setSchema(SCHEMA_ID)
                                             .getRecord(RECORD_ID)
                                             .then(resp => {
-                                                expect(resp).to.deep.include({
+                                                expect(resp).to.containSubset({
                                                     id: RECORD_ID,
                                                     data: { testA: "AAA3", testB: "BBB3" },
                                                     UserId: null,
-                                                    SchemaId: 1
+                                                    SchemaId: expectedValue => expectedValue
                                                 });
                                             });
                                     });
@@ -293,10 +294,10 @@ describe("Horpyrion", () => {
                                                 expect(resp.length).to.be.equal(1);
                                                 expect(resp).to.containSubset([
                                                     {
-                                                        id: 2,
+                                                        id: expectedValue => expectedValue,
                                                         data: { testA: "AAA2", testB: "BBB2" },
                                                         UserId: null,
-                                                        SchemaId: 1
+                                                        SchemaId: expectedValue => expectedValue
                                                     }
                                                 ]);
                                             });
@@ -327,8 +328,8 @@ describe("Horpyrion", () => {
                             .setUser(USER_ID)
                             .createSchema("SOME_RESOURCE")
                             .then(resp => {
-                                expect(resp).to.deep.include({
-                                    id: 1,
+                                expect(resp).to.containSubset({
+                                    id: expectedValue => expectedValue,
                                     name: "SOME_RESOURCE",
                                     UserId: null
                                 });
@@ -366,9 +367,9 @@ describe("Horpyrion", () => {
                                     testB: "BBB"
                                 })
                                 .then(resp => {
-                                    expect(resp).to.deep.include({
-                                        id: 1,
-                                        SchemaId: 1,
+                                    expect(resp).to.containSubset({
+                                        id: expectedValue => expectedValue,
+                                        SchemaId: expectedValue => expectedValue,
                                         data: {
                                             testA: "AAA",
                                             testB: "BBB"
@@ -397,7 +398,7 @@ describe("Horpyrion", () => {
                                 return horpyrion
                                     .setUser(USER_ID)
                                     .setSchema(SCHEMA_ID)
-                                    .getRecord(1)
+                                    .getRecord(SOME_UUID)
                                     .then(resp => {
                                         expect(resp).be.equal(null);
                                     });
@@ -436,16 +437,16 @@ describe("Horpyrion", () => {
                                     .then(resp => {
                                         expect(resp).to.containSubset([
                                             {
-                                                id: 1,
+                                                id: expectedValue => expectedValue,
                                                 data: { testA: "AAA1", testB: "BBB1" },
                                                 UserId: null,
-                                                SchemaId: 1
+                                                SchemaId: expectedValue => expectedValue
                                             },
                                             {
-                                                id: 2,
+                                                id: expectedValue => expectedValue,
                                                 data: { testA: "AAA2", testB: "BBB2" },
                                                 UserId: null,
-                                                SchemaId: 1
+                                                SchemaId: expectedValue => expectedValue
                                             }
                                         ]);
                                     });
@@ -469,11 +470,11 @@ describe("Horpyrion", () => {
                                                 .setSchema(SCHEMA_ID)
                                                 .getRecord(RECORD_ID)
                                                 .then(resp => {
-                                                    expect(resp).to.deep.include({
+                                                    expect(resp).to.containSubset({
                                                         id: RECORD_ID,
                                                         data: { testA: "AAA3", testB: "BBB3" },
                                                         UserId: null,
-                                                        SchemaId: 1
+                                                        SchemaId: expectedValue => expectedValue
                                                     });
                                                 });
                                         });
@@ -496,10 +497,10 @@ describe("Horpyrion", () => {
                                                     expect(resp.length).to.be.equal(1);
                                                     expect(resp).to.containSubset([
                                                         {
-                                                            id: 2,
+                                                            id: expectedValue => expectedValue,
                                                             data: { testA: "AAA2", testB: "BBB2" },
                                                             UserId: null,
-                                                            SchemaId: 1
+                                                            SchemaId: expectedValue => expectedValue
                                                         }
                                                     ]);
                                                 });
@@ -514,11 +515,11 @@ describe("Horpyrion", () => {
                                     .setSchema(SCHEMA_ID)
                                     .getRecord(RECORD_ID)
                                     .then(resp => {
-                                        expect(resp).to.deep.include({
+                                        expect(resp).to.containSubset({
                                             id: RECORD_ID,
                                             data: { testA: "AAA1", testB: "BBB1" },
                                             UserId: null,
-                                            SchemaId: 1
+                                            SchemaId: expectedValue => expectedValue
                                         });
                                     });
                             });
@@ -537,11 +538,11 @@ describe("Horpyrion", () => {
                                             .setSchema(SCHEMA_ID)
                                             .getRecord(RECORD_ID)
                                             .then(resp => {
-                                                expect(resp).to.deep.include({
+                                                expect(resp).to.containSubset({
                                                     id: RECORD_ID,
                                                     data: { testA: "AAA2", testB: "BBB2" },
                                                     UserId: null,
-                                                    SchemaId: 1
+                                                    SchemaId: expectedValue => expectedValue
                                                 });
                                             });
                                     });
@@ -564,10 +565,10 @@ describe("Horpyrion", () => {
                                                 expect(resp.length).to.be.equal(1);
                                                 expect(resp).to.containSubset([
                                                     {
-                                                        id: 2,
+                                                        id: expectedValue => expectedValue,
                                                         data: { testA: "AAA2", testB: "BBB2" },
                                                         UserId: null,
-                                                        SchemaId: 1
+                                                        SchemaId: expectedValue => expectedValue
                                                     }
                                                 ]);
                                             });

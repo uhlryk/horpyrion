@@ -1,7 +1,16 @@
+import Sequelize from "sequelize";
+import uuid from "uuid/v4";
+
 export default function(sequelize, DataTypes) {
     const Record = sequelize.define(
         "Record",
         {
+            id: {
+                allowNull: false,
+                primaryKey: true,
+                type: Sequelize.UUID,
+                defaultValue: () => uuid()
+            },
             data: {
                 type: DataTypes.JSONB
             }
