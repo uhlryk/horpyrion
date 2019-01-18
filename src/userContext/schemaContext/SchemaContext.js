@@ -2,25 +2,30 @@ import createRecordFactory from "../../actions/createRecordFactory";
 import getRecordListFactory from "../../actions/getRecordListFactory";
 import getRecordFactory from "../../actions/getRecordFactory";
 import throwIfNoSync from "../../throwIfNoSync";
-import getSchemaFactory from "../../contextActions/getSchemaFactory";
+import getSchemaContextFactory from "./getSchemaContextFactory";
+import RecordContext from "./recordContext/RecordContext";
 
 export default class SchemaContext {
     constructor(schemaId, userContextAction, modelManager) {
         this._userContextAction = userContextAction;
-        this._schemaContextAction = getSchemaFactory(schemaId, modelManager);
+        this._schemaContextAction = getSchemaContextFactory(schemaId, modelManager);
         this._modelManager = modelManager;
+    }
+
+    setRecord(recordId) {
+        return new RecordContext(recordId, this._schemaContextAction, this._userContextAction, this._modelManager);
     }
 
     async addAttribute(attributeName, attributeType) {
         return false;
     }
 
-    async getRecord(recordId) {
+    getRecord(recordId) {
         const getRecordAction = getRecordFactory(recordId, this._modelManager);
 
         return throwIfNoSync(this._modelManager)
             .then(() => this._schemaContextAction())
-            .then(schema => getRecordAction(schema))
+            .then(schema => getRecordAction(schema.id))
             .then(record => {
                 if (record) {
                     return record;
@@ -35,7 +40,7 @@ export default class SchemaContext {
 
         return throwIfNoSync(this._modelManager)
             .then(() => this._schemaContextAction())
-            .then(schema => getRecordListAction(schema))
+            .then(schema => getRecordListAction(schema.id))
             .then(recordList => recordList);
     }
 

@@ -135,6 +135,7 @@ describe("Horpyrion", () => {
                         });
                     });
                     describe("when records are in database", () => {
+                        let RECORD_ID;
                         beforeEach(() => {
                             return Promise.all([
                                 horpyrion
@@ -151,7 +152,9 @@ describe("Horpyrion", () => {
                                         testA: "AAA2",
                                         testB: "BBB2"
                                     })
-                            ]);
+                            ]).then(records => {
+                                RECORD_ID = records[0].id;
+                            });
                         });
                         describe("when getting records", () => {
                             it("should return array of records", () => {
@@ -176,6 +179,35 @@ describe("Horpyrion", () => {
                                         ]);
                                     });
                             });
+
+                            describe("when record context is set", () => {
+                                describe("when updating record", () => {
+                                    it("should return updated record", () => {
+                                        return horpyrion
+                                            .setRootUser()
+                                            .setSchema(SCHEMA_ID)
+                                            .setRecord(RECORD_ID)
+                                            .updateRecord({
+                                                testA: "AAA2",
+                                                testB: "BBB2"
+                                            })
+                                            .then(() => {
+                                                return horpyrion
+                                                    .setRootUser()
+                                                    .setSchema(SCHEMA_ID)
+                                                    .getRecord(RECORD_ID)
+                                                    .then(resp => {
+                                                        expect(resp).to.deep.include({
+                                                            id: RECORD_ID,
+                                                            data: { testA: "AAA2", testB: "BBB2" },
+                                                            UserId: null,
+                                                            SchemaId: 1
+                                                        });
+                                                    });
+                                            });
+                                    });
+                                });
+                            });
                         });
 
                         describe("when getting record", () => {
@@ -183,10 +215,10 @@ describe("Horpyrion", () => {
                                 return horpyrion
                                     .setRootUser()
                                     .setSchema(SCHEMA_ID)
-                                    .getRecord(1)
+                                    .getRecord(RECORD_ID)
                                     .then(resp => {
                                         expect(resp).to.deep.include({
-                                            id: 1,
+                                            id: RECORD_ID,
                                             data: { testA: "AAA1", testB: "BBB1" },
                                             UserId: null,
                                             SchemaId: 1
@@ -309,6 +341,7 @@ describe("Horpyrion", () => {
                     });
 
                     describe("when records are in database", () => {
+                        let RECORD_ID;
                         beforeEach(() => {
                             return Promise.all([
                                 horpyrion
@@ -325,7 +358,9 @@ describe("Horpyrion", () => {
                                         testA: "AAA2",
                                         testB: "BBB2"
                                     })
-                            ]);
+                            ]).then(records => {
+                                RECORD_ID = records[0].id;
+                            });
                         });
                         describe("when getting records", () => {
                             it("should return array of records", () => {
@@ -350,6 +385,35 @@ describe("Horpyrion", () => {
                                         ]);
                                     });
                             });
+
+                            describe("when record context is set", () => {
+                                describe("when updating record", () => {
+                                    it("should return updated record", () => {
+                                        return horpyrion
+                                            .setUser()
+                                            .setSchema(SCHEMA_ID)
+                                            .setRecord(RECORD_ID)
+                                            .updateRecord({
+                                                testA: "AAA2",
+                                                testB: "BBB2"
+                                            })
+                                            .then(() => {
+                                                return horpyrion
+                                                    .setRootUser()
+                                                    .setSchema(SCHEMA_ID)
+                                                    .getRecord(RECORD_ID)
+                                                    .then(resp => {
+                                                        expect(resp).to.deep.include({
+                                                            id: RECORD_ID,
+                                                            data: { testA: "AAA2", testB: "BBB2" },
+                                                            UserId: null,
+                                                            SchemaId: 1
+                                                        });
+                                                    });
+                                            });
+                                    });
+                                });
+                            });
                         });
 
                         describe("when getting record", () => {
@@ -357,10 +421,10 @@ describe("Horpyrion", () => {
                                 return horpyrion
                                     .setUser(USER_ID)
                                     .setSchema(SCHEMA_ID)
-                                    .getRecord(1)
+                                    .getRecord(RECORD_ID)
                                     .then(resp => {
                                         expect(resp).to.deep.include({
-                                            id: 1,
+                                            id: RECORD_ID,
                                             data: { testA: "AAA1", testB: "BBB1" },
                                             UserId: null,
                                             SchemaId: 1

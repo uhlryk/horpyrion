@@ -1,4 +1,4 @@
-export default function getRecordListFactory(recordId, modelManager) {
+export default function getContextRecordFactory(recordId, modelManager) {
     return schemaId =>
         modelManager
             .getModels()
@@ -10,6 +10,8 @@ export default function getRecordListFactory(recordId, modelManager) {
                 raw: true
             })
             .then(record => {
+                if (!record) {
+                }
                 return record;
             });
 }

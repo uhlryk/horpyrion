@@ -1,10 +1,10 @@
 export default function getRecordListFactory(query, modelManager) {
-    return schema =>
+    return schemaId =>
         modelManager
             .getModels()
             .Record.findAll({
                 where: {
-                    SchemaId: schema.id
+                    SchemaId: schemaId
                 },
                 raw: true
             })
