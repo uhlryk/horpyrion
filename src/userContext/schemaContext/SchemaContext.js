@@ -1,6 +1,7 @@
 import createRecordFactory from "../../actions/createRecordFactory";
 import getRecordListFactory from "../../actions/getRecordListFactory";
 import getRecordFactory from "../../actions/getRecordFactory";
+import updateRecordFactory from "../../actions/updateRecordFactory";
 import throwIfNoSync from "../../throwIfNoSync";
 import getSchemaContextFactory from "./getSchemaContextFactory";
 import RecordContext from "./recordContext/RecordContext";
@@ -49,12 +50,17 @@ export default class SchemaContext {
 
         return throwIfNoSync(this._modelManager)
             .then(() => this._schemaContextAction())
-            .then(schema => createRecordAction(schema))
+            .then(schema => createRecordAction(schema.id))
             .then(record => record.toJSON());
     }
 
-    async updateRecord() {
-        return false;
+    async updateRecord(recordId, data) {
+        const updateRecordAction = updateRecordFactory(data, this._modelManager);
+
+        return throwIfNoSync(this._modelManager)
+            .then(() => this._schemaContextAction())
+            .then(schema => updateRecordAction(recordId, schema.id))
+            .then(() => true);
     }
 
     async getAttributes() {

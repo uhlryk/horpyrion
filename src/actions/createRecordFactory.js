@@ -1,9 +1,9 @@
 export default function createRecordFactory(data, modelManager) {
-    return schema =>
+    return schemaId =>
         modelManager
             .getModels()
             .Record.create({
-                SchemaId: schema.id,
+                SchemaId: schemaId,
                 data: data
             })
 

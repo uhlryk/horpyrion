@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -96,18 +96,42 @@ function throwIfNoSync(modelManager) {
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(2);
-module.exports = __webpack_require__(3);
+"use strict";
 
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = updateRecordFactory;
+function updateRecordFactory(data, modelManager) {
+    return function (recordId, schemaId) {
+        return modelManager.getModels().Record.update({ data: data }, {
+            where: {
+                id: recordId,
+                SchemaId: schemaId
+            }
+        }).then(function (record) {
+            return record;
+        });
+    };
+}
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(3);
+module.exports = __webpack_require__(4);
+
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-polyfill");
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -118,7 +142,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _Horpyrion = __webpack_require__(4);
+var _Horpyrion = __webpack_require__(5);
 
 var _Horpyrion2 = _interopRequireDefault(_Horpyrion);
 
@@ -127,7 +151,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _Horpyrion2.default;
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -139,7 +163,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _UserContext = __webpack_require__(5);
+var _UserContext = __webpack_require__(6);
 
 var _UserContext2 = _interopRequireDefault(_UserContext);
 
@@ -217,7 +241,7 @@ var Horpyrion = function () {
 exports.default = Horpyrion;
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -229,7 +253,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _SchemaContext = __webpack_require__(6);
+var _SchemaContext = __webpack_require__(7);
 
 var _SchemaContext2 = _interopRequireDefault(_SchemaContext);
 
@@ -285,7 +309,7 @@ var UserContext = function () {
 exports.default = UserContext;
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -297,27 +321,31 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _createRecordFactory = __webpack_require__(7);
+var _createRecordFactory = __webpack_require__(8);
 
 var _createRecordFactory2 = _interopRequireDefault(_createRecordFactory);
 
-var _getRecordListFactory = __webpack_require__(8);
+var _getRecordListFactory = __webpack_require__(9);
 
 var _getRecordListFactory2 = _interopRequireDefault(_getRecordListFactory);
 
-var _getRecordFactory = __webpack_require__(9);
+var _getRecordFactory = __webpack_require__(10);
 
 var _getRecordFactory2 = _interopRequireDefault(_getRecordFactory);
+
+var _updateRecordFactory = __webpack_require__(1);
+
+var _updateRecordFactory2 = _interopRequireDefault(_updateRecordFactory);
 
 var _throwIfNoSync = __webpack_require__(0);
 
 var _throwIfNoSync2 = _interopRequireDefault(_throwIfNoSync);
 
-var _getSchemaContextFactory = __webpack_require__(10);
+var _getSchemaContextFactory = __webpack_require__(11);
 
 var _getSchemaContextFactory2 = _interopRequireDefault(_getSchemaContextFactory);
 
-var _RecordContext = __webpack_require__(11);
+var _RecordContext = __webpack_require__(12);
 
 var _RecordContext2 = _interopRequireDefault(_RecordContext);
 
@@ -409,7 +437,7 @@ var SchemaContext = function () {
             return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
                 return _this3._schemaContextAction();
             }).then(function (schema) {
-                return createRecordAction(schema);
+                return createRecordAction(schema.id);
             }).then(function (record) {
                 return record.toJSON();
             });
@@ -417,14 +445,24 @@ var SchemaContext = function () {
     }, {
         key: "updateRecord",
         value: function () {
-            var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+            var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(recordId, data) {
+                var _this4 = this;
+
+                var updateRecordAction;
                 return regeneratorRuntime.wrap(function _callee2$(_context2) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
                             case 0:
-                                return _context2.abrupt("return", false);
+                                updateRecordAction = (0, _updateRecordFactory2.default)(data, this._modelManager);
+                                return _context2.abrupt("return", (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
+                                    return _this4._schemaContextAction();
+                                }).then(function (schema) {
+                                    return updateRecordAction(recordId, schema.id);
+                                }).then(function () {
+                                    return true;
+                                }));
 
-                            case 1:
+                            case 2:
                             case "end":
                                 return _context2.stop();
                         }
@@ -432,7 +470,7 @@ var SchemaContext = function () {
                 }, _callee2, this);
             }));
 
-            function updateRecord() {
+            function updateRecord(_x3, _x4) {
                 return _ref2.apply(this, arguments);
             }
 
@@ -470,7 +508,7 @@ var SchemaContext = function () {
 exports.default = SchemaContext;
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -481,9 +519,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = createRecordFactory;
 function createRecordFactory(data, modelManager) {
-    return function (schema) {
+    return function (schemaId) {
         return modelManager.getModels().Record.create({
-            SchemaId: schema.id,
+            SchemaId: schemaId,
             data: data
         }).then(function (record) {
             return record;
@@ -492,7 +530,7 @@ function createRecordFactory(data, modelManager) {
 }
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -516,7 +554,7 @@ function getRecordListFactory(query, modelManager) {
 }
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -541,7 +579,7 @@ function getRecordListFactory(recordId, modelManager) {
 }
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -566,7 +604,7 @@ function getContextSchemaFactory(schemaId, modelManager) {
 }
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -578,7 +616,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _updateRecordFactory = __webpack_require__(12);
+var _updateRecordFactory = __webpack_require__(1);
 
 var _updateRecordFactory2 = _interopRequireDefault(_updateRecordFactory);
 
@@ -617,6 +655,8 @@ var RecordContext = function () {
                 return _this._recordContextAction(schema.id).then(function (record) {
                     return updateRecordAction(record.id, schema.id);
                 });
+            }).then(function () {
+                return true;
             });
         }
     }]);
@@ -625,30 +665,6 @@ var RecordContext = function () {
 }();
 
 exports.default = RecordContext;
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = updateRecordFactory;
-function updateRecordFactory(data, modelManager) {
-    return function (recordId, schemaId) {
-        return modelManager.getModels().Record.update({ data: data }, {
-            where: {
-                id: recordId,
-                SchemaId: schemaId
-            }
-        }).then(function (record) {
-            return record;
-        });
-    };
-}
 
 /***/ }),
 /* 13 */

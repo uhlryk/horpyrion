@@ -226,17 +226,27 @@ describe("Horpyrion", () => {
                                     });
                             });
                         });
-                    });
-
-                    describe("when updating record", () => {
-                        it("should return false", () => {
-                            return horpyrion
-                                .setRootUser()
-                                .setSchema(SCHEMA_ID)
-                                .updateRecord()
-                                .then(resp => {
-                                    expect(resp).be.false();
-                                });
+                        describe("when updating record", () => {
+                            it("should return false", () => {
+                                return horpyrion
+                                    .setRootUser()
+                                    .setSchema(SCHEMA_ID)
+                                    .updateRecord(RECORD_ID, { testA: "AAA2", testB: "BBB2" })
+                                    .then(() => {
+                                        return horpyrion
+                                            .setRootUser()
+                                            .setSchema(SCHEMA_ID)
+                                            .getRecord(RECORD_ID)
+                                            .then(resp => {
+                                                expect(resp).to.deep.include({
+                                                    id: RECORD_ID,
+                                                    data: { testA: "AAA2", testB: "BBB2" },
+                                                    UserId: null,
+                                                    SchemaId: 1
+                                                });
+                                            });
+                                    });
+                            });
                         });
                     });
                     describe("when getting attributes", () => {
@@ -432,19 +442,31 @@ describe("Horpyrion", () => {
                                     });
                             });
                         });
-                    });
 
-                    describe("when updating record", () => {
-                        it("should return false", () => {
-                            return horpyrion
-                                .setUser(USER_ID)
-                                .setSchema(SCHEMA_ID)
-                                .updateRecord()
-                                .then(resp => {
-                                    expect(resp).be.false();
-                                });
+                        describe("when updating record", () => {
+                            it("should return false", () => {
+                                return horpyrion
+                                    .setUser(USER_ID)
+                                    .setSchema(SCHEMA_ID)
+                                    .updateRecord(RECORD_ID, { testA: "AAA2", testB: "BBB2" })
+                                    .then(() => {
+                                        return horpyrion
+                                            .setRootUser()
+                                            .setSchema(SCHEMA_ID)
+                                            .getRecord(RECORD_ID)
+                                            .then(resp => {
+                                                expect(resp).to.deep.include({
+                                                    id: RECORD_ID,
+                                                    data: { testA: "AAA2", testB: "BBB2" },
+                                                    UserId: null,
+                                                    SchemaId: 1
+                                                });
+                                            });
+                                    });
+                            });
                         });
                     });
+
                     describe("when getting attributes", () => {
                         it("should return false", () => {
                             return horpyrion

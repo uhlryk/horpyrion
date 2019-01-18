@@ -17,6 +17,7 @@ export default class RecordContext {
             .then(() => this._schemaContextAction())
             .then(schema =>
                 this._recordContextAction(schema.id).then(record => updateRecordAction(record.id, schema.id))
-            );
+            )
+            .then(() => true);
     }
 }
