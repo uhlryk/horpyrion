@@ -167,11 +167,11 @@ var _UserContext = __webpack_require__(6);
 
 var _UserContext2 = _interopRequireDefault(_UserContext);
 
-var _RootUser = __webpack_require__(16);
+var _RootUser = __webpack_require__(17);
 
 var _RootUser2 = _interopRequireDefault(_RootUser);
 
-var _ModelManager = __webpack_require__(17);
+var _ModelManager = __webpack_require__(18);
 
 var _ModelManager2 = _interopRequireDefault(_ModelManager);
 
@@ -257,7 +257,7 @@ var _SchemaContext = __webpack_require__(7);
 
 var _SchemaContext2 = _interopRequireDefault(_SchemaContext);
 
-var _createSchemaFactory = __webpack_require__(14);
+var _createSchemaFactory = __webpack_require__(15);
 
 var _createSchemaFactory2 = _interopRequireDefault(_createSchemaFactory);
 
@@ -265,7 +265,7 @@ var _throwIfNoSync = __webpack_require__(0);
 
 var _throwIfNoSync2 = _interopRequireDefault(_throwIfNoSync);
 
-var _getUserContextFactory = __webpack_require__(15);
+var _getUserContextFactory = __webpack_require__(16);
 
 var _getUserContextFactory2 = _interopRequireDefault(_getUserContextFactory);
 
@@ -620,11 +620,15 @@ var _updateRecordFactory = __webpack_require__(1);
 
 var _updateRecordFactory2 = _interopRequireDefault(_updateRecordFactory);
 
+var _removeRecordFactory = __webpack_require__(13);
+
+var _removeRecordFactory2 = _interopRequireDefault(_removeRecordFactory);
+
 var _throwIfNoSync = __webpack_require__(0);
 
 var _throwIfNoSync2 = _interopRequireDefault(_throwIfNoSync);
 
-var _getRecordContextFactory = __webpack_require__(13);
+var _getRecordContextFactory = __webpack_require__(14);
 
 var _getRecordContextFactory2 = _interopRequireDefault(_getRecordContextFactory);
 
@@ -659,6 +663,23 @@ var RecordContext = function () {
                 return true;
             });
         }
+    }, {
+        key: "removeRecord",
+        value: function removeRecord() {
+            var _this2 = this;
+
+            var removeRecordAction = (0, _removeRecordFactory2.default)(this._modelManager);
+
+            return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
+                return _this2._schemaContextAction();
+            }).then(function (schema) {
+                return _this2._recordContextAction(schema.id).then(function (record) {
+                    return removeRecordAction(record.id, schema.id);
+                });
+            }).then(function () {
+                return true;
+            });
+        }
     }]);
 
     return RecordContext;
@@ -668,6 +689,30 @@ exports.default = RecordContext;
 
 /***/ }),
 /* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = removeRecordFactory;
+function removeRecordFactory(modelManager) {
+    return function (recordId, schemaId) {
+        return modelManager.getModels().Record.destroy({
+            where: {
+                id: recordId,
+                SchemaId: schemaId
+            }
+        }).then(function () {
+            return true;
+        });
+    };
+}
+
+/***/ }),
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -693,7 +738,7 @@ function getContextRecordFactory(recordId, modelManager) {
 }
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -714,7 +759,7 @@ function createSchemaFactory(schemaName, modelManager) {
 }
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -739,7 +784,7 @@ function getContextUserFactory(userId, modelManager) {
 }
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -752,7 +797,7 @@ var ROOT_USER_ID = Symbol("ROOT_USER_ID");
 exports.default = ROOT_USER_ID;
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -764,19 +809,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _fs = __webpack_require__(18);
+var _fs = __webpack_require__(19);
 
 var _fs2 = _interopRequireDefault(_fs);
 
-var _path = __webpack_require__(19);
+var _path = __webpack_require__(20);
 
 var _path2 = _interopRequireDefault(_path);
 
-var _sequelize = __webpack_require__(20);
+var _sequelize = __webpack_require__(21);
 
 var _sequelize2 = _interopRequireDefault(_sequelize);
 
-var _functionOverloader = __webpack_require__(21);
+var _functionOverloader = __webpack_require__(22);
 
 var _functionOverloader2 = _interopRequireDefault(_functionOverloader);
 
@@ -896,25 +941,25 @@ exports.default = ModelManager;
 /* WEBPACK VAR INJECTION */}.call(exports, "/"))
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports) {
 
 module.exports = require("sequelize");
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports) {
 
 module.exports = require("function-overloader");

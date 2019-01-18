@@ -179,33 +179,61 @@ describe("Horpyrion", () => {
                                         ]);
                                     });
                             });
+                        });
 
-                            describe("when record context is set", () => {
-                                describe("when updating record", () => {
-                                    it("should return updated record", () => {
-                                        return horpyrion
-                                            .setRootUser()
-                                            .setSchema(SCHEMA_ID)
-                                            .setRecord(RECORD_ID)
-                                            .updateRecord({
-                                                testA: "AAA2",
-                                                testB: "BBB2"
-                                            })
-                                            .then(() => {
-                                                return horpyrion
-                                                    .setRootUser()
-                                                    .setSchema(SCHEMA_ID)
-                                                    .getRecord(RECORD_ID)
-                                                    .then(resp => {
-                                                        expect(resp).to.deep.include({
-                                                            id: RECORD_ID,
+                        describe("when record context is set", () => {
+                            describe("when updating record", () => {
+                                it("should return true", () => {
+                                    return horpyrion
+                                        .setRootUser()
+                                        .setSchema(SCHEMA_ID)
+                                        .setRecord(RECORD_ID)
+                                        .updateRecord({
+                                            testA: "AAA2",
+                                            testB: "BBB2"
+                                        })
+                                        .then(resp => {
+                                            expect(resp).to.be.true();
+                                            return horpyrion
+                                                .setRootUser()
+                                                .setSchema(SCHEMA_ID)
+                                                .getRecord(RECORD_ID)
+                                                .then(resp => {
+                                                    expect(resp).to.deep.include({
+                                                        id: RECORD_ID,
+                                                        data: { testA: "AAA2", testB: "BBB2" },
+                                                        UserId: null,
+                                                        SchemaId: 1
+                                                    });
+                                                });
+                                        });
+                                });
+                            });
+                            describe("when removing record", () => {
+                                it("should return true", () => {
+                                    return horpyrion
+                                        .setRootUser()
+                                        .setSchema(SCHEMA_ID)
+                                        .setRecord(RECORD_ID)
+                                        .removeRecord()
+                                        .then(resp => {
+                                            expect(resp).to.be.true();
+                                            return horpyrion
+                                                .setRootUser()
+                                                .setSchema(SCHEMA_ID)
+                                                .getRecords()
+                                                .then(resp => {
+                                                    expect(resp.length).to.be.equal(1);
+                                                    expect(resp).to.containSubset([
+                                                        {
+                                                            id: 2,
                                                             data: { testA: "AAA2", testB: "BBB2" },
                                                             UserId: null,
                                                             SchemaId: 1
-                                                        });
-                                                    });
-                                            });
-                                    });
+                                                        }
+                                                    ]);
+                                                });
+                                        });
                                 });
                             });
                         });
@@ -231,7 +259,7 @@ describe("Horpyrion", () => {
                                 return horpyrion
                                     .setRootUser()
                                     .setSchema(SCHEMA_ID)
-                                    .updateRecord(RECORD_ID, { testA: "AAA2", testB: "BBB2" })
+                                    .updateRecord(RECORD_ID, { testA: "AAA3", testB: "BBB3" })
                                     .then(() => {
                                         return horpyrion
                                             .setRootUser()
@@ -240,7 +268,7 @@ describe("Horpyrion", () => {
                                             .then(resp => {
                                                 expect(resp).to.deep.include({
                                                     id: RECORD_ID,
-                                                    data: { testA: "AAA2", testB: "BBB2" },
+                                                    data: { testA: "AAA3", testB: "BBB3" },
                                                     UserId: null,
                                                     SchemaId: 1
                                                 });
@@ -395,37 +423,63 @@ describe("Horpyrion", () => {
                                         ]);
                                     });
                             });
+                        });
 
-                            describe("when record context is set", () => {
-                                describe("when updating record", () => {
-                                    it("should return updated record", () => {
-                                        return horpyrion
-                                            .setUser()
-                                            .setSchema(SCHEMA_ID)
-                                            .setRecord(RECORD_ID)
-                                            .updateRecord({
-                                                testA: "AAA2",
-                                                testB: "BBB2"
-                                            })
-                                            .then(() => {
-                                                return horpyrion
-                                                    .setRootUser()
-                                                    .setSchema(SCHEMA_ID)
-                                                    .getRecord(RECORD_ID)
-                                                    .then(resp => {
-                                                        expect(resp).to.deep.include({
-                                                            id: RECORD_ID,
+                        describe("when record context is set", () => {
+                            describe("when updating record", () => {
+                                it("should return updated record", () => {
+                                    return horpyrion
+                                        .setUser()
+                                        .setSchema(SCHEMA_ID)
+                                        .setRecord(RECORD_ID)
+                                        .updateRecord({
+                                            testA: "AAA3",
+                                            testB: "BBB3"
+                                        })
+                                        .then(() => {
+                                            return horpyrion
+                                                .setRootUser()
+                                                .setSchema(SCHEMA_ID)
+                                                .getRecord(RECORD_ID)
+                                                .then(resp => {
+                                                    expect(resp).to.deep.include({
+                                                        id: RECORD_ID,
+                                                        data: { testA: "AAA3", testB: "BBB3" },
+                                                        UserId: null,
+                                                        SchemaId: 1
+                                                    });
+                                                });
+                                        });
+                                });
+                            });
+                            describe("when removing record", () => {
+                                it("should return true", () => {
+                                    return horpyrion
+                                        .setRootUser()
+                                        .setSchema(SCHEMA_ID)
+                                        .setRecord(RECORD_ID)
+                                        .removeRecord()
+                                        .then(resp => {
+                                            expect(resp).to.be.true();
+                                            return horpyrion
+                                                .setRootUser()
+                                                .setSchema(SCHEMA_ID)
+                                                .getRecords()
+                                                .then(resp => {
+                                                    expect(resp.length).to.be.equal(1);
+                                                    expect(resp).to.containSubset([
+                                                        {
+                                                            id: 2,
                                                             data: { testA: "AAA2", testB: "BBB2" },
                                                             UserId: null,
                                                             SchemaId: 1
-                                                        });
-                                                    });
-                                            });
-                                    });
+                                                        }
+                                                    ]);
+                                                });
+                                        });
                                 });
                             });
                         });
-
                         describe("when getting record", () => {
                             it("should return null", () => {
                                 return horpyrion
