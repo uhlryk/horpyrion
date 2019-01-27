@@ -50,19 +50,28 @@ describe("Horpyrion", () => {
             });
 
             describe("when there is root user context", () => {
-                describe("when creating schema", () => {
-                    it("should return schema data", () => {
-                        return horpyrion
-                            .setRootUser()
-                            .createSchema("SOME_RESOURCE")
-                            .then(resp => {
-                                expect(resp).to.containSubset({
-                                    id: expectedValue => expectedValue,
-                                    name: "SOME_RESOURCE",
-                                    UserId: null
-                                });
+                it("should create and return schema data", () => {
+                    return horpyrion
+                        .setRootUser()
+                        .createSchema("SOME_RESOURCE")
+                        .then(resp => {
+                            expect(resp).to.containSubset({
+                                id: expectedValue => expectedValue,
+                                name: "SOME_RESOURCE",
+                                UserId: null
                             });
-                    });
+                        });
+                });
+                it("should create and return user data", () => {
+                    return horpyrion
+                        .setRootUser()
+                        .createUser("Joe_Doe")
+                        .then(resp => {
+                            expect(resp).to.containSubset({
+                                id: expectedValue => expectedValue,
+                                name: "Joe_Doe"
+                            });
+                        });
                 });
                 describe("when there is specific schema context", () => {
                     let SCHEMA_ID;
@@ -350,22 +359,31 @@ describe("Horpyrion", () => {
             });
 
             describe("when there is standard user context", () => {
-                const USER_ID = "USER_ID";
+                let USER_ID;
                 let SCHEMA_ID;
-                describe("when creating schema", () => {
-                    it("should return schema data", () => {
-                        return horpyrion
-                            .setUser(USER_ID)
-                            .createSchema("SOME_RESOURCE")
-                            .then(resp => {
-                                expect(resp).to.containSubset({
-                                    id: expectedValue => expectedValue,
-                                    name: "SOME_RESOURCE",
-                                    UserId: null
-                                });
-                            });
-                    });
+
+                beforeEach(() => {
+                    return horpyrion
+                        .setRootUser()
+                        .createUser("SOME_USER")
+                        .then(user => {
+                            USER_ID = user.id;
+                        });
                 });
+
+                it("should create and return schema data", () => {
+                    return horpyrion
+                        .setUser(USER_ID)
+                        .createSchema("SOME_RESOURCE")
+                        .then(resp => {
+                            expect(resp).to.containSubset({
+                                id: expectedValue => expectedValue,
+                                name: "SOME_RESOURCE",
+                                UserId: null
+                            });
+                        });
+                });
+
                 describe("when there is specific schema context", () => {
                     beforeEach(() => {
                         return horpyrion
