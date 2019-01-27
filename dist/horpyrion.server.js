@@ -321,6 +321,15 @@ var UserContext = function () {
             return new _SchemaContext2.default(schemaId, this._userContextAction, this._modelManager);
         }
     }, {
+        key: "getData",
+        value: function getData() {
+            var _this = this;
+
+            return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
+                return _this._userContextAction();
+            });
+        }
+    }, {
         key: "createUser",
         value: function createUser() {
             return false;
@@ -422,14 +431,23 @@ var SchemaContext = function () {
             return addAttribute;
         }()
     }, {
+        key: "getData",
+        value: function getData() {
+            var _this = this;
+
+            return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
+                return _this._schemaContextAction();
+            });
+        }
+    }, {
         key: "getRecord",
         value: function getRecord(recordId) {
-            var _this = this;
+            var _this2 = this;
 
             var getRecordAction = (0, _getRecordFactory2.default)(recordId, this._modelManager);
 
             return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
-                return _this._schemaContextAction();
+                return _this2._schemaContextAction();
             }).then(function (schema) {
                 return getRecordAction(schema.id);
             }).then(function (record) {
@@ -443,12 +461,12 @@ var SchemaContext = function () {
     }, {
         key: "getRecords",
         value: function getRecords(query) {
-            var _this2 = this;
+            var _this3 = this;
 
             var getRecordListAction = (0, _getRecordListFactory2.default)(query, this._modelManager);
 
             return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
-                return _this2._schemaContextAction();
+                return _this3._schemaContextAction();
             }).then(function (schema) {
                 return getRecordListAction(schema.id);
             }).then(function (recordList) {
@@ -458,12 +476,12 @@ var SchemaContext = function () {
     }, {
         key: "createRecord",
         value: function createRecord(data) {
-            var _this3 = this;
+            var _this4 = this;
 
             var createRecordAction = (0, _createRecordFactory2.default)(data, this._modelManager);
 
             return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
-                return _this3._schemaContextAction();
+                return _this4._schemaContextAction();
             }).then(function (schema) {
                 return createRecordAction(schema.id);
             }).then(function (record) {
@@ -473,12 +491,12 @@ var SchemaContext = function () {
     }, {
         key: "updateRecord",
         value: function updateRecord(recordId, data) {
-            var _this4 = this;
+            var _this5 = this;
 
             var updateRecordAction = (0, _updateRecordFactory2.default)(data, this._modelManager);
 
             return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
-                return _this4._schemaContextAction();
+                return _this5._schemaContextAction();
             }).then(function (schema) {
                 return updateRecordAction(recordId, schema.id);
             }).then(function () {
@@ -488,12 +506,12 @@ var SchemaContext = function () {
     }, {
         key: "removeRecord",
         value: function removeRecord(recordId) {
-            var _this5 = this;
+            var _this6 = this;
 
             var removeRecordAction = (0, _removeRecordFactory2.default)(this._modelManager);
 
             return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
-                return _this5._schemaContextAction();
+                return _this6._schemaContextAction();
             }).then(function (schema) {
                 return removeRecordAction(recordId, schema.id);
             }).then(function () {
@@ -702,6 +720,17 @@ var RecordContext = function () {
                 });
             }).then(function () {
                 return true;
+            });
+        }
+    }, {
+        key: "getData",
+        value: function getData() {
+            var _this3 = this;
+
+            return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
+                return _this3._schemaContextAction();
+            }).then(function (schema) {
+                return _this3._recordContextAction(schema.id);
             });
         }
     }]);

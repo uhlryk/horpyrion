@@ -20,6 +20,10 @@ export default class UserContext {
         return new SchemaContext(schemaId, this._userContextAction, this._modelManager);
     }
 
+    getData() {
+        return throwIfNoSync(this._modelManager).then(() => this._userContextAction());
+    }
+
     createUser() {
         return false;
     }

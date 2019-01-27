@@ -22,6 +22,10 @@ export default class SchemaContext {
         return false;
     }
 
+    getData() {
+        return throwIfNoSync(this._modelManager).then(() => this._schemaContextAction());
+    }
+
     getRecord(recordId) {
         const getRecordAction = getRecordFactory(recordId, this._modelManager);
 

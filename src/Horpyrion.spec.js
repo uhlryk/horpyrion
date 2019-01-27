@@ -75,6 +75,20 @@ describe("Horpyrion", () => {
                             });
                     });
 
+                    it("should return schema data", () => {
+                        return horpyrion
+                            .setRootUser()
+                            .setSchema(SCHEMA_ID)
+                            .getData()
+                            .then(resp => {
+                                expect(resp).to.containSubset({
+                                    id: expectedValue => expectedValue,
+                                    name: "SOME_RESOURCE",
+                                    UserId: null
+                                });
+                            });
+                    });
+
                     describe("when creating attribute", () => {
                         it("should return false", () => {
                             return horpyrion
@@ -169,13 +183,13 @@ describe("Horpyrion", () => {
                                                 id: expectedValue => expectedValue,
                                                 data: { testA: "AAA1", testB: "BBB1" },
                                                 UserId: null,
-                                                SchemaId: expectedValue => expectedValue
+                                                SchemaId: SCHEMA_ID
                                             },
                                             {
                                                 id: expectedValue => expectedValue,
                                                 data: { testA: "AAA2", testB: "BBB2" },
                                                 UserId: null,
-                                                SchemaId: expectedValue => expectedValue
+                                                SchemaId: SCHEMA_ID
                                             }
                                         ]);
                                     });
@@ -183,6 +197,22 @@ describe("Horpyrion", () => {
                         });
 
                         describe("when record context is set", () => {
+                            it("should return record data", () => {
+                                return horpyrion
+                                    .setRootUser()
+                                    .setSchema(SCHEMA_ID)
+                                    .setRecord(RECORD_ID)
+                                    .getData()
+                                    .then(resp => {
+                                        expect(resp).to.containSubset({
+                                            id: expectedValue => expectedValue,
+                                            data: { testA: "AAA1", testB: "BBB1" },
+                                            UserId: null,
+                                            SchemaId: SCHEMA_ID
+                                        });
+                                    });
+                            });
+
                             describe("when updating record", () => {
                                 it("should return true", () => {
                                     return horpyrion
@@ -204,7 +234,7 @@ describe("Horpyrion", () => {
                                                         id: RECORD_ID,
                                                         data: { testA: "AAA2", testB: "BBB2" },
                                                         UserId: null,
-                                                        SchemaId: expectedValue => expectedValue
+                                                        SchemaId: SCHEMA_ID
                                                     });
                                                 });
                                         });
@@ -230,7 +260,7 @@ describe("Horpyrion", () => {
                                                             id: expectedValue => expectedValue,
                                                             data: { testA: "AAA2", testB: "BBB2" },
                                                             UserId: null,
-                                                            SchemaId: expectedValue => expectedValue
+                                                            SchemaId: SCHEMA_ID
                                                         }
                                                     ]);
                                                 });
@@ -250,7 +280,7 @@ describe("Horpyrion", () => {
                                             id: RECORD_ID,
                                             data: { testA: "AAA1", testB: "BBB1" },
                                             UserId: null,
-                                            SchemaId: expectedValue => expectedValue
+                                            SchemaId: SCHEMA_ID
                                         });
                                     });
                             });
@@ -271,7 +301,7 @@ describe("Horpyrion", () => {
                                                     id: RECORD_ID,
                                                     data: { testA: "AAA3", testB: "BBB3" },
                                                     UserId: null,
-                                                    SchemaId: expectedValue => expectedValue
+                                                    SchemaId: SCHEMA_ID
                                                 });
                                             });
                                     });
@@ -297,7 +327,7 @@ describe("Horpyrion", () => {
                                                         id: expectedValue => expectedValue,
                                                         data: { testA: "AAA2", testB: "BBB2" },
                                                         UserId: null,
-                                                        SchemaId: expectedValue => expectedValue
+                                                        SchemaId: SCHEMA_ID
                                                     }
                                                 ]);
                                             });
@@ -345,6 +375,21 @@ describe("Horpyrion", () => {
                                 SCHEMA_ID = schema.id;
                             });
                     });
+
+                    it("should return schema data", () => {
+                        return horpyrion
+                            .setUser(USER_ID)
+                            .setSchema(SCHEMA_ID)
+                            .getData()
+                            .then(resp => {
+                                expect(resp).to.containSubset({
+                                    id: expectedValue => expectedValue,
+                                    name: "SOME_RESOURCE",
+                                    UserId: null
+                                });
+                            });
+                    });
+
                     describe("when creating attribute", () => {
                         it("should return false", () => {
                             return horpyrion
@@ -454,6 +499,22 @@ describe("Horpyrion", () => {
                         });
 
                         describe("when record context is set", () => {
+                            it("should return record data", () => {
+                                return horpyrion
+                                    .setUser()
+                                    .setSchema(SCHEMA_ID)
+                                    .setRecord(RECORD_ID)
+                                    .getData()
+                                    .then(resp => {
+                                        expect(resp).to.containSubset({
+                                            id: expectedValue => expectedValue,
+                                            data: { testA: "AAA1", testB: "BBB1" },
+                                            UserId: null,
+                                            SchemaId: SCHEMA_ID
+                                        });
+                                    });
+                            });
+
                             describe("when updating record", () => {
                                 it("should return updated record", () => {
                                     return horpyrion

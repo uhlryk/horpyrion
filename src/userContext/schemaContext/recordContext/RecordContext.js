@@ -32,4 +32,10 @@ export default class RecordContext {
             )
             .then(() => true);
     }
+
+    getData() {
+        return throwIfNoSync(this._modelManager)
+            .then(() => this._schemaContextAction())
+            .then(schema => this._recordContextAction(schema.id));
+    }
 }
