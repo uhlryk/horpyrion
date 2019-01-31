@@ -2,7 +2,7 @@ import SchemaContext from "./schemaContext/SchemaContext";
 import createSchemaFactory from "../actions/createSchemaFactory";
 import throwIfNoSync from "../throwIfNoSync";
 import getUserContextFactory from "./getUserContextFactory";
-import createUserFactory from "../actions/createUserFactory";
+import UserSchemaContext from "./schemaContext/UserSchemaContext";
 
 export default class UserContext {
     constructor(userId, modelManager) {
@@ -17,15 +17,12 @@ export default class UserContext {
             .then(schema => schema.toJSON());
     }
 
-    createUser(userName) {
-        const createUserAction = createUserFactory(userName, this._modelManager);
-        return throwIfNoSync(this._modelManager)
-            .then(() => createUserAction())
-            .then(user => user.toJSON());
-    }
-
     setSchema(schemaId) {
         return new SchemaContext(schemaId, this._userContextAction, this._modelManager);
+    }
+
+    setUserSchema() {
+        return new UserSchemaContext(this._userContextAction, this._modelManager);
     }
 
     getData() {

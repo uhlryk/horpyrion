@@ -65,11 +65,12 @@ describe("Horpyrion", () => {
                 it("should create and return user data", () => {
                     return horpyrion
                         .setRootUser()
-                        .createUser("Joe_Doe")
+                        .setUserSchema()
+                        .createRecord("SOME_USER")
                         .then(resp => {
                             expect(resp).to.containSubset({
                                 id: expectedValue => expectedValue,
-                                name: "Joe_Doe"
+                                name: "SOME_USER"
                             });
                         });
                 });
@@ -365,7 +366,8 @@ describe("Horpyrion", () => {
                 beforeEach(() => {
                     return horpyrion
                         .setRootUser()
-                        .createUser("SOME_USER")
+                        .setUserSchema()
+                        .createRecord("SOME_USER")
                         .then(user => {
                             USER_ID = user.id;
                         });

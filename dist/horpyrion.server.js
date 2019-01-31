@@ -191,11 +191,11 @@ var _UserContext = __webpack_require__(7);
 
 var _UserContext2 = _interopRequireDefault(_UserContext);
 
-var _RootUser = __webpack_require__(18);
+var _RootUser = __webpack_require__(19);
 
 var _RootUser2 = _interopRequireDefault(_RootUser);
 
-var _ModelManager = __webpack_require__(19);
+var _ModelManager = __webpack_require__(20);
 
 var _ModelManager2 = _interopRequireDefault(_ModelManager);
 
@@ -293,9 +293,9 @@ var _getUserContextFactory = __webpack_require__(16);
 
 var _getUserContextFactory2 = _interopRequireDefault(_getUserContextFactory);
 
-var _createUserFactory = __webpack_require__(17);
+var _UserSchemaContext = __webpack_require__(17);
 
-var _createUserFactory2 = _interopRequireDefault(_createUserFactory);
+var _UserSchemaContext2 = _interopRequireDefault(_UserSchemaContext);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -320,19 +320,14 @@ var UserContext = function () {
             });
         }
     }, {
-        key: "createUser",
-        value: function createUser(userName) {
-            var createUserAction = (0, _createUserFactory2.default)(userName, this._modelManager);
-            return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
-                return createUserAction();
-            }).then(function (user) {
-                return user.toJSON();
-            });
-        }
-    }, {
         key: "setSchema",
         value: function setSchema(schemaId) {
             return new _SchemaContext2.default(schemaId, this._userContextAction, this._modelManager);
+        }
+    }, {
+        key: "setUserSchema",
+        value: function setUserSchema() {
+            return new _UserSchemaContext2.default(this._userContextAction, this._modelManager);
         }
     }, {
         key: "getData",
@@ -831,6 +826,56 @@ function getContextUserFactory(userId, modelManager) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _throwIfNoSync = __webpack_require__(0);
+
+var _throwIfNoSync2 = _interopRequireDefault(_throwIfNoSync);
+
+var _createUserFactory = __webpack_require__(18);
+
+var _createUserFactory2 = _interopRequireDefault(_createUserFactory);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var UserSchemaContext = function () {
+    function UserSchemaContext(userContextAction, modelManager) {
+        _classCallCheck(this, UserSchemaContext);
+
+        this._userContextAction = userContextAction;
+        this._modelManager = modelManager;
+    }
+
+    _createClass(UserSchemaContext, [{
+        key: "createRecord",
+        value: function createRecord(userName) {
+            var createUserAction = (0, _createUserFactory2.default)(userName, this._modelManager);
+            return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
+                return createUserAction();
+            }).then(function (user) {
+                return user.toJSON();
+            });
+        }
+    }]);
+
+    return UserSchemaContext;
+}();
+
+exports.default = UserSchemaContext;
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 exports.default = createUserFactory;
 function createUserFactory(userName, modelManager) {
     return function () {
@@ -843,7 +888,7 @@ function createUserFactory(userName, modelManager) {
 }
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -856,7 +901,7 @@ var ROOT_USER_ID = Symbol("ROOT_USER_ID");
 exports.default = ROOT_USER_ID;
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -868,19 +913,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _fs = __webpack_require__(20);
+var _fs = __webpack_require__(21);
 
 var _fs2 = _interopRequireDefault(_fs);
 
-var _path = __webpack_require__(21);
+var _path = __webpack_require__(22);
 
 var _path2 = _interopRequireDefault(_path);
 
-var _sequelize = __webpack_require__(22);
+var _sequelize = __webpack_require__(23);
 
 var _sequelize2 = _interopRequireDefault(_sequelize);
 
-var _functionOverloader = __webpack_require__(23);
+var _functionOverloader = __webpack_require__(24);
 
 var _functionOverloader2 = _interopRequireDefault(_functionOverloader);
 
@@ -1000,25 +1045,25 @@ exports.default = ModelManager;
 /* WEBPACK VAR INJECTION */}.call(exports, "/"))
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports) {
 
 module.exports = require("sequelize");
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports) {
 
 module.exports = require("function-overloader");
