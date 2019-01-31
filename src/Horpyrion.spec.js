@@ -74,6 +74,29 @@ describe("Horpyrion", () => {
                             });
                         });
                 });
+
+                describe("when there is user record", () => {
+                    let USER_ID;
+                    beforeEach(() => {
+                        return horpyrion
+                            .setRootUser()
+                            .setUserSchema()
+                            .createRecord("SOME_USER")
+                            .then(user => {
+                                USER_ID = user.id;
+                            });
+                    });
+
+                    it("should update user record", () => {
+                        return horpyrion
+                            .setRootUser()
+                            .setUserSchema()
+                            .updateRecord(USER_ID, "SOME_USER")
+                            .then(resp => {
+                                expect(resp).to.be.true();
+                            });
+                    });
+                });
                 describe("when there is specific schema context", () => {
                     let SCHEMA_ID;
                     beforeEach(() => {
