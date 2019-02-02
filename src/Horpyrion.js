@@ -1,4 +1,4 @@
-import UserContext from "./userContext/UserContext";
+import UserContext from "./contexts/userContext/UserContext";
 import RootUser from "./RootUser";
 import ModelManager from "./ModelManager";
 

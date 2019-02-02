@@ -3,7 +3,7 @@ import getRecordListFactory from "./actions/getRecordListFactory";
 import getRecordFactory from "./actions/getRecordFactory";
 import updateRecordFactory from "./actions/updateRecordFactory";
 import removeRecordFactory from "./actions/removeRecordFactory";
-import throwIfNoSync from "../throwIfNoSync";
+import throwIfNoSync from "../../throwIfNoSync";
 import getSchemaContextFactory from "./contextActions/getSchemaContextFactory";
 import RecordContext from "../recordContext/RecordContext";
 

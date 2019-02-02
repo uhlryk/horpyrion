@@ -1,4 +1,4 @@
-import throwIfNoSync from "../throwIfNoSync";
+import throwIfNoSync from "../../throwIfNoSync";
 import createUserRecordFactory from "./actions/createUserRecordFactory";
 import updateUserRecordFactory from "./actions/updateUserRecordFactory";
 
