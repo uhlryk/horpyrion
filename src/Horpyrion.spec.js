@@ -87,6 +87,34 @@ describe("Horpyrion", () => {
                             });
                     });
 
+                    it("should return user record", () => {
+                        return horpyrion
+                            .setRootUser()
+                            .setUserSchema()
+                            .getRecord(USER_ID)
+                            .then(resp => {
+                                expect(resp).to.containSubset({
+                                    id: USER_ID,
+                                    name: "SOME_USER"
+                                });
+                            });
+                    });
+
+                    it("should return user record list", () => {
+                        return horpyrion
+                            .setRootUser()
+                            .setUserSchema()
+                            .getRecords()
+                            .then(resp => {
+                                expect(resp).to.containSubset([
+                                    {
+                                        id: USER_ID,
+                                        name: "SOME_USER"
+                                    }
+                                ]);
+                            });
+                    });
+
                     it("should update user record", () => {
                         return horpyrion
                             .setRootUser()

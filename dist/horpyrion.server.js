@@ -143,11 +143,11 @@ var _UserContext = __webpack_require__(5);
 
 var _UserContext2 = _interopRequireDefault(_UserContext);
 
-var _RootUser = __webpack_require__(22);
+var _RootUser = __webpack_require__(24);
 
 var _RootUser2 = _interopRequireDefault(_RootUser);
 
-var _ModelManager = __webpack_require__(23);
+var _ModelManager = __webpack_require__(25);
 
 var _ModelManager2 = _interopRequireDefault(_ModelManager);
 
@@ -889,6 +889,14 @@ var _updateUserRecordFactory = __webpack_require__(21);
 
 var _updateUserRecordFactory2 = _interopRequireDefault(_updateUserRecordFactory);
 
+var _getUserRecordFactory = __webpack_require__(22);
+
+var _getUserRecordFactory2 = _interopRequireDefault(_getUserRecordFactory);
+
+var _getUserRecordListFactory = __webpack_require__(23);
+
+var _getUserRecordListFactory2 = _interopRequireDefault(_getUserRecordListFactory);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -920,6 +928,32 @@ var UserSchemaContext = function () {
                 return updateUserRecordAction(recordId);
             }).then(function () {
                 return true;
+            });
+        }
+    }, {
+        key: "getRecord",
+        value: function getRecord(recordId) {
+            var getUserRecordAction = (0, _getUserRecordFactory2.default)(recordId, this._modelManager);
+
+            return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
+                return getUserRecordAction();
+            }).then(function (userRecord) {
+                if (userRecord) {
+                    return userRecord;
+                } else {
+                    return null;
+                }
+            });
+        }
+    }, {
+        key: "getRecords",
+        value: function getRecords(query) {
+            var getUserRecordListAction = (0, _getUserRecordListFactory2.default)(query, this._modelManager);
+
+            return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
+                return getUserRecordListAction();
+            }).then(function (userRecordList) {
+                return userRecordList;
             });
         }
     }]);
@@ -983,13 +1017,59 @@ function updateUserRecordFactory(userName, modelManager) {
 
 
 Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = getUserRecordListFactory;
+function getUserRecordListFactory(recordId, modelManager) {
+    return function () {
+        return modelManager.getModels().User.findOne({
+            where: {
+                id: recordId
+            },
+            raw: true
+        }).then(function (userRecord) {
+            return userRecord;
+        });
+    };
+}
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = getUserRecordListFactory;
+function getUserRecordListFactory(query, modelManager) {
+    return function () {
+        return modelManager.getModels().User.findAll({
+            where: {},
+            raw: true
+        }).then(function (userRecordList) {
+            return userRecordList;
+        });
+    };
+}
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var ROOT_USER_ID = Symbol("ROOT_USER_ID");
 exports.default = ROOT_USER_ID;
 
 /***/ }),
-/* 23 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1001,19 +1081,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _fs = __webpack_require__(24);
+var _fs = __webpack_require__(26);
 
 var _fs2 = _interopRequireDefault(_fs);
 
-var _path = __webpack_require__(25);
+var _path = __webpack_require__(27);
 
 var _path2 = _interopRequireDefault(_path);
 
-var _sequelize = __webpack_require__(26);
+var _sequelize = __webpack_require__(28);
 
 var _sequelize2 = _interopRequireDefault(_sequelize);
 
-var _functionOverloader = __webpack_require__(27);
+var _functionOverloader = __webpack_require__(29);
 
 var _functionOverloader2 = _interopRequireDefault(_functionOverloader);
 
@@ -1133,25 +1213,25 @@ exports.default = ModelManager;
 /* WEBPACK VAR INJECTION */}.call(exports, "/"))
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ }),
-/* 25 */
+/* 27 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(module, exports) {
 
 module.exports = require("sequelize");
 
 /***/ }),
-/* 27 */
+/* 29 */
 /***/ (function(module, exports) {
 
 module.exports = require("function-overloader");
