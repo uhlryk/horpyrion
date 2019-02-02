@@ -1,8 +1,8 @@
-import SchemaContext from "./schemaContext/SchemaContext";
-import createSchemaFactory from "../actions/createSchemaFactory";
+import SchemaContext from "../schemaContext/SchemaContext";
+import createSchemaFactory from "./actions/createSchemaFactory";
 import throwIfNoSync from "../throwIfNoSync";
-import getUserContextFactory from "./getUserContextFactory";
-import UserSchemaContext from "./schemaContext/UserSchemaContext";
+import getUserContextFactory from "./contextActions/getUserContextFactory";
+import UserSchemaContext from "../schemaContext/UserSchemaContext";
 
 export default class UserContext {
     constructor(userId, modelManager) {

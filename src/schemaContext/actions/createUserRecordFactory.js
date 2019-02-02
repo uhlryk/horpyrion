@@ -1,4 +1,4 @@
-export default function createUserFactory(userName, modelManager) {
+export default function createUserRecordFactory(userName, modelManager) {
     return () =>
         modelManager
             .getModels()

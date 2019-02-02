@@ -1,4 +1,4 @@
-export default function updateRecordFactory(userName, modelManager) {
+export default function updateUserRecordFactory(userName, modelManager) {
     return recordId =>
         modelManager
             .getModels()

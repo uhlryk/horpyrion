@@ -1,7 +1,7 @@
-import updateRecordFactory from "../../../actions/updateRecordFactory";
-import removeRecordFactory from "../../../actions/removeRecordFactory";
-import throwIfNoSync from "../../../throwIfNoSync";
-import getRecordContextFactory from "./getRecordContextFactory";
+import updateRecordFactory from "./actions/updateRecordFactory";
+import removeRecordFactory from "./actions/removeRecordFactory";
+import throwIfNoSync from "../throwIfNoSync";
+import getRecordContextFactory from "./contextActions/getRecordContextFactory";
 
 export default class RecordContext {
     constructor(recordId, schemaContextAction, userContextAction, modelManager) {

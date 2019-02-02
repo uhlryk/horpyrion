@@ -1,11 +1,11 @@
-import createRecordFactory from "../../actions/createRecordFactory";
-import getRecordListFactory from "../../actions/getRecordListFactory";
-import getRecordFactory from "../../actions/getRecordFactory";
-import updateRecordFactory from "../../actions/updateRecordFactory";
-import removeRecordFactory from "../../actions/removeRecordFactory";
-import throwIfNoSync from "../../throwIfNoSync";
-import getSchemaContextFactory from "./getSchemaContextFactory";
-import RecordContext from "./recordContext/RecordContext";
+import createRecordFactory from "./actions/createRecordFactory";
+import getRecordListFactory from "./actions/getRecordListFactory";
+import getRecordFactory from "./actions/getRecordFactory";
+import updateRecordFactory from "./actions/updateRecordFactory";
+import removeRecordFactory from "./actions/removeRecordFactory";
+import throwIfNoSync from "../throwIfNoSync";
+import getSchemaContextFactory from "./contextActions/getSchemaContextFactory";
+import RecordContext from "../recordContext/RecordContext";
 
 export default class SchemaContext {
     constructor(schemaId, userContextAction, modelManager) {
