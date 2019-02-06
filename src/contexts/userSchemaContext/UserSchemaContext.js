@@ -2,7 +2,7 @@ import throwIfNoSync from "../../throwIfNoSync";
 import createFactory from "../actions/createFactory";
 import updateUserRecordFactory from "./actions/updateUserRecordFactory";
 import getUserRecordFactory from "./actions/getUserRecordFactory";
-import getUserRecordListFactory from "./actions/getUserRecordListFactory";
+import getListFactory from "../actions/getListFactory";
 
 export default class UserSchemaContext {
     constructor(userContextAction, modelManager) {
@@ -40,7 +40,7 @@ export default class UserSchemaContext {
     }
 
     getRecords(query) {
-        const getUserRecordListAction = getUserRecordListFactory(query, this._modelManager);
+        const getUserRecordListAction = getListFactory("User", query, this._modelManager);
 
         return throwIfNoSync(this._modelManager)
             .then(() => getUserRecordListAction())

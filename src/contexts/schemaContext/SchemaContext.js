@@ -1,5 +1,5 @@
 import createFactory from "../actions/createFactory";
-import getRecordListFactory from "./actions/getRecordListFactory";
+import getListFactory from "../actions/getListFactory";
 import getRecordFactory from "./actions/getRecordFactory";
 import updateRecordFactory from "./actions/updateRecordFactory";
 import removeRecordFactory from "./actions/removeRecordFactory";
@@ -42,11 +42,11 @@ export default class SchemaContext {
     }
 
     getRecords(query) {
-        const getRecordListAction = getRecordListFactory(query, this._modelManager);
+        const getRecordListAction = getListFactory("Record", query, this._modelManager);
 
         return throwIfNoSync(this._modelManager)
             .then(() => this._schemaContextAction())
-            .then(schema => getRecordListAction(schema.id))
+            .then(schema => getRecordListAction({ SchemaId: schema.id }))
             .then(recordList => recordList);
     }
 
