@@ -1,4 +1,4 @@
-import createRecordFactory from "./actions/createRecordFactory";
+import createFactory from "../actions/createFactory";
 import getRecordListFactory from "./actions/getRecordListFactory";
 import getRecordFactory from "./actions/getRecordFactory";
 import updateRecordFactory from "./actions/updateRecordFactory";
@@ -51,11 +51,11 @@ export default class SchemaContext {
     }
 
     createRecord(data) {
-        const createRecordAction = createRecordFactory(data, this._modelManager);
+        const createRecordAction = createFactory("Record", { data: data }, this._modelManager);
 
         return throwIfNoSync(this._modelManager)
             .then(() => this._schemaContextAction())
-            .then(schema => createRecordAction(schema.id))
+            .then(schema => createRecordAction({ SchemaId: schema.id }))
             .then(record => record.toJSON());
     }
 

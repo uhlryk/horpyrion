@@ -1,5 +1,5 @@
 import throwIfNoSync from "../../throwIfNoSync";
-import createUserRecordFactory from "./actions/createUserRecordFactory";
+import createFactory from "../actions/createFactory";
 import updateUserRecordFactory from "./actions/updateUserRecordFactory";
 import getUserRecordFactory from "./actions/getUserRecordFactory";
 import getUserRecordListFactory from "./actions/getUserRecordListFactory";
@@ -10,8 +10,8 @@ export default class UserSchemaContext {
         this._modelManager = modelManager;
     }
 
-    createRecord(data) {
-        const createUserRecordAction = createUserRecordFactory(data, this._modelManager);
+    createRecord(name) {
+        const createUserRecordAction = createFactory("User", { name: name }, this._modelManager);
         return throwIfNoSync(this._modelManager)
             .then(() => createUserRecordAction())
             .then(user => user.toJSON());
