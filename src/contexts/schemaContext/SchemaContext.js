@@ -2,7 +2,7 @@ import createFactory from "../actions/createFactory";
 import getFactory from "../actions/getFactory";
 import getListFactory from "../actions/getListFactory";
 import updateFactory from "../actions/updateFactory";
-import removeRecordFactory from "./actions/removeRecordFactory";
+import removeFactory from "../actions/removeFactory";
 import throwIfNoSync from "../../throwIfNoSync";
 import getSchemaContextFactory from "./contextActions/getSchemaContextFactory";
 import RecordContext from "../recordContext/RecordContext";
@@ -70,11 +70,11 @@ export default class SchemaContext {
     }
 
     removeRecord(recordId) {
-        const removeRecordAction = removeRecordFactory(this._modelManager);
+        const removeRecordAction = removeFactory("Record", this._modelManager);
 
         return throwIfNoSync(this._modelManager)
             .then(() => this._schemaContextAction())
-            .then(schema => removeRecordAction(recordId, schema.id))
+            .then(() => removeRecordAction(recordId))
             .then(() => true);
     }
 
