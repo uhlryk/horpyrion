@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -125,6 +125,30 @@ function createFactory(modelId) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.default = getFactory;
+function getFactory(modelId, elementId, modelManager) {
+    return function () {
+        return modelManager.getModels()[modelId].findOne({
+            where: {
+                id: elementId
+            },
+            raw: true
+        }).then(function (record) {
+            return record;
+        });
+    };
+}
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 exports.default = getListFactory;
 function getListFactory(modelId) {
     var whereData = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -142,21 +166,21 @@ function getListFactory(modelId) {
 }
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(4);
-module.exports = __webpack_require__(5);
+__webpack_require__(5);
+module.exports = __webpack_require__(6);
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-polyfill");
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -167,7 +191,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _Horpyrion = __webpack_require__(6);
+var _Horpyrion = __webpack_require__(7);
 
 var _Horpyrion2 = _interopRequireDefault(_Horpyrion);
 
@@ -176,7 +200,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _Horpyrion2.default;
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -188,15 +212,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _UserContext = __webpack_require__(7);
+var _UserContext = __webpack_require__(8);
 
 var _UserContext2 = _interopRequireDefault(_UserContext);
 
-var _RootUser = __webpack_require__(21);
+var _RootUser = __webpack_require__(20);
 
 var _RootUser2 = _interopRequireDefault(_RootUser);
 
-var _ModelManager = __webpack_require__(22);
+var _ModelManager = __webpack_require__(21);
 
 var _ModelManager2 = _interopRequireDefault(_ModelManager);
 
@@ -266,7 +290,7 @@ var Horpyrion = function () {
 exports.default = Horpyrion;
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -278,7 +302,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _SchemaContext = __webpack_require__(8);
+var _SchemaContext = __webpack_require__(9);
 
 var _SchemaContext2 = _interopRequireDefault(_SchemaContext);
 
@@ -347,7 +371,7 @@ var UserContext = function () {
 exports.default = UserContext;
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -363,13 +387,13 @@ var _createFactory = __webpack_require__(1);
 
 var _createFactory2 = _interopRequireDefault(_createFactory);
 
-var _getListFactory = __webpack_require__(2);
+var _getFactory = __webpack_require__(2);
+
+var _getFactory2 = _interopRequireDefault(_getFactory);
+
+var _getListFactory = __webpack_require__(3);
 
 var _getListFactory2 = _interopRequireDefault(_getListFactory);
-
-var _getRecordFactory = __webpack_require__(9);
-
-var _getRecordFactory2 = _interopRequireDefault(_getRecordFactory);
 
 var _updateRecordFactory = __webpack_require__(10);
 
@@ -449,18 +473,18 @@ var SchemaContext = function () {
         value: function getRecord(recordId) {
             var _this2 = this;
 
-            var getRecordAction = (0, _getRecordFactory2.default)(recordId, this._modelManager);
+            var getRecordAction = (0, _getFactory2.default)("Record", recordId, this._modelManager);
 
             return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
                 return _this2._schemaContextAction();
             }).then(function (schema) {
-                return getRecordAction(schema.id);
-            }).then(function (record) {
-                if (record) {
-                    return record;
-                } else {
-                    return null;
-                }
+                return getRecordAction().then(function (record) {
+                    if (record && record.SchemaId === schema.id) {
+                        return record;
+                    } else {
+                        return null;
+                    }
+                });
             });
         }
     }, {
@@ -553,31 +577,6 @@ var SchemaContext = function () {
 }();
 
 exports.default = SchemaContext;
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = getRecordListFactory;
-function getRecordListFactory(recordId, modelManager) {
-    return function (schemaId) {
-        return modelManager.getModels().Record.findOne({
-            where: {
-                SchemaId: schemaId,
-                id: recordId
-            },
-            raw: true
-        }).then(function (record) {
-            return record;
-        });
-    };
-}
 
 /***/ }),
 /* 10 */
@@ -867,15 +866,15 @@ var _createFactory = __webpack_require__(1);
 
 var _createFactory2 = _interopRequireDefault(_createFactory);
 
+var _getFactory = __webpack_require__(2);
+
+var _getFactory2 = _interopRequireDefault(_getFactory);
+
 var _updateUserRecordFactory = __webpack_require__(19);
 
 var _updateUserRecordFactory2 = _interopRequireDefault(_updateUserRecordFactory);
 
-var _getUserRecordFactory = __webpack_require__(20);
-
-var _getUserRecordFactory2 = _interopRequireDefault(_getUserRecordFactory);
-
-var _getListFactory = __webpack_require__(2);
+var _getListFactory = __webpack_require__(3);
 
 var _getListFactory2 = _interopRequireDefault(_getListFactory);
 
@@ -914,8 +913,8 @@ var UserSchemaContext = function () {
         }
     }, {
         key: "getRecord",
-        value: function getRecord(recordId) {
-            var getUserRecordAction = (0, _getUserRecordFactory2.default)(recordId, this._modelManager);
+        value: function getRecord(userId) {
+            var getUserRecordAction = (0, _getFactory2.default)("User", userId, this._modelManager);
 
             return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
                 return getUserRecordAction();
@@ -978,37 +977,13 @@ function updateUserRecordFactory(userName, modelManager) {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = getUserRecordListFactory;
-function getUserRecordListFactory(recordId, modelManager) {
-    return function () {
-        return modelManager.getModels().User.findOne({
-            where: {
-                id: recordId
-            },
-            raw: true
-        }).then(function (userRecord) {
-            return userRecord;
-        });
-    };
-}
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var ROOT_USER_ID = Symbol("ROOT_USER_ID");
 exports.default = ROOT_USER_ID;
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1020,19 +995,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _fs = __webpack_require__(23);
+var _fs = __webpack_require__(22);
 
 var _fs2 = _interopRequireDefault(_fs);
 
-var _path = __webpack_require__(24);
+var _path = __webpack_require__(23);
 
 var _path2 = _interopRequireDefault(_path);
 
-var _sequelize = __webpack_require__(25);
+var _sequelize = __webpack_require__(24);
 
 var _sequelize2 = _interopRequireDefault(_sequelize);
 
-var _functionOverloader = __webpack_require__(26);
+var _functionOverloader = __webpack_require__(25);
 
 var _functionOverloader2 = _interopRequireDefault(_functionOverloader);
 
@@ -1152,25 +1127,25 @@ exports.default = ModelManager;
 /* WEBPACK VAR INJECTION */}.call(exports, "/"))
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, exports) {
 
 module.exports = require("sequelize");
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports) {
 
 module.exports = require("function-overloader");

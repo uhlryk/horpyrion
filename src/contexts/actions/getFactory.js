@@ -1,11 +1,10 @@
-export default function getRecordListFactory(recordId, modelManager) {
-    return schemaId =>
+export default function getFactory(modelId, elementId, modelManager) {
+    return () =>
         modelManager
             .getModels()
-            .Record.findOne({
+            [modelId].findOne({
                 where: {
-                    SchemaId: schemaId,
-                    id: recordId
+                    id: elementId
                 },
                 raw: true
             })
