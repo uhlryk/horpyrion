@@ -1,14 +1,14 @@
 export default function getFactory(modelId, modelManager) {
-    return elementId =>
+    return entityId =>
         modelManager
             .getModels()
             [modelId].findOne({
                 where: {
-                    id: elementId
+                    id: entityId
                 },
                 raw: true
             })
-            .then(record => {
-                return record;
+            .then(entity => {
+                return entity;
             });
 }

@@ -1,7 +1,7 @@
 import createFactory from "../actions/createFactory";
 import getFactory from "../actions/getFactory";
 import getListFactory from "../actions/getListFactory";
-import updateRecordFactory from "./actions/updateRecordFactory";
+import updateFactory from "../actions/updateFactory";
 import removeRecordFactory from "./actions/removeRecordFactory";
 import throwIfNoSync from "../../throwIfNoSync";
 import getSchemaContextFactory from "./contextActions/getSchemaContextFactory";
@@ -61,11 +61,11 @@ export default class SchemaContext {
     }
 
     updateRecord(recordId, data) {
-        const updateRecordAction = updateRecordFactory(data, this._modelManager);
+        const updateRecordAction = updateFactory("Record", this._modelManager);
 
         return throwIfNoSync(this._modelManager)
             .then(() => this._schemaContextAction())
-            .then(schema => updateRecordAction(recordId, schema.id))
+            .then(() => updateRecordAction(recordId, { data: data }))
             .then(() => true);
     }
 

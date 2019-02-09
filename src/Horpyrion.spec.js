@@ -119,7 +119,7 @@ describe("Horpyrion", () => {
                         return horpyrion
                             .setRootUser()
                             .setUserSchema()
-                            .updateRecord(USER_ID, "SOME_USER")
+                            .updateRecord(USER_ID, { name: "SOME_USER" })
                             .then(resp => {
                                 expect(resp).to.be.true();
                             });

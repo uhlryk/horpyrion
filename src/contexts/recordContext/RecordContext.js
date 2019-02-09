@@ -1,4 +1,4 @@
-import updateRecordFactory from "./actions/updateRecordFactory";
+import updateFactory from "../actions/updateFactory";
 import removeRecordFactory from "./actions/removeRecordFactory";
 import throwIfNoSync from "../../throwIfNoSync";
 import getRecordContextFactory from "./contextActions/getRecordContextFactory";
@@ -12,12 +12,12 @@ export default class RecordContext {
     }
 
     updateRecord(data) {
-        const updateRecordAction = updateRecordFactory(data, this._modelManager);
+        const updateRecordAction = updateFactory("Record", this._modelManager);
 
         return throwIfNoSync(this._modelManager)
             .then(() => this._schemaContextAction())
             .then(schema =>
-                this._recordContextAction(schema.id).then(record => updateRecordAction(record.id, schema.id))
+                this._recordContextAction(schema.id).then(record => updateRecordAction(record.id, { data: data }))
             )
             .then(() => true);
     }
