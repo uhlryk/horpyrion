@@ -103,13 +103,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = createFactory;
-function createFactory(modelId) {
-    var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    var modelManager = arguments[2];
-
+function createFactory(modelId, modelManager) {
     return function () {
-        var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-        return modelManager.getModels()[modelId].create(Object.assign({}, data, params), {}).then(function (entity) {
+        var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+        return modelManager.getModels()[modelId].create(data, {}).then(function (entity) {
             return entity;
         });
     };
@@ -126,8 +123,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = getFactory;
-function getFactory(modelId, elementId, modelManager) {
-    return function () {
+function getFactory(modelId, modelManager) {
+    return function (elementId) {
         return modelManager.getModels()[modelId].findOne({
             where: {
                 id: elementId
@@ -150,14 +147,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = getListFactory;
-function getListFactory(modelId) {
-    var whereData = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    var modelManager = arguments[2];
-
+function getListFactory(modelId, modelManager) {
     return function () {
-        var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+        var whereData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
         return modelManager.getModels()[modelId].findAll({
-            where: Object.assign({}, whereData, params),
+            where: whereData,
             raw: true
         }).then(function (entity) {
             return entity;
@@ -337,9 +331,9 @@ var UserContext = function () {
     _createClass(UserContext, [{
         key: "createSchema",
         value: function createSchema(schemaName) {
-            var createSchemaAction = (0, _createFactory2.default)("Schema", { name: schemaName }, this._modelManager);
+            var createSchemaAction = (0, _createFactory2.default)("Schema", this._modelManager);
             return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
-                return createSchemaAction();
+                return createSchemaAction({ name: schemaName });
             }).then(function (schema) {
                 return schema.toJSON();
             });
@@ -473,12 +467,12 @@ var SchemaContext = function () {
         value: function getRecord(recordId) {
             var _this2 = this;
 
-            var getRecordAction = (0, _getFactory2.default)("Record", recordId, this._modelManager);
+            var getRecordAction = (0, _getFactory2.default)("Record", this._modelManager);
 
             return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
                 return _this2._schemaContextAction();
             }).then(function (schema) {
-                return getRecordAction().then(function (record) {
+                return getRecordAction(recordId).then(function (record) {
                     if (record && record.SchemaId === schema.id) {
                         return record;
                     } else {
@@ -492,12 +486,12 @@ var SchemaContext = function () {
         value: function getRecords(query) {
             var _this3 = this;
 
-            var getRecordListAction = (0, _getListFactory2.default)("Record", query, this._modelManager);
+            var getRecordListAction = (0, _getListFactory2.default)("Record", this._modelManager);
 
             return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
                 return _this3._schemaContextAction();
             }).then(function (schema) {
-                return getRecordListAction({ SchemaId: schema.id });
+                return getRecordListAction(Object.assign({}, query, { SchemaId: schema.id }));
             }).then(function (recordList) {
                 return recordList;
             });
@@ -507,12 +501,12 @@ var SchemaContext = function () {
         value: function createRecord(data) {
             var _this4 = this;
 
-            var createRecordAction = (0, _createFactory2.default)("Record", { data: data }, this._modelManager);
+            var createRecordAction = (0, _createFactory2.default)("Record", this._modelManager);
 
             return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
                 return _this4._schemaContextAction();
             }).then(function (schema) {
-                return createRecordAction({ SchemaId: schema.id });
+                return createRecordAction({ data: data, SchemaId: schema.id });
             }).then(function (record) {
                 return record.toJSON();
             });
@@ -893,9 +887,9 @@ var UserSchemaContext = function () {
     _createClass(UserSchemaContext, [{
         key: "createRecord",
         value: function createRecord(name) {
-            var createUserRecordAction = (0, _createFactory2.default)("User", { name: name }, this._modelManager);
+            var createUserRecordAction = (0, _createFactory2.default)("User", this._modelManager);
             return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
-                return createUserRecordAction();
+                return createUserRecordAction({ name: name });
             }).then(function (user) {
                 return user.toJSON();
             });
@@ -914,10 +908,10 @@ var UserSchemaContext = function () {
     }, {
         key: "getRecord",
         value: function getRecord(userId) {
-            var getUserRecordAction = (0, _getFactory2.default)("User", userId, this._modelManager);
+            var getUserRecordAction = (0, _getFactory2.default)("User", this._modelManager);
 
             return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
-                return getUserRecordAction();
+                return getUserRecordAction(userId);
             }).then(function (userRecord) {
                 if (userRecord) {
                     return userRecord;
@@ -929,10 +923,10 @@ var UserSchemaContext = function () {
     }, {
         key: "getRecords",
         value: function getRecords(query) {
-            var getUserRecordListAction = (0, _getListFactory2.default)("User", query, this._modelManager);
+            var getUserRecordListAction = (0, _getListFactory2.default)("User", this._modelManager);
 
             return (0, _throwIfNoSync2.default)(this._modelManager).then(function () {
-                return getUserRecordListAction();
+                return getUserRecordListAction(query);
             }).then(function (userRecordList) {
                 return userRecordList;
             });

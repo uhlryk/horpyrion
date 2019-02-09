@@ -11,9 +11,9 @@ export default class UserSchemaContext {
     }
 
     createRecord(name) {
-        const createUserRecordAction = createFactory("User", { name: name }, this._modelManager);
+        const createUserRecordAction = createFactory("User", this._modelManager);
         return throwIfNoSync(this._modelManager)
-            .then(() => createUserRecordAction())
+            .then(() => createUserRecordAction({ name: name }))
             .then(user => user.toJSON());
     }
 
@@ -26,10 +26,10 @@ export default class UserSchemaContext {
     }
 
     getRecord(userId) {
-        const getUserRecordAction = getFactory("User", userId, this._modelManager);
+        const getUserRecordAction = getFactory("User", this._modelManager);
 
         return throwIfNoSync(this._modelManager)
-            .then(() => getUserRecordAction())
+            .then(() => getUserRecordAction(userId))
             .then(userRecord => {
                 if (userRecord) {
                     return userRecord;
@@ -40,10 +40,10 @@ export default class UserSchemaContext {
     }
 
     getRecords(query) {
-        const getUserRecordListAction = getListFactory("User", query, this._modelManager);
+        const getUserRecordListAction = getListFactory("User", this._modelManager);
 
         return throwIfNoSync(this._modelManager)
-            .then(() => getUserRecordListAction())
+            .then(() => getUserRecordListAction(query))
             .then(userRecordList => userRecordList);
     }
 }

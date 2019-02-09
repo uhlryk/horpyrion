@@ -1,8 +1,8 @@
-export default function createFactory(modelId, data = {}, modelManager) {
-    return (params = {}) =>
+export default function createFactory(modelId, modelManager) {
+    return (data = {}) =>
         modelManager
             .getModels()
-            [modelId].create(Object.assign({}, data, params), {})
+            [modelId].create(data, {})
             .then(entity => {
                 return entity;
             });

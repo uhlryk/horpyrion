@@ -27,12 +27,12 @@ export default class SchemaContext {
     }
 
     getRecord(recordId) {
-        const getRecordAction = getFactory("Record", recordId, this._modelManager);
+        const getRecordAction = getFactory("Record", this._modelManager);
 
         return throwIfNoSync(this._modelManager)
             .then(() => this._schemaContextAction())
             .then(schema =>
-                getRecordAction().then(record => {
+                getRecordAction(recordId).then(record => {
                     if (record && record.SchemaId === schema.id) {
                         return record;
                     } else {
@@ -43,20 +43,20 @@ export default class SchemaContext {
     }
 
     getRecords(query) {
-        const getRecordListAction = getListFactory("Record", query, this._modelManager);
+        const getRecordListAction = getListFactory("Record", this._modelManager);
 
         return throwIfNoSync(this._modelManager)
             .then(() => this._schemaContextAction())
-            .then(schema => getRecordListAction({ SchemaId: schema.id }))
+            .then(schema => getRecordListAction(Object.assign({}, query, { SchemaId: schema.id })))
             .then(recordList => recordList);
     }
 
     createRecord(data) {
-        const createRecordAction = createFactory("Record", { data: data }, this._modelManager);
+        const createRecordAction = createFactory("Record", this._modelManager);
 
         return throwIfNoSync(this._modelManager)
             .then(() => this._schemaContextAction())
-            .then(schema => createRecordAction({ SchemaId: schema.id }))
+            .then(schema => createRecordAction({ data: data, SchemaId: schema.id }))
             .then(record => record.toJSON());
     }
 

@@ -1,5 +1,5 @@
-export default function getFactory(modelId, elementId, modelManager) {
-    return () =>
+export default function getFactory(modelId, modelManager) {
+    return elementId =>
         modelManager
             .getModels()
             [modelId].findOne({

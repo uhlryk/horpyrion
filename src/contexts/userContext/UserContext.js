@@ -11,9 +11,9 @@ export default class UserContext {
     }
 
     createSchema(schemaName) {
-        const createSchemaAction = createFactory("Schema", { name: schemaName }, this._modelManager);
+        const createSchemaAction = createFactory("Schema", this._modelManager);
         return throwIfNoSync(this._modelManager)
-            .then(() => createSchemaAction())
+            .then(() => createSchemaAction({ name: schemaName }))
             .then(schema => schema.toJSON());
     }
 

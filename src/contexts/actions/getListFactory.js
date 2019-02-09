@@ -1,9 +1,9 @@
-export default function getListFactory(modelId, whereData = {}, modelManager) {
-    return (params = {}) =>
+export default function getListFactory(modelId, modelManager) {
+    return (whereData = {}) =>
         modelManager
             .getModels()
             [modelId].findAll({
-                where: Object.assign({}, whereData, params),
+                where: whereData,
                 raw: true
             })
             .then(entity => {
