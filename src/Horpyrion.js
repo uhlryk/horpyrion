@@ -1,4 +1,5 @@
 import UserContext from "./contexts/userContext/UserContext";
+import ContextAction from "./contexts/ContextAction";
 import RootUser from "./RootUser";
 import ModelManager from "./ModelManager";
 
@@ -13,11 +14,13 @@ export default class Horpyrion {
     }
 
     setRootUser() {
-        return new UserContext(RootUser.ROOT_USER_ID, this._modelManager);
+        const contextAction = new ContextAction(this._modelManager);
+        return new UserContext(RootUser.ROOT_USER_ID, contextAction, this._modelManager);
     }
 
     setUser(userId) {
-        return new UserContext(userId, this._modelManager);
+        const contextAction = new ContextAction(this._modelManager);
+        return new UserContext(userId, contextAction, this._modelManager);
     }
 
     getDbInstance() {

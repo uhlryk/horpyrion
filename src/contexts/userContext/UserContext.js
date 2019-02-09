@@ -1,18 +1,18 @@
 import SchemaContext from "../schemaContext/SchemaContext";
 import createFactory from "../actions/createFactory";
 import throwIfNoSync from "../../throwIfNoSync";
-import getUserContextFactory from "./contextActions/getUserContextFactory";
 import UserSchemaContext from "../userSchemaContext/UserSchemaContext";
 
 export default class UserContext {
-    constructor(userId, modelManager) {
-        this._userContextAction = getUserContextFactory(userId, modelManager);
+    constructor(userId, contextAction, modelManager) {
+        this._contextAction = contextAction.createContextAction("user", userId, "User");
         this._modelManager = modelManager;
     }
 
     createSchema(schemaName) {
         const createSchemaAction = createFactory("Schema", this._modelManager);
-        return throwIfNoSync(this._modelManager)
+        return this._contextAction
+            .resolve()
             .then(() => createSchemaAction({ name: schemaName }))
             .then(schema => schema.toJSON());
     }
