@@ -4,7 +4,7 @@ import updateFactory from "../actions/updateFactory";
 import getListFactory from "../actions/getListFactory";
 
 export default class UserSchemaContext {
-    constructor(contextAction, modelManager) {
+    constructor(id, contextAction, modelManager) {
         this._contextAction = contextAction.copyContextAction();
         this._modelManager = modelManager;
     }

@@ -1,27 +1,26 @@
 import Context from "../Context";
 import SchemaContext from "../schemaContext/SchemaContext";
 import getUserContextFactory from "./contextActions/getUserContextFactory";
-import createFactory from "../actions/createFactory";
 import UserSchemaContext from "../userSchemaContext/UserSchemaContext";
 
 export default class UserContext extends Context {
     constructor(userId, contextAction, modelManager) {
-        super(contextAction.createContextAction("user", getUserContextFactory(userId)), modelManager);
+        super(contextAction, modelManager);
+        this.addContextAction("user", getUserContextFactory(userId));
     }
 
     createSchema(schemaName) {
-        const createSchemaAction = createFactory("Schema", this.getModelManager());
         return this.resolveContextAction()
-            .then(() => createSchemaAction({ name: schemaName }))
+            .then(() => this.createFactory("Schema")({ name: schemaName }))
             .then(schema => schema.toJSON());
     }
 
     setSchema(schemaId) {
-        return new SchemaContext(schemaId, this.getContextAction(), this.getModelManager());
+        return this.createContext(schemaId, SchemaContext);
     }
 
     setUserSchema() {
-        return new UserSchemaContext(this.getContextAction(), this.getModelManager());
+        return this.createContext(null, UserSchemaContext);
     }
 
     getData() {

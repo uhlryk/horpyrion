@@ -10,6 +10,10 @@ export default class ContextAction {
         return new ContextAction(this._modelManager, this._contextActions.slice());
     }
 
+    addAction(key, executeFactory) {
+        this._contextActions.push({ key, execute: executeFactory(this._modelManager) });
+    }
+
     createContextAction(key, executeFactory) {
         return new ContextAction(
             this._modelManager,

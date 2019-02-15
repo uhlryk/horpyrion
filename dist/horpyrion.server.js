@@ -342,10 +342,6 @@ var _getUserContextFactory = __webpack_require__(15);
 
 var _getUserContextFactory2 = _interopRequireDefault(_getUserContextFactory);
 
-var _createFactory = __webpack_require__(0);
-
-var _createFactory2 = _interopRequireDefault(_createFactory);
-
 var _UserSchemaContext = __webpack_require__(16);
 
 var _UserSchemaContext2 = _interopRequireDefault(_UserSchemaContext);
@@ -364,15 +360,19 @@ var UserContext = function (_Context) {
     function UserContext(userId, contextAction, modelManager) {
         _classCallCheck(this, UserContext);
 
-        return _possibleConstructorReturn(this, (UserContext.__proto__ || Object.getPrototypeOf(UserContext)).call(this, contextAction.createContextAction("user", (0, _getUserContextFactory2.default)(userId)), modelManager));
+        var _this = _possibleConstructorReturn(this, (UserContext.__proto__ || Object.getPrototypeOf(UserContext)).call(this, contextAction, modelManager));
+
+        _this.addContextAction("user", (0, _getUserContextFactory2.default)(userId));
+        return _this;
     }
 
     _createClass(UserContext, [{
         key: "createSchema",
         value: function createSchema(schemaName) {
-            var createSchemaAction = (0, _createFactory2.default)("Schema", this.getModelManager());
+            var _this2 = this;
+
             return this.resolveContextAction().then(function () {
-                return createSchemaAction({ name: schemaName });
+                return _this2.createFactory("Schema")({ name: schemaName });
             }).then(function (schema) {
                 return schema.toJSON();
             });
@@ -380,12 +380,12 @@ var UserContext = function (_Context) {
     }, {
         key: "setSchema",
         value: function setSchema(schemaId) {
-            return new _SchemaContext2.default(schemaId, this.getContextAction(), this.getModelManager());
+            return this.createContext(schemaId, _SchemaContext2.default);
         }
     }, {
         key: "setUserSchema",
         value: function setUserSchema() {
-            return new _UserSchemaContext2.default(this.getContextAction(), this.getModelManager());
+            return this.createContext(null, _UserSchemaContext2.default);
         }
     }, {
         key: "getData",
@@ -415,17 +415,28 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _createFactory2 = __webpack_require__(0);
+
+var _createFactory3 = _interopRequireDefault(_createFactory2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ContextAction = function () {
     function ContextAction(contextAction, modelManager) {
         _classCallCheck(this, ContextAction);
 
-        this._contextAction = contextAction;
+        this._contextAction = contextAction.copyContextAction();
         this._modelManager = modelManager;
     }
 
     _createClass(ContextAction, [{
+        key: "addContextAction",
+        value: function addContextAction(key, executeFactory) {
+            this._contextAction.addAction(key, executeFactory);
+        }
+    }, {
         key: "getContextAction",
         value: function getContextAction() {
             return this._contextAction;
@@ -439,6 +450,16 @@ var ContextAction = function () {
         key: "getModelManager",
         value: function getModelManager() {
             return this._modelManager;
+        }
+    }, {
+        key: "createContext",
+        value: function createContext(id, Context) {
+            return new Context(id, this.getContextAction(), this.getModelManager());
+        }
+    }, {
+        key: "createFactory",
+        value: function createFactory(modelId) {
+            return (0, _createFactory3.default)(modelId, this.getModelManager());
         }
     }]);
 
@@ -824,7 +845,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var UserSchemaContext = function () {
-    function UserSchemaContext(contextAction, modelManager) {
+    function UserSchemaContext(id, contextAction, modelManager) {
         _classCallCheck(this, UserSchemaContext);
 
         this._contextAction = contextAction.copyContextAction();
@@ -922,6 +943,11 @@ var ContextAction = function () {
         key: "copyContextAction",
         value: function copyContextAction() {
             return new ContextAction(this._modelManager, this._contextActions.slice());
+        }
+    }, {
+        key: "addAction",
+        value: function addAction(key, executeFactory) {
+            this._contextActions.push({ key: key, execute: executeFactory(this._modelManager) });
         }
     }, {
         key: "createContextAction",
