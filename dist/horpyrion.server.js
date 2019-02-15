@@ -238,15 +238,15 @@ var _UserContext = __webpack_require__(9);
 
 var _UserContext2 = _interopRequireDefault(_UserContext);
 
-var _ContextAction = __webpack_require__(16);
+var _ContextAction = __webpack_require__(17);
 
 var _ContextAction2 = _interopRequireDefault(_ContextAction);
 
-var _RootUser = __webpack_require__(18);
+var _RootUser = __webpack_require__(19);
 
 var _RootUser2 = _interopRequireDefault(_RootUser);
 
-var _ModelManager = __webpack_require__(19);
+var _ModelManager = __webpack_require__(20);
 
 var _ModelManager2 = _interopRequireDefault(_ModelManager);
 
@@ -330,11 +330,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _SchemaContext = __webpack_require__(10);
+var _Context2 = __webpack_require__(10);
+
+var _Context3 = _interopRequireDefault(_Context2);
+
+var _SchemaContext = __webpack_require__(11);
 
 var _SchemaContext2 = _interopRequireDefault(_SchemaContext);
 
-var _getUserContextFactory = __webpack_require__(14);
+var _getUserContextFactory = __webpack_require__(15);
 
 var _getUserContextFactory2 = _interopRequireDefault(_getUserContextFactory);
 
@@ -342,7 +346,7 @@ var _createFactory = __webpack_require__(0);
 
 var _createFactory2 = _interopRequireDefault(_createFactory);
 
-var _UserSchemaContext = __webpack_require__(15);
+var _UserSchemaContext = __webpack_require__(16);
 
 var _UserSchemaContext2 = _interopRequireDefault(_UserSchemaContext);
 
@@ -350,19 +354,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var UserContext = function () {
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var UserContext = function (_Context) {
+    _inherits(UserContext, _Context);
+
     function UserContext(userId, contextAction, modelManager) {
         _classCallCheck(this, UserContext);
 
-        this._contextAction = contextAction.createContextAction("user", (0, _getUserContextFactory2.default)(userId));
-        this._modelManager = modelManager;
+        return _possibleConstructorReturn(this, (UserContext.__proto__ || Object.getPrototypeOf(UserContext)).call(this, contextAction.createContextAction("user", (0, _getUserContextFactory2.default)(userId)), modelManager));
     }
 
     _createClass(UserContext, [{
         key: "createSchema",
         value: function createSchema(schemaName) {
-            var createSchemaAction = (0, _createFactory2.default)("Schema", this._modelManager);
-            return this._contextAction.resolve().then(function () {
+            var createSchemaAction = (0, _createFactory2.default)("Schema", this.getModelManager());
+            return this.resolveContextAction().then(function () {
                 return createSchemaAction({ name: schemaName });
             }).then(function (schema) {
                 return schema.toJSON();
@@ -371,17 +380,17 @@ var UserContext = function () {
     }, {
         key: "setSchema",
         value: function setSchema(schemaId) {
-            return new _SchemaContext2.default(schemaId, this._contextAction, this._modelManager);
+            return new _SchemaContext2.default(schemaId, this.getContextAction(), this.getModelManager());
         }
     }, {
         key: "setUserSchema",
         value: function setUserSchema() {
-            return new _UserSchemaContext2.default(this._contextAction, this._modelManager);
+            return new _UserSchemaContext2.default(this.getContextAction(), this.getModelManager());
         }
     }, {
         key: "getData",
         value: function getData() {
-            return this._contextAction.resolve().then(function (_ref) {
+            return this.resolveContextAction().then(function (_ref) {
                 var user = _ref.user;
                 return user;
             });
@@ -389,12 +398,57 @@ var UserContext = function () {
     }]);
 
     return UserContext;
-}();
+}(_Context3.default);
 
 exports.default = UserContext;
 
 /***/ }),
 /* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ContextAction = function () {
+    function ContextAction(contextAction, modelManager) {
+        _classCallCheck(this, ContextAction);
+
+        this._contextAction = contextAction;
+        this._modelManager = modelManager;
+    }
+
+    _createClass(ContextAction, [{
+        key: "getContextAction",
+        value: function getContextAction() {
+            return this._contextAction;
+        }
+    }, {
+        key: "resolveContextAction",
+        value: function resolveContextAction() {
+            return this._contextAction.resolve();
+        }
+    }, {
+        key: "getModelManager",
+        value: function getModelManager() {
+            return this._modelManager;
+        }
+    }]);
+
+    return ContextAction;
+}();
+
+exports.default = ContextAction;
+
+/***/ }),
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -426,11 +480,11 @@ var _removeFactory = __webpack_require__(4);
 
 var _removeFactory2 = _interopRequireDefault(_removeFactory);
 
-var _getSchemaContextFactory = __webpack_require__(11);
+var _getSchemaContextFactory = __webpack_require__(12);
 
 var _getSchemaContextFactory2 = _interopRequireDefault(_getSchemaContextFactory);
 
-var _RecordContext = __webpack_require__(12);
+var _RecordContext = __webpack_require__(13);
 
 var _RecordContext2 = _interopRequireDefault(_RecordContext);
 
@@ -577,7 +631,7 @@ var SchemaContext = function () {
 exports.default = SchemaContext;
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -604,7 +658,7 @@ exports.default = function (schemaId) {
 };
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -624,7 +678,7 @@ var _removeFactory = __webpack_require__(4);
 
 var _removeFactory2 = _interopRequireDefault(_removeFactory);
 
-var _getRecordContextFactory = __webpack_require__(13);
+var _getRecordContextFactory = __webpack_require__(14);
 
 var _getRecordContextFactory2 = _interopRequireDefault(_getRecordContextFactory);
 
@@ -680,7 +734,7 @@ var RecordContext = function () {
 exports.default = RecordContext;
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -710,7 +764,7 @@ exports.default = function (recordId) {
 };
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -737,7 +791,7 @@ exports.default = function (userId) {
 };
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -832,7 +886,7 @@ var UserSchemaContext = function () {
 exports.default = UserSchemaContext;
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -844,7 +898,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _throwIfNoSync = __webpack_require__(17);
+var _throwIfNoSync = __webpack_require__(18);
 
 var _throwIfNoSync2 = _interopRequireDefault(_throwIfNoSync);
 
@@ -893,7 +947,7 @@ var ContextAction = function () {
 exports.default = ContextAction;
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -912,7 +966,7 @@ function throwIfNoSync(modelManager) {
 }
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -925,7 +979,7 @@ var ROOT_USER_ID = Symbol("ROOT_USER_ID");
 exports.default = ROOT_USER_ID;
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -937,19 +991,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _fs = __webpack_require__(20);
+var _fs = __webpack_require__(21);
 
 var _fs2 = _interopRequireDefault(_fs);
 
-var _path = __webpack_require__(21);
+var _path = __webpack_require__(22);
 
 var _path2 = _interopRequireDefault(_path);
 
-var _sequelize = __webpack_require__(22);
+var _sequelize = __webpack_require__(23);
 
 var _sequelize2 = _interopRequireDefault(_sequelize);
 
-var _functionOverloader = __webpack_require__(23);
+var _functionOverloader = __webpack_require__(24);
 
 var _functionOverloader2 = _interopRequireDefault(_functionOverloader);
 
@@ -1069,25 +1123,25 @@ exports.default = ModelManager;
 /* WEBPACK VAR INJECTION */}.call(exports, "/"))
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports) {
 
 module.exports = require("sequelize");
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports) {
 
 module.exports = require("function-overloader");
