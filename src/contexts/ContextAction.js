@@ -1,4 +1,3 @@
-import getFactory from "./actions/getFactory";
 import throwIfNoSync from "../throwIfNoSync";
 
 export default class ContextAction {
@@ -7,10 +6,14 @@ export default class ContextAction {
         this._modelManager = modelManager;
     }
 
-    createContextAction(name, entityId, modelId) {
+    copyContextAction() {
+        return new ContextAction(this._modelManager, this._contextActions.slice());
+    }
+
+    createContextAction(key, executeFactory) {
         return new ContextAction(
             this._modelManager,
-            this._contextActions.concat([{ name, entityId, execute: getFactory(modelId, this._modelManager) }])
+            this._contextActions.concat([{ key, execute: executeFactory(this._modelManager) }])
         );
     }
 
@@ -18,7 +21,7 @@ export default class ContextAction {
         return this._contextActions.reduce((prevContextAction, contextAction) => {
             return prevContextAction.then(contextObject =>
                 contextAction.execute(contextObject).then(context => {
-                    return Object.assign({}, contextObject, { [contextAction.name]: context });
+                    return Object.assign({}, contextObject, { [contextAction.key]: context });
                 })
             );
         }, throwIfNoSync(this._modelManager).then(() => {}));

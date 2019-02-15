@@ -1,11 +1,11 @@
 import SchemaContext from "../schemaContext/SchemaContext";
+import getUserContextFactory from "./contextActions/getUserContextFactory";
 import createFactory from "../actions/createFactory";
-import throwIfNoSync from "../../throwIfNoSync";
 import UserSchemaContext from "../userSchemaContext/UserSchemaContext";
 
 export default class UserContext {
     constructor(userId, contextAction, modelManager) {
-        this._contextAction = contextAction.createContextAction("user", userId, "User");
+        this._contextAction = contextAction.createContextAction("user", getUserContextFactory(userId));
         this._modelManager = modelManager;
     }
 
@@ -18,14 +18,14 @@ export default class UserContext {
     }
 
     setSchema(schemaId) {
-        return new SchemaContext(schemaId, this._userContextAction, this._modelManager);
+        return new SchemaContext(schemaId, this._contextAction, this._modelManager);
     }
 
     setUserSchema() {
-        return new UserSchemaContext(this._userContextAction, this._modelManager);
+        return new UserSchemaContext(this._contextAction, this._modelManager);
     }
 
     getData() {
-        return throwIfNoSync(this._modelManager).then(() => this._userContextAction());
+        return this._contextAction.resolve().then(({ user }) => user);
     }
 }

@@ -1,18 +1,18 @@
-import throwIfNoSync from "../../throwIfNoSync";
 import createFactory from "../actions/createFactory";
 import getFactory from "../actions/getFactory";
 import updateFactory from "../actions/updateFactory";
 import getListFactory from "../actions/getListFactory";
 
 export default class UserSchemaContext {
-    constructor(userContextAction, modelManager) {
-        this._userContextAction = userContextAction;
+    constructor(contextAction, modelManager) {
+        this._contextAction = contextAction.copyContextAction();
         this._modelManager = modelManager;
     }
 
     createRecord(name) {
         const createUserRecordAction = createFactory("User", this._modelManager);
-        return throwIfNoSync(this._modelManager)
+        return this._contextAction
+            .resolve()
             .then(() => createUserRecordAction({ name: name }))
             .then(user => user.toJSON());
     }
@@ -20,7 +20,8 @@ export default class UserSchemaContext {
     updateRecord(recordId, data) {
         const updateUserRecordAction = updateFactory("User", this._modelManager);
 
-        return throwIfNoSync(this._modelManager)
+        return this._contextAction
+            .resolve()
             .then(() => updateUserRecordAction(recordId, data))
             .then(() => true);
     }
@@ -28,7 +29,8 @@ export default class UserSchemaContext {
     getRecord(userId) {
         const getUserRecordAction = getFactory("User", this._modelManager);
 
-        return throwIfNoSync(this._modelManager)
+        return this._contextAction
+            .resolve()
             .then(() => getUserRecordAction(userId))
             .then(userRecord => {
                 if (userRecord) {
@@ -42,7 +44,8 @@ export default class UserSchemaContext {
     getRecords(query) {
         const getUserRecordListAction = getListFactory("User", this._modelManager);
 
-        return throwIfNoSync(this._modelManager)
+        return this._contextAction
+            .resolve()
             .then(() => getUserRecordListAction(query))
             .then(userRecordList => userRecordList);
     }

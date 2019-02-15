@@ -1,39 +1,32 @@
 import updateFactory from "../actions/updateFactory";
 import removeFactory from "../actions/removeFactory";
-import throwIfNoSync from "../../throwIfNoSync";
 import getRecordContextFactory from "./contextActions/getRecordContextFactory";
 
 export default class RecordContext {
-    constructor(recordId, schemaContextAction, userContextAction, modelManager) {
-        this._userContextAction = userContextAction;
-        this._schemaContextAction = schemaContextAction;
-        this._recordContextAction = getRecordContextFactory(recordId, modelManager);
+    constructor(recordId, contextAction, modelManager) {
+        this._contextAction = contextAction.createContextAction("record", getRecordContextFactory(recordId));
         this._modelManager = modelManager;
     }
 
     updateRecord(data) {
         const updateRecordAction = updateFactory("Record", this._modelManager);
 
-        return throwIfNoSync(this._modelManager)
-            .then(() => this._schemaContextAction())
-            .then(schema =>
-                this._recordContextAction(schema.id).then(record => updateRecordAction(record.id, { data: data }))
-            )
+        return this._contextAction
+            .resolve()
+            .then(({ record }) => updateRecordAction(record.id, { data: data }))
             .then(() => true);
     }
 
     removeRecord() {
         const removeRecordAction = removeFactory("Record", this._modelManager);
 
-        return throwIfNoSync(this._modelManager)
-            .then(() => this._schemaContextAction())
-            .then(schema => this._recordContextAction(schema.id).then(record => removeRecordAction(record.id)))
+        return this._contextAction
+            .resolve()
+            .then(({ record }) => removeRecordAction(record.id))
             .then(() => true);
     }
 
     getData() {
-        return throwIfNoSync(this._modelManager)
-            .then(() => this._schemaContextAction())
-            .then(schema => this._recordContextAction(schema.id));
+        return this._contextAction.resolve().then(({ record }) => record);
     }
 }
