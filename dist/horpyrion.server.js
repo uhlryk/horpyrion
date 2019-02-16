@@ -249,15 +249,15 @@ var _UserContext = __webpack_require__(5);
 
 var _UserContext2 = _interopRequireDefault(_UserContext);
 
-var _ContextAction = __webpack_require__(17);
+var _ContextAction = __webpack_require__(19);
 
 var _ContextAction2 = _interopRequireDefault(_ContextAction);
 
-var _RootUser = __webpack_require__(19);
+var _RootUser = __webpack_require__(21);
 
 var _RootUser2 = _interopRequireDefault(_RootUser);
 
-var _ModelManager = __webpack_require__(20);
+var _ModelManager = __webpack_require__(22);
 
 var _ModelManager2 = _interopRequireDefault(_ModelManager);
 
@@ -865,6 +865,10 @@ var _Context2 = __webpack_require__(0);
 
 var _Context3 = _interopRequireDefault(_Context2);
 
+var _UserRecordContext = __webpack_require__(17);
+
+var _UserRecordContext2 = _interopRequireDefault(_UserRecordContext);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -887,6 +891,11 @@ var UserSchemaContext = function (_Context) {
     }
 
     _createClass(UserSchemaContext, [{
+        key: "setUserRecord",
+        value: function setUserRecord(userRecordId) {
+            return new _UserRecordContext2.default(userRecordId, this._contextAction, this._modelManager);
+        }
+    }, {
         key: "createRecord",
         value: function createRecord(name) {
             var _this2 = this;
@@ -954,7 +963,108 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _throwIfNoSync = __webpack_require__(18);
+var _Context2 = __webpack_require__(0);
+
+var _Context3 = _interopRequireDefault(_Context2);
+
+var _getUserRecordContextFactory = __webpack_require__(18);
+
+var _getUserRecordContextFactory2 = _interopRequireDefault(_getUserRecordContextFactory);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var UserRecordContext = function (_Context) {
+    _inherits(UserRecordContext, _Context);
+
+    function UserRecordContext(userRecordId, contextAction, modelManager) {
+        _classCallCheck(this, UserRecordContext);
+
+        return _possibleConstructorReturn(this, (UserRecordContext.__proto__ || Object.getPrototypeOf(UserRecordContext)).call(this, {
+            name: "userRecord",
+            contextActionFunction: (0, _getUserRecordContextFactory2.default)(userRecordId),
+            contextAction: contextAction,
+            modelManager: modelManager
+        }));
+    }
+
+    _createClass(UserRecordContext, [{
+        key: "updateRecord",
+        value: function updateRecord(data) {
+            var _this2 = this;
+
+            return this.resolveContextAction().then(function (_ref) {
+                var userRecord = _ref.userRecord;
+                return _this2.updateFactory("User")(userRecord.id, data);
+            }).then(function () {
+                return true;
+            });
+        }
+    }, {
+        key: "removeRecord",
+        value: function removeRecord() {
+            var _this3 = this;
+
+            return this.resolveContextAction().then(function (_ref2) {
+                var userRecord = _ref2.userRecord;
+                return _this3.removeFactory("User")(userRecord.id);
+            }).then(function () {
+                return true;
+            });
+        }
+    }]);
+
+    return UserRecordContext;
+}(_Context3.default);
+
+exports.default = UserRecordContext;
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+exports.default = function (userRecordId) {
+    return function (modelManager) {
+        return function () {
+            return modelManager.getModels().User.findOne({
+                where: {
+                    id: userRecordId
+                },
+                raw: true
+            }).then(function (record) {
+                if (!record) {}
+                return record;
+            });
+        };
+    };
+};
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _throwIfNoSync = __webpack_require__(20);
 
 var _throwIfNoSync2 = _interopRequireDefault(_throwIfNoSync);
 
@@ -1008,7 +1118,7 @@ var ContextAction = function () {
 exports.default = ContextAction;
 
 /***/ }),
-/* 18 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1027,7 +1137,7 @@ function throwIfNoSync(modelManager) {
 }
 
 /***/ }),
-/* 19 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1040,7 +1150,7 @@ var ROOT_USER_ID = Symbol("ROOT_USER_ID");
 exports.default = ROOT_USER_ID;
 
 /***/ }),
-/* 20 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1052,19 +1162,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _fs = __webpack_require__(21);
+var _fs = __webpack_require__(23);
 
 var _fs2 = _interopRequireDefault(_fs);
 
-var _path = __webpack_require__(22);
+var _path = __webpack_require__(24);
 
 var _path2 = _interopRequireDefault(_path);
 
-var _sequelize = __webpack_require__(23);
+var _sequelize = __webpack_require__(25);
 
 var _sequelize2 = _interopRequireDefault(_sequelize);
 
-var _functionOverloader = __webpack_require__(24);
+var _functionOverloader = __webpack_require__(26);
 
 var _functionOverloader2 = _interopRequireDefault(_functionOverloader);
 
@@ -1184,25 +1294,25 @@ exports.default = ModelManager;
 /* WEBPACK VAR INJECTION */}.call(exports, "/"))
 
 /***/ }),
-/* 21 */
+/* 23 */
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ }),
-/* 22 */
+/* 24 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 23 */
+/* 25 */
 /***/ (function(module, exports) {
 
 module.exports = require("sequelize");
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(module, exports) {
 
 module.exports = require("function-overloader");

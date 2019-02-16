@@ -124,8 +124,46 @@ describe("Horpyrion", () => {
                                 expect(resp).to.be.true();
                             });
                     });
+
+                    describe("when specific user record context is set", () => {
+                        it("should return user context data", () => {
+                            return horpyrion
+                                .setRootUser()
+                                .setUserSchema()
+                                .setUserRecord(USER_ID)
+                                .getData()
+                                .then(resp => {
+                                    expect(resp).to.containSubset({
+                                        id: expectedValue => expectedValue,
+                                        name: "SOME_USER"
+                                    });
+                                });
+                        });
+
+                        it("should update user record", () => {
+                            return horpyrion
+                                .setRootUser()
+                                .setUserSchema()
+                                .setUserRecord(USER_ID)
+                                .updateRecord({ name: "SOME_USER" })
+                                .then(resp => {
+                                    expect(resp).to.be.true();
+                                });
+                        });
+
+                        it("should remove user record", () => {
+                            return horpyrion
+                                .setRootUser()
+                                .setUserSchema()
+                                .setUserRecord(USER_ID)
+                                .removeRecord()
+                                .then(resp => {
+                                    expect(resp).to.be.true();
+                                });
+                        });
+                    });
                 });
-                describe("when there is specific schema context", () => {
+                describe("when specific schema context is set", () => {
                     let SCHEMA_ID;
                     beforeEach(() => {
                         return horpyrion
