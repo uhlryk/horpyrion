@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -86,23 +86,23 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _createFactory2 = __webpack_require__(8);
+var _createFactory2 = __webpack_require__(6);
 
 var _createFactory3 = _interopRequireDefault(_createFactory2);
 
-var _updateFactory2 = __webpack_require__(1);
+var _updateFactory2 = __webpack_require__(7);
 
 var _updateFactory3 = _interopRequireDefault(_updateFactory2);
 
-var _getFactory2 = __webpack_require__(9);
+var _getFactory2 = __webpack_require__(8);
 
 var _getFactory3 = _interopRequireDefault(_getFactory2);
 
-var _getListFactory2 = __webpack_require__(10);
+var _getListFactory2 = __webpack_require__(9);
 
 var _getListFactory3 = _interopRequireDefault(_getListFactory2);
 
-var _removeFactory2 = __webpack_require__(2);
+var _removeFactory2 = __webpack_require__(10);
 
 var _removeFactory3 = _interopRequireDefault(_removeFactory2);
 
@@ -179,65 +179,18 @@ exports.default = ContextAction;
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+__webpack_require__(2);
+module.exports = __webpack_require__(3);
 
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = updateFactory;
-function updateFactory(modelId, modelManager) {
-    return function (entityId) {
-        var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-        return modelManager.getModels()[modelId].update(data, {
-            where: {
-                id: entityId
-            }
-        }).then(function (entity) {
-            return entity;
-        });
-    };
-}
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = removeRecordFactory;
-function removeRecordFactory(modelId, modelManager) {
-    return function (entityId) {
-        return modelManager.getModels()[modelId].destroy({
-            where: {
-                id: entityId
-            }
-        }).then(function () {
-            return true;
-        });
-    };
-}
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(4);
-module.exports = __webpack_require__(5);
-
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-polyfill");
 
 /***/ }),
-/* 5 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -248,7 +201,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _Horpyrion = __webpack_require__(6);
+var _Horpyrion = __webpack_require__(4);
 
 var _Horpyrion2 = _interopRequireDefault(_Horpyrion);
 
@@ -257,7 +210,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _Horpyrion2.default;
 
 /***/ }),
-/* 6 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -269,7 +222,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _UserContext = __webpack_require__(7);
+var _UserContext = __webpack_require__(5);
 
 var _UserContext2 = _interopRequireDefault(_UserContext);
 
@@ -353,7 +306,7 @@ var Horpyrion = function () {
 exports.default = Horpyrion;
 
 /***/ }),
-/* 7 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -438,7 +391,7 @@ var UserContext = function (_Context) {
 exports.default = UserContext;
 
 /***/ }),
-/* 8 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -458,7 +411,31 @@ function createFactory(modelId, modelManager) {
 }
 
 /***/ }),
-/* 9 */
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = updateFactory;
+function updateFactory(modelId, modelManager) {
+    return function (entityId) {
+        var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+        return modelManager.getModels()[modelId].update(data, {
+            where: {
+                id: entityId
+            }
+        }).then(function (entity) {
+            return entity;
+        });
+    };
+}
+
+/***/ }),
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -482,7 +459,7 @@ function getFactory(modelId, modelManager) {
 }
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -500,6 +477,29 @@ function getListFactory(modelId, modelManager) {
             raw: true
         }).then(function (entity) {
             return entity;
+        });
+    };
+}
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = removeRecordFactory;
+function removeRecordFactory(modelId, modelManager) {
+    return function (entityId) {
+        return modelManager.getModels()[modelId].destroy({
+            where: {
+                id: entityId
+            }
+        }).then(function () {
+            return true;
         });
     };
 }
@@ -719,13 +719,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _updateFactory = __webpack_require__(1);
+var _Context2 = __webpack_require__(0);
 
-var _updateFactory2 = _interopRequireDefault(_updateFactory);
-
-var _removeFactory = __webpack_require__(2);
-
-var _removeFactory2 = _interopRequireDefault(_removeFactory);
+var _Context3 = _interopRequireDefault(_Context2);
 
 var _getRecordContextFactory = __webpack_require__(14);
 
@@ -735,22 +731,30 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var RecordContext = function () {
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var RecordContext = function (_Context) {
+    _inherits(RecordContext, _Context);
+
     function RecordContext(recordId, contextAction, modelManager) {
         _classCallCheck(this, RecordContext);
 
-        this._contextAction = contextAction.createContextAction("record", (0, _getRecordContextFactory2.default)(recordId));
-        this._modelManager = modelManager;
+        var _this = _possibleConstructorReturn(this, (RecordContext.__proto__ || Object.getPrototypeOf(RecordContext)).call(this, contextAction, modelManager));
+
+        _this.addContextAction("record", (0, _getRecordContextFactory2.default)(recordId));
+        return _this;
     }
 
     _createClass(RecordContext, [{
         key: "updateRecord",
         value: function updateRecord(data) {
-            var updateRecordAction = (0, _updateFactory2.default)("Record", this._modelManager);
+            var _this2 = this;
 
-            return this._contextAction.resolve().then(function (_ref) {
+            return this.resolveContextAction().then(function (_ref) {
                 var record = _ref.record;
-                return updateRecordAction(record.id, { data: data });
+                return _this2.updateFactory("Record")(record.id, { data: data });
             }).then(function () {
                 return true;
             });
@@ -758,11 +762,11 @@ var RecordContext = function () {
     }, {
         key: "removeRecord",
         value: function removeRecord() {
-            var removeRecordAction = (0, _removeFactory2.default)("Record", this._modelManager);
+            var _this3 = this;
 
-            return this._contextAction.resolve().then(function (_ref2) {
+            return this.resolveContextAction().then(function (_ref2) {
                 var record = _ref2.record;
-                return removeRecordAction(record.id);
+                return _this3.removeFactory("Record")(record.id);
             }).then(function () {
                 return true;
             });
@@ -770,7 +774,7 @@ var RecordContext = function () {
     }, {
         key: "getData",
         value: function getData() {
-            return this._contextAction.resolve().then(function (_ref3) {
+            return this.resolveContextAction().then(function (_ref3) {
                 var record = _ref3.record;
                 return record;
             });
@@ -778,7 +782,7 @@ var RecordContext = function () {
     }]);
 
     return RecordContext;
-}();
+}(_Context3.default);
 
 exports.default = RecordContext;
 

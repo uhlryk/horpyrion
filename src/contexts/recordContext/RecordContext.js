@@ -1,32 +1,25 @@
-import updateFactory from "../actions/updateFactory";
-import removeFactory from "../actions/removeFactory";
+import Context from "../Context";
 import getRecordContextFactory from "./contextActions/getRecordContextFactory";
 
-export default class RecordContext {
+export default class RecordContext extends Context {
     constructor(recordId, contextAction, modelManager) {
-        this._contextAction = contextAction.createContextAction("record", getRecordContextFactory(recordId));
-        this._modelManager = modelManager;
+        super(contextAction, modelManager);
+        this.addContextAction("record", getRecordContextFactory(recordId));
     }
 
     updateRecord(data) {
-        const updateRecordAction = updateFactory("Record", this._modelManager);
-
-        return this._contextAction
-            .resolve()
-            .then(({ record }) => updateRecordAction(record.id, { data: data }))
+        return this.resolveContextAction()
+            .then(({ record }) => this.updateFactory("Record")(record.id, { data: data }))
             .then(() => true);
     }
 
     removeRecord() {
-        const removeRecordAction = removeFactory("Record", this._modelManager);
-
-        return this._contextAction
-            .resolve()
-            .then(({ record }) => removeRecordAction(record.id))
+        return this.resolveContextAction()
+            .then(({ record }) => this.removeFactory("Record")(record.id))
             .then(() => true);
     }
 
     getData() {
-        return this._contextAction.resolve().then(({ record }) => record);
+        return this.resolveContextAction().then(({ record }) => record);
     }
 }
