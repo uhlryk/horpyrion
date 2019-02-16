@@ -1,7 +1,7 @@
 import Context from "../Context";
-import SchemaContext from "../schemaContext/SchemaContext";
-import getUserContextFactory from "./contextActions/getUserContextFactory";
-import UserSchemaContext from "../userSchemaContext/UserSchemaContext";
+import SchemaContext from "./schemaContext/SchemaContext";
+import getUserContextFactory from "./getUserContextFactory";
+import UserSchemaContext from "./userSchemaContext/UserSchemaContext";
 
 export default class UserContext extends Context {
     constructor(userId, contextAction, modelManager) {
