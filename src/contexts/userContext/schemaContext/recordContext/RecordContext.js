@@ -1,4 +1,4 @@
-import Context from "../Context";
+import Context from "../../../Context";
 import getRecordContextFactory from "./contextActions/getRecordContextFactory";
 
 export default class RecordContext extends Context {
