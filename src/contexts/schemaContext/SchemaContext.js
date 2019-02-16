@@ -4,8 +4,12 @@ import RecordContext from "../recordContext/RecordContext";
 
 export default class SchemaContext extends Context {
     constructor(schemaId, contextAction, modelManager) {
-        super(contextAction, modelManager);
-        this.addContextAction("schema", getSchemaContextFactory(schemaId));
+        super({
+            name: "schema",
+            contextActionFunction: getSchemaContextFactory(schemaId),
+            contextAction,
+            modelManager
+        });
     }
 
     setRecord(recordId) {

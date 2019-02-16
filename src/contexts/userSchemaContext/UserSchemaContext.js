@@ -2,7 +2,11 @@ import Context from "../Context";
 
 export default class UserSchemaContext extends Context {
     constructor(id, contextAction, modelManager) {
-        super(contextAction, modelManager);
+        super({
+            name: "userSchema",
+            contextAction,
+            modelManager
+        });
     }
 
     createRecord(name) {

@@ -111,16 +111,30 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ContextAction = function () {
-    function ContextAction(contextAction, modelManager) {
+    function ContextAction(_ref) {
+        var name = _ref.name,
+            contextActionFunction = _ref.contextActionFunction,
+            contextAction = _ref.contextAction,
+            modelManager = _ref.modelManager;
+
         _classCallCheck(this, ContextAction);
 
         this._contextAction = contextAction.copyContextAction();
         this._modelManager = modelManager;
+        this._name = name;
+        if (contextActionFunction) {
+            this.addContextActionFunction(this._name, contextActionFunction);
+        }
     }
 
     _createClass(ContextAction, [{
-        key: "addContextAction",
-        value: function addContextAction(key, executeFactory) {
+        key: "getName",
+        value: function getName() {
+            return this._name;
+        }
+    }, {
+        key: "addContextActionFunction",
+        value: function addContextActionFunction(key, executeFactory) {
             this._contextAction.addAction(key, executeFactory);
         }
     }, {
@@ -348,10 +362,12 @@ var UserContext = function (_Context) {
     function UserContext(userId, contextAction, modelManager) {
         _classCallCheck(this, UserContext);
 
-        var _this = _possibleConstructorReturn(this, (UserContext.__proto__ || Object.getPrototypeOf(UserContext)).call(this, contextAction, modelManager));
-
-        _this.addContextAction("user", (0, _getUserContextFactory2.default)(userId));
-        return _this;
+        return _possibleConstructorReturn(this, (UserContext.__proto__ || Object.getPrototypeOf(UserContext)).call(this, {
+            name: "user",
+            contextActionFunction: (0, _getUserContextFactory2.default)(userId),
+            contextAction: contextAction,
+            modelManager: modelManager
+        }));
     }
 
     _createClass(UserContext, [{
@@ -545,10 +561,12 @@ var SchemaContext = function (_Context) {
     function SchemaContext(schemaId, contextAction, modelManager) {
         _classCallCheck(this, SchemaContext);
 
-        var _this = _possibleConstructorReturn(this, (SchemaContext.__proto__ || Object.getPrototypeOf(SchemaContext)).call(this, contextAction, modelManager));
-
-        _this.addContextAction("schema", (0, _getSchemaContextFactory2.default)(schemaId));
-        return _this;
+        return _possibleConstructorReturn(this, (SchemaContext.__proto__ || Object.getPrototypeOf(SchemaContext)).call(this, {
+            name: "schema",
+            contextActionFunction: (0, _getSchemaContextFactory2.default)(schemaId),
+            contextAction: contextAction,
+            modelManager: modelManager
+        }));
     }
 
     _createClass(SchemaContext, [{
@@ -741,10 +759,12 @@ var RecordContext = function (_Context) {
     function RecordContext(recordId, contextAction, modelManager) {
         _classCallCheck(this, RecordContext);
 
-        var _this = _possibleConstructorReturn(this, (RecordContext.__proto__ || Object.getPrototypeOf(RecordContext)).call(this, contextAction, modelManager));
-
-        _this.addContextAction("record", (0, _getRecordContextFactory2.default)(recordId));
-        return _this;
+        return _possibleConstructorReturn(this, (RecordContext.__proto__ || Object.getPrototypeOf(RecordContext)).call(this, {
+            name: "record",
+            contextActionFunction: (0, _getRecordContextFactory2.default)(recordId),
+            contextAction: contextAction,
+            modelManager: modelManager
+        }));
     }
 
     _createClass(RecordContext, [{
@@ -874,7 +894,11 @@ var UserSchemaContext = function (_Context) {
     function UserSchemaContext(id, contextAction, modelManager) {
         _classCallCheck(this, UserSchemaContext);
 
-        return _possibleConstructorReturn(this, (UserSchemaContext.__proto__ || Object.getPrototypeOf(UserSchemaContext)).call(this, contextAction, modelManager));
+        return _possibleConstructorReturn(this, (UserSchemaContext.__proto__ || Object.getPrototypeOf(UserSchemaContext)).call(this, {
+            name: "userSchema",
+            contextAction: contextAction,
+            modelManager: modelManager
+        }));
     }
 
     _createClass(UserSchemaContext, [{

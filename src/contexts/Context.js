@@ -5,12 +5,20 @@ import getListFactory from "./actions/getListFactory";
 import removeFactory from "./actions/removeFactory";
 
 export default class ContextAction {
-    constructor(contextAction, modelManager) {
+    constructor({ name, contextActionFunction, contextAction, modelManager }) {
         this._contextAction = contextAction.copyContextAction();
         this._modelManager = modelManager;
+        this._name = name;
+        if (contextActionFunction) {
+            this.addContextActionFunction(this._name, contextActionFunction);
+        }
     }
 
-    addContextAction(key, executeFactory) {
+    getName() {
+        return this._name;
+    }
+
+    addContextActionFunction(key, executeFactory) {
         this._contextAction.addAction(key, executeFactory);
     }
 

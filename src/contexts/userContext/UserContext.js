@@ -5,8 +5,12 @@ import UserSchemaContext from "../userSchemaContext/UserSchemaContext";
 
 export default class UserContext extends Context {
     constructor(userId, contextAction, modelManager) {
-        super(contextAction, modelManager);
-        this.addContextAction("user", getUserContextFactory(userId));
+        super({
+            name: "user",
+            contextActionFunction: getUserContextFactory(userId),
+            contextAction,
+            modelManager
+        });
     }
 
     createSchema(schemaName) {

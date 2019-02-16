@@ -3,8 +3,12 @@ import getRecordContextFactory from "./contextActions/getRecordContextFactory";
 
 export default class RecordContext extends Context {
     constructor(recordId, contextAction, modelManager) {
-        super(contextAction, modelManager);
-        this.addContextAction("record", getRecordContextFactory(recordId));
+        super({
+            name: "record",
+            contextActionFunction: getRecordContextFactory(recordId),
+            contextAction,
+            modelManager
+        });
     }
 
     updateRecord(data) {
