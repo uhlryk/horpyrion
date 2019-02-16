@@ -1,6 +1,6 @@
-import Context from "../../Context";
+import Context from "../Context";
 import getSchemaContextFactory from "./contextActions/getSchemaContextFactory";
-import RecordContext from "./recordContext/RecordContext";
+import RecordContext from "../recordContext/RecordContext";
 
 export default class SchemaContext extends Context {
     constructor(schemaId, contextAction, modelManager) {
