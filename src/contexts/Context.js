@@ -57,4 +57,8 @@ export default class ContextAction {
     removeFactory(modelId) {
         return removeFactory(modelId, this.getModelManager());
     }
+
+    getData() {
+        return this.resolveContextAction().then(context => context[this.getName()]);
+    }
 }

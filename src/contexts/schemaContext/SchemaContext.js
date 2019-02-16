@@ -20,10 +20,6 @@ export default class SchemaContext extends Context {
         return false;
     }
 
-    getData() {
-        return this._contextAction.resolve().then(({ schema }) => schema);
-    }
-
     getRecord(recordId) {
         return this.resolveContextAction().then(({ schema }) =>
             this.getFactory("Record")(recordId).then(record => {

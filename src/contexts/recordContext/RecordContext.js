@@ -22,8 +22,4 @@ export default class RecordContext extends Context {
             .then(({ record }) => this.removeFactory("Record")(record.id))
             .then(() => true);
     }
-
-    getData() {
-        return this.resolveContextAction().then(({ record }) => record);
-    }
 }

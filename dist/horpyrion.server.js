@@ -182,6 +182,15 @@ var ContextAction = function () {
         value: function removeFactory(modelId) {
             return (0, _removeFactory3.default)(modelId, this.getModelManager());
         }
+    }, {
+        key: "getData",
+        value: function getData() {
+            var _this = this;
+
+            return this.resolveContextAction().then(function (context) {
+                return context[_this.getName()];
+            });
+        }
     }]);
 
     return ContextAction;
@@ -391,14 +400,6 @@ var UserContext = function (_Context) {
         value: function setUserSchema() {
             return this.createContext(null, _UserSchemaContext2.default);
         }
-    }, {
-        key: "getData",
-        value: function getData() {
-            return this.resolveContextAction().then(function (_ref) {
-                var user = _ref.user;
-                return user;
-            });
-        }
     }]);
 
     return UserContext;
@@ -599,20 +600,12 @@ var SchemaContext = function (_Context) {
             return addAttribute;
         }()
     }, {
-        key: "getData",
-        value: function getData() {
-            return this._contextAction.resolve().then(function (_ref2) {
-                var schema = _ref2.schema;
-                return schema;
-            });
-        }
-    }, {
         key: "getRecord",
         value: function getRecord(recordId) {
             var _this2 = this;
 
-            return this.resolveContextAction().then(function (_ref3) {
-                var schema = _ref3.schema;
+            return this.resolveContextAction().then(function (_ref2) {
+                var schema = _ref2.schema;
                 return _this2.getFactory("Record")(recordId).then(function (record) {
                     if (record && record.SchemaId === schema.id) {
                         return record;
@@ -627,8 +620,8 @@ var SchemaContext = function (_Context) {
         value: function getRecords(query) {
             var _this3 = this;
 
-            return this.resolveContextAction().then(function (_ref4) {
-                var schema = _ref4.schema;
+            return this.resolveContextAction().then(function (_ref3) {
+                var schema = _ref3.schema;
                 return _this3.getListFactory("Record")(Object.assign({}, query, { SchemaId: schema.id }));
             });
         }
@@ -637,8 +630,8 @@ var SchemaContext = function (_Context) {
         value: function createRecord(data) {
             var _this4 = this;
 
-            return this.resolveContextAction().then(function (_ref5) {
-                var schema = _ref5.schema;
+            return this.resolveContextAction().then(function (_ref4) {
+                var schema = _ref4.schema;
                 return _this4.createFactory("Record")({ data: data, SchemaId: schema.id });
             }).then(function (record) {
                 return record.toJSON();
@@ -669,7 +662,7 @@ var SchemaContext = function (_Context) {
     }, {
         key: "getAttributes",
         value: function () {
-            var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+            var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
                 return regeneratorRuntime.wrap(function _callee2$(_context2) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
@@ -685,7 +678,7 @@ var SchemaContext = function (_Context) {
             }));
 
             function getAttributes() {
-                return _ref6.apply(this, arguments);
+                return _ref5.apply(this, arguments);
             }
 
             return getAttributes;
@@ -789,14 +782,6 @@ var RecordContext = function (_Context) {
                 return _this3.removeFactory("Record")(record.id);
             }).then(function () {
                 return true;
-            });
-        }
-    }, {
-        key: "getData",
-        value: function getData() {
-            return this.resolveContextAction().then(function (_ref3) {
-                var record = _ref3.record;
-                return record;
             });
         }
     }]);

@@ -26,8 +26,4 @@ export default class UserContext extends Context {
     setUserSchema() {
         return this.createContext(null, UserSchemaContext);
     }
-
-    getData() {
-        return this.resolveContextAction().then(({ user }) => user);
-    }
 }
