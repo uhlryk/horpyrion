@@ -1,15 +1,11 @@
-import createFactory from "../actions/createFactory";
-import getFactory from "../actions/getFactory";
-import getListFactory from "../actions/getListFactory";
-import updateFactory from "../actions/updateFactory";
-import removeFactory from "../actions/removeFactory";
+import Context from "../Context";
 import getSchemaContextFactory from "./contextActions/getSchemaContextFactory";
 import RecordContext from "../recordContext/RecordContext";
 
-export default class SchemaContext {
+export default class SchemaContext extends Context {
     constructor(schemaId, contextAction, modelManager) {
-        this._contextAction = contextAction.createContextAction("schema", getSchemaContextFactory(schemaId));
-        this._modelManager = modelManager;
+        super(contextAction, modelManager);
+        this.addContextAction("schema", getSchemaContextFactory(schemaId));
     }
 
     setRecord(recordId) {
@@ -25,10 +21,8 @@ export default class SchemaContext {
     }
 
     getRecord(recordId) {
-        const getRecordAction = getFactory("Record", this._modelManager);
-
-        return this._contextAction.resolve().then(({ schema }) =>
-            getRecordAction(recordId).then(record => {
+        return this.resolveContextAction().then(({ schema }) =>
+            this.getFactory("Record")(recordId).then(record => {
                 if (record && record.SchemaId === schema.id) {
                     return record;
                 } else {
@@ -39,37 +33,26 @@ export default class SchemaContext {
     }
 
     getRecords(query) {
-        const getRecordListAction = getListFactory("Record", this._modelManager);
-
-        return this._contextAction
-            .resolve()
-            .then(({ schema }) => getRecordListAction(Object.assign({}, query, { SchemaId: schema.id })));
+        return this.resolveContextAction().then(({ schema }) =>
+            this.getListFactory("Record")(Object.assign({}, query, { SchemaId: schema.id }))
+        );
     }
 
     createRecord(data) {
-        const createRecordAction = createFactory("Record", this._modelManager);
-
-        return this._contextAction
-            .resolve()
-            .then(({ schema }) => createRecordAction({ data: data, SchemaId: schema.id }))
+        return this.resolveContextAction()
+            .then(({ schema }) => this.createFactory("Record")({ data: data, SchemaId: schema.id }))
             .then(record => record.toJSON());
     }
 
     updateRecord(recordId, data) {
-        const updateRecordAction = updateFactory("Record", this._modelManager);
-
-        return this._contextAction
-            .resolve()
-            .then(() => updateRecordAction(recordId, { data: data }))
+        return this.resolveContextAction()
+            .then(() => this.updateFactory("Record")(recordId, { data: data }))
             .then(() => true);
     }
 
     removeRecord(recordId) {
-        const removeRecordAction = removeFactory("Record", this._modelManager);
-
-        return this._contextAction
-            .resolve()
-            .then(() => removeRecordAction(recordId))
+        return this.resolveContextAction()
+            .then(() => this.removeFactory("Record")(recordId))
             .then(() => true);
     }
 
