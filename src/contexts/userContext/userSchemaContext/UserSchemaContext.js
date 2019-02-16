@@ -26,6 +26,12 @@ export default class UserSchemaContext extends Context {
             .then(() => true);
     }
 
+    removeRecord(recordId) {
+        return this.resolveContextAction()
+            .then(() => this.removeFactory("User")(recordId))
+            .then(() => true);
+    }
+
     getRecord(userId) {
         return this.resolveContextAction()
             .then(() => this.getFactory("User")(userId))

@@ -125,6 +125,16 @@ describe("Horpyrion", () => {
                             });
                     });
 
+                    it("should remove user record", () => {
+                        return horpyrion
+                            .setRootUser()
+                            .setUserSchema()
+                            .removeRecord(USER_ID)
+                            .then(resp => {
+                                expect(resp).to.be.true();
+                            });
+                    });
+
                     describe("when specific user record context is set", () => {
                         it("should return user context data", () => {
                             return horpyrion

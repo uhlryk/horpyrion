@@ -918,12 +918,23 @@ var UserSchemaContext = function (_Context) {
             });
         }
     }, {
-        key: "getRecord",
-        value: function getRecord(userId) {
+        key: "removeRecord",
+        value: function removeRecord(recordId) {
             var _this4 = this;
 
             return this.resolveContextAction().then(function () {
-                return _this4.getFactory("User")(userId);
+                return _this4.removeFactory("User")(recordId);
+            }).then(function () {
+                return true;
+            });
+        }
+    }, {
+        key: "getRecord",
+        value: function getRecord(userId) {
+            var _this5 = this;
+
+            return this.resolveContextAction().then(function () {
+                return _this5.getFactory("User")(userId);
             }).then(function (userRecord) {
                 if (userRecord) {
                     return userRecord;
@@ -935,10 +946,10 @@ var UserSchemaContext = function (_Context) {
     }, {
         key: "getRecords",
         value: function getRecords(query) {
-            var _this5 = this;
+            var _this6 = this;
 
             return this.resolveContextAction().then(function () {
-                return _this5.getListFactory("User")(query);
+                return _this6.getListFactory("User")(query);
             }).then(function (userRecordList) {
                 return userRecordList;
             });
