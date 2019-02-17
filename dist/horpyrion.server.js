@@ -413,8 +413,6 @@ var _ModelManager2 = _interopRequireDefault(_ModelManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Horpyrion = function () {
@@ -426,34 +424,18 @@ var Horpyrion = function () {
 
     _createClass(Horpyrion, [{
         key: "sync",
-        value: function () {
-            var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(options) {
-                return regeneratorRuntime.wrap(function _callee$(_context) {
-                    while (1) {
-                        switch (_context.prev = _context.next) {
-                            case 0:
-                                this._modelManager = new _ModelManager2.default(this._configuration);
-                                _context.next = 3;
-                                return this._modelManager.authenticate();
+        value: function sync(options, onSync) {
+            var _this = this;
 
-                            case 3:
-                                _context.next = 5;
-                                return this._modelManager.sync(options);
-
-                            case 5:
-                            case "end":
-                                return _context.stop();
-                        }
-                    }
-                }, _callee, this);
-            }));
-
-            function sync(_x) {
-                return _ref.apply(this, arguments);
-            }
-
-            return sync;
-        }()
+            this._modelManager = new _ModelManager2.default(this._configuration);
+            return this._modelManager.authenticate().then(function () {
+                return _this._modelManager.sync(options);
+            }).then(function () {
+                if (onSync) {
+                    return onSync(_this);
+                }
+            });
+        }
     }, {
         key: "setRootUser",
         value: function setRootUser() {
@@ -542,6 +524,30 @@ var UserContext = function (_Context) {
                 return _this2.createFactory(_ModelManager2.default.MODEL.SCHEMA)({ name: schemaName });
             }).then(function (schema) {
                 return schema.toJSON();
+            });
+        }
+    }, {
+        key: "getSchema",
+        value: function getSchema(schemaId) {
+            var _this3 = this;
+
+            return this.resolveContextAction().then(function () {
+                return _this3.getFactory(_ModelManager2.default.MODEL.SCHEMA)(schemaId).then(function (schema) {
+                    if (schema) {
+                        return schema;
+                    } else {
+                        return null;
+                    }
+                });
+            });
+        }
+    }, {
+        key: "getSchemas",
+        value: function getSchemas(query) {
+            var _this4 = this;
+
+            return this.resolveContextAction().then(function () {
+                return _this4.getListFactory(_ModelManager2.default.MODEL.SCHEMA)(Object.assign({}, query));
             });
         }
     }, {

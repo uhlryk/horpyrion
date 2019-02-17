@@ -22,8 +22,23 @@ describe("Horpyrion", () => {
         beforeEach(() => {
             horpyrion = new Horpyrion(DB_CONFIGURATION);
         });
-        it("should connect to database", async () => {
-            await horpyrion.sync({ force: true });
+        it("should connect to database", () => {
+            return horpyrion.sync({ force: true });
+        });
+
+        it("should connect to database and create init data", () => {
+            return horpyrion.sync({ force: true }, horpyrion => {
+                return horpyrion
+                    .setRootUser()
+                    .createSchema("SOME_RESOURCE")
+                    .then(schema => {
+                        expect(schema).to.containSubset({
+                            id: expectedValue => expectedValue,
+                            name: "SOME_RESOURCE",
+                            UserId: null
+                        });
+                    });
+            });
         });
 
         describe("when not connected to database", () => {

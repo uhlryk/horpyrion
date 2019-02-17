@@ -20,6 +20,24 @@ export default class UserContext extends Context {
             .then(schema => schema.toJSON());
     }
 
+    getSchema(schemaId) {
+        return this.resolveContextAction().then(() =>
+            this.getFactory(ModelManager.MODEL.SCHEMA)(schemaId).then(schema => {
+                if (schema) {
+                    return schema;
+                } else {
+                    return null;
+                }
+            })
+        );
+    }
+
+    getSchemas(query) {
+        return this.resolveContextAction().then(() =>
+            this.getListFactory(ModelManager.MODEL.SCHEMA)(Object.assign({}, query))
+        );
+    }
+
     setSchema(schemaId) {
         return this.createContext(schemaId, SchemaContext);
     }
