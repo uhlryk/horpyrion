@@ -1,9 +1,10 @@
 import Sequelize from "sequelize";
 import uuid from "uuid/v4";
+import ModelManager from "../ModelManager";
 
 export default function(sequelize, DataTypes) {
     const Attribute = sequelize.define(
-        "Attribute",
+        ModelManager.MODEL.ATTRIBUTE,
         {
             id: {
                 allowNull: false,

@@ -1,5 +1,6 @@
 import Context from "../../../Context";
 import getUserRecordContextFactory from "./getUserRecordContextFactory";
+import ModelManager from "../../../../ModelManager";
 
 export default class UserRecordContext extends Context {
     constructor(userRecordId, contextAction, modelManager) {
@@ -13,13 +14,13 @@ export default class UserRecordContext extends Context {
 
     updateRecord(data) {
         return this.resolveContextAction()
-            .then(({ userRecord }) => this.updateFactory("User")(userRecord.id, data))
+            .then(({ userRecord }) => this.updateFactory(ModelManager.MODEL.USER)(userRecord.id, data))
             .then(() => true);
     }
 
     removeRecord() {
         return this.resolveContextAction()
-            .then(({ userRecord }) => this.removeFactory("User")(userRecord.id))
+            .then(({ userRecord }) => this.removeFactory(ModelManager.MODEL.USER)(userRecord.id))
             .then(() => true);
     }
 }

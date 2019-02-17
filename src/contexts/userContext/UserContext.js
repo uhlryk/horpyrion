@@ -2,6 +2,7 @@ import Context from "../Context";
 import SchemaContext from "./schemaContext/SchemaContext";
 import getUserContextFactory from "./getUserContextFactory";
 import UserSchemaContext from "./userSchemaContext/UserSchemaContext";
+import ModelManager from "../../ModelManager";
 
 export default class UserContext extends Context {
     constructor(userId, contextAction, modelManager) {
@@ -15,7 +16,7 @@ export default class UserContext extends Context {
 
     createSchema(schemaName) {
         return this.resolveContextAction()
-            .then(() => this.createFactory("Schema")({ name: schemaName }))
+            .then(() => this.createFactory(ModelManager.MODEL.SCHEMA)({ name: schemaName }))
             .then(schema => schema.toJSON());
     }
 

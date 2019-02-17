@@ -1,5 +1,6 @@
 import Context from "../../Context";
 import UserRecordContext from "./userRecordContext/UserRecordContext";
+import ModelManager from "../../../ModelManager";
 
 export default class UserSchemaContext extends Context {
     constructor(id, contextAction, modelManager) {
@@ -16,25 +17,25 @@ export default class UserSchemaContext extends Context {
 
     createRecord(name) {
         return this.resolveContextAction()
-            .then(() => this.createFactory("User")({ name: name }))
+            .then(() => this.createFactory(ModelManager.MODEL.USER)({ name: name }))
             .then(user => user.toJSON());
     }
 
     updateRecord(recordId, data) {
         return this.resolveContextAction()
-            .then(() => this.updateFactory("User")(recordId, data))
+            .then(() => this.updateFactory(ModelManager.MODEL.USER)(recordId, data))
             .then(() => true);
     }
 
     removeRecord(recordId) {
         return this.resolveContextAction()
-            .then(() => this.removeFactory("User")(recordId))
+            .then(() => this.removeFactory(ModelManager.MODEL.USER)(recordId))
             .then(() => true);
     }
 
     getRecord(userId) {
         return this.resolveContextAction()
-            .then(() => this.getFactory("User")(userId))
+            .then(() => this.getFactory(ModelManager.MODEL.USER)(userId))
             .then(userRecord => {
                 if (userRecord) {
                     return userRecord;
@@ -46,7 +47,7 @@ export default class UserSchemaContext extends Context {
 
     getRecords(query) {
         return this.resolveContextAction()
-            .then(() => this.getListFactory("User")(query))
+            .then(() => this.getListFactory(ModelManager.MODEL.USER)(query))
             .then(userRecordList => userRecordList);
     }
 }

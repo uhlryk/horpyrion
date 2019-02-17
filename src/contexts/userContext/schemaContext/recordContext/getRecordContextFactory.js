@@ -1,7 +1,9 @@
+import ModelManager from "../../../../ModelManager";
+
 export default recordId => modelManager => ({ schema }) => {
     return modelManager
         .getModels()
-        .Record.findOne({
+        [ModelManager.MODEL.RECORD].findOne({
             where: {
                 SchemaId: schema.id,
                 id: recordId

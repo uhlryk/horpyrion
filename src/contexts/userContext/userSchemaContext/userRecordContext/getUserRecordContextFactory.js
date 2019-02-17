@@ -1,7 +1,9 @@
+import ModelManager from "../../../../ModelManager";
+
 export default userRecordId => modelManager => () => {
     return modelManager
         .getModels()
-        .User.findOne({
+        [ModelManager.MODEL.USER].findOne({
             where: {
                 id: userRecordId
             },

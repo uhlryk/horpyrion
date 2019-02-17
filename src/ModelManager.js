@@ -4,6 +4,13 @@ import Sequelize from "sequelize";
 import Overload from "function-overloader";
 
 export default class ModelManager {
+    static MODEL = {
+        USER: "User",
+        SCHEMA: "Schema",
+        RECORD: "Record",
+        ATTRIBUTE: "Attribute"
+    };
+
     constructor() {
         this._isSync = false;
         Overload.when(Overload.INSTANCE(Sequelize))
