@@ -551,6 +551,28 @@ var UserContext = function (_Context) {
             });
         }
     }, {
+        key: "updateSchema",
+        value: function updateSchema(schemaId, schemaName) {
+            var _this5 = this;
+
+            return this.resolveContextAction().then(function () {
+                return _this5.updateFactory(_ModelManager2.default.MODEL.SCHEMA)(schemaId, { name: schemaName });
+            }).then(function () {
+                return true;
+            });
+        }
+    }, {
+        key: "removeSchema",
+        value: function removeSchema(schemaId) {
+            var _this6 = this;
+
+            return this.resolveContextAction().then(function () {
+                return _this6.removeFactory(_ModelManager2.default.MODEL.SCHEMA)(schemaId);
+            }).then(function () {
+                return true;
+            });
+        }
+    }, {
         key: "setSchema",
         value: function setSchema(schemaId) {
             return this.createContext(schemaId, _SchemaContext2.default);

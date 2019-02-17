@@ -38,6 +38,18 @@ export default class UserContext extends Context {
         );
     }
 
+    updateSchema(schemaId, schemaName) {
+        return this.resolveContextAction()
+            .then(() => this.updateFactory(ModelManager.MODEL.SCHEMA)(schemaId, { name: schemaName }))
+            .then(() => true);
+    }
+
+    removeSchema(schemaId) {
+        return this.resolveContextAction()
+            .then(() => this.removeFactory(ModelManager.MODEL.SCHEMA)(schemaId))
+            .then(() => true);
+    }
+
     setSchema(schemaId) {
         return this.createContext(schemaId, SchemaContext);
     }

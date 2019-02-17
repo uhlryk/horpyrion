@@ -188,7 +188,7 @@ describe("Horpyrion", () => {
                         });
                     });
                 });
-                describe("when specific schema context is set", () => {
+                describe("when specific schema exist", () => {
                     let SCHEMA_ID;
                     beforeEach(() => {
                         return horpyrion
@@ -200,6 +200,52 @@ describe("Horpyrion", () => {
                     });
 
                     it("should return schema data", () => {
+                        return horpyrion
+                            .setRootUser()
+                            .getSchema(SCHEMA_ID)
+                            .then(resp => {
+                                expect(resp).to.containSubset({
+                                    id: expectedValue => expectedValue,
+                                    name: "SOME_RESOURCE",
+                                    UserId: null
+                                });
+                            });
+                    });
+
+                    it("should return schema list", () => {
+                        return horpyrion
+                            .setRootUser()
+                            .getSchemas()
+                            .then(resp => {
+                                expect(resp).to.containSubset([
+                                    {
+                                        id: expectedValue => expectedValue,
+                                        name: "SOME_RESOURCE",
+                                        UserId: null
+                                    }
+                                ]);
+                            });
+                    });
+
+                    it("should update schema", () => {
+                        return horpyrion
+                            .setRootUser()
+                            .updateSchema(SCHEMA_ID, "SOME_OTHER_RESOURCE")
+                            .then(resp => {
+                                expect(resp).to.true();
+                            });
+                    });
+
+                    it("should remove schema", () => {
+                        return horpyrion
+                            .setRootUser()
+                            .removeSchema(SCHEMA_ID)
+                            .then(resp => {
+                                expect(resp).to.true();
+                            });
+                    });
+
+                    it("should return schema data from schema context", () => {
                         return horpyrion
                             .setRootUser()
                             .setSchema(SCHEMA_ID)
