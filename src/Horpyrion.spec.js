@@ -202,7 +202,8 @@ describe("Horpyrion", () => {
                     it("should return schema data", () => {
                         return horpyrion
                             .setRootUser()
-                            .getSchema(SCHEMA_ID)
+                            .setSchema(SCHEMA_ID)
+                            .getData()
                             .then(resp => {
                                 expect(resp).to.containSubset({
                                     id: expectedValue => expectedValue,
@@ -230,7 +231,8 @@ describe("Horpyrion", () => {
                     it("should update schema", () => {
                         return horpyrion
                             .setRootUser()
-                            .updateSchema(SCHEMA_ID, "SOME_OTHER_RESOURCE")
+                            .setSchema(SCHEMA_ID)
+                            .updateSchema("SOME_OTHER_RESOURCE")
                             .then(resp => {
                                 expect(resp).to.true();
                             });
@@ -239,36 +241,11 @@ describe("Horpyrion", () => {
                     it("should remove schema", () => {
                         return horpyrion
                             .setRootUser()
-                            .removeSchema(SCHEMA_ID)
+                            .setSchema(SCHEMA_ID)
+                            .removeSchema()
                             .then(resp => {
                                 expect(resp).to.true();
                             });
-                    });
-
-                    it("should return schema data from schema context", () => {
-                        return horpyrion
-                            .setRootUser()
-                            .setSchema(SCHEMA_ID)
-                            .getData()
-                            .then(resp => {
-                                expect(resp).to.containSubset({
-                                    id: expectedValue => expectedValue,
-                                    name: "SOME_RESOURCE",
-                                    UserId: null
-                                });
-                            });
-                    });
-
-                    describe("when creating attribute", () => {
-                        it("should return false", () => {
-                            return horpyrion
-                                .setRootUser()
-                                .setSchema(SCHEMA_ID)
-                                .addAttribute("SOME_ATTRIBUTE", "SOME_TYPE")
-                                .then(resp => {
-                                    expect(resp).be.false();
-                                });
-                        });
                     });
 
                     describe("when creating record", () => {
@@ -568,18 +545,6 @@ describe("Horpyrion", () => {
                                     UserId: null
                                 });
                             });
-                    });
-
-                    describe("when creating attribute", () => {
-                        it("should return false", () => {
-                            return horpyrion
-                                .setUser(USER_ID)
-                                .setSchema(SCHEMA_ID)
-                                .addAttribute("SOME_ATTRIBUTE", "SOME_TYPE")
-                                .then(resp => {
-                                    expect(resp).be.false();
-                                });
-                        });
                     });
 
                     describe("when creating record", () => {

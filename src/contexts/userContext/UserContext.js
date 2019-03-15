@@ -20,17 +20,17 @@ export default class UserContext extends Context {
             .then(schema => schema.toJSON());
     }
 
-    getSchema(schemaId) {
-        return this.resolveContextAction().then(() =>
-            this.getFactory(ModelManager.MODEL.SCHEMA)(schemaId).then(schema => {
-                if (schema) {
-                    return schema;
-                } else {
-                    return null;
-                }
-            })
-        );
-    }
+    // getSchema(schemaId) {
+    //     return this.resolveContextAction().then(() =>
+    //         this.getFactory(ModelManager.MODEL.SCHEMA)(schemaId).then(schema => {
+    //             if (schema) {
+    //                 return schema;
+    //             } else {
+    //                 return null;
+    //             }
+    //         })
+    //     );
+    // }
 
     getSchemas(query) {
         return this.resolveContextAction().then(() =>
@@ -38,17 +38,17 @@ export default class UserContext extends Context {
         );
     }
 
-    updateSchema(schemaId, schemaName) {
-        return this.resolveContextAction()
-            .then(() => this.updateFactory(ModelManager.MODEL.SCHEMA)(schemaId, { name: schemaName }))
-            .then(() => true);
-    }
-
-    removeSchema(schemaId) {
-        return this.resolveContextAction()
-            .then(() => this.removeFactory(ModelManager.MODEL.SCHEMA)(schemaId))
-            .then(() => true);
-    }
+    // updateSchema(schemaId, schemaName) {
+    //     return this.resolveContextAction()
+    //         .then(() => this.updateFactory(ModelManager.MODEL.SCHEMA)(schemaId, { name: schemaName }))
+    //         .then(() => true);
+    // }
+    //
+    // removeSchema(schemaId) {
+    //     return this.resolveContextAction()
+    //         .then(() => this.removeFactory(ModelManager.MODEL.SCHEMA)(schemaId))
+    //         .then(() => true);
+    // }
 
     setSchema(schemaId) {
         return this.createContext(schemaId, SchemaContext);

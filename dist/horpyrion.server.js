@@ -526,52 +526,41 @@ var UserContext = function (_Context) {
                 return schema.toJSON();
             });
         }
-    }, {
-        key: "getSchema",
-        value: function getSchema(schemaId) {
-            var _this3 = this;
 
-            return this.resolveContextAction().then(function () {
-                return _this3.getFactory(_ModelManager2.default.MODEL.SCHEMA)(schemaId).then(function (schema) {
-                    if (schema) {
-                        return schema;
-                    } else {
-                        return null;
-                    }
-                });
-            });
-        }
+        // getSchema(schemaId) {
+        //     return this.resolveContextAction().then(() =>
+        //         this.getFactory(ModelManager.MODEL.SCHEMA)(schemaId).then(schema => {
+        //             if (schema) {
+        //                 return schema;
+        //             } else {
+        //                 return null;
+        //             }
+        //         })
+        //     );
+        // }
+
     }, {
         key: "getSchemas",
         value: function getSchemas(query) {
-            var _this4 = this;
+            var _this3 = this;
 
             return this.resolveContextAction().then(function () {
-                return _this4.getListFactory(_ModelManager2.default.MODEL.SCHEMA)(Object.assign({}, query));
+                return _this3.getListFactory(_ModelManager2.default.MODEL.SCHEMA)(Object.assign({}, query));
             });
         }
-    }, {
-        key: "updateSchema",
-        value: function updateSchema(schemaId, schemaName) {
-            var _this5 = this;
 
-            return this.resolveContextAction().then(function () {
-                return _this5.updateFactory(_ModelManager2.default.MODEL.SCHEMA)(schemaId, { name: schemaName });
-            }).then(function () {
-                return true;
-            });
-        }
-    }, {
-        key: "removeSchema",
-        value: function removeSchema(schemaId) {
-            var _this6 = this;
+        // updateSchema(schemaId, schemaName) {
+        //     return this.resolveContextAction()
+        //         .then(() => this.updateFactory(ModelManager.MODEL.SCHEMA)(schemaId, { name: schemaName }))
+        //         .then(() => true);
+        // }
+        //
+        // removeSchema(schemaId) {
+        //     return this.resolveContextAction()
+        //         .then(() => this.removeFactory(ModelManager.MODEL.SCHEMA)(schemaId))
+        //         .then(() => true);
+        // }
 
-            return this.resolveContextAction().then(function () {
-                return _this6.removeFactory(_ModelManager2.default.MODEL.SCHEMA)(schemaId);
-            }).then(function () {
-                return true;
-            });
-        }
     }, {
         key: "setSchema",
         value: function setSchema(schemaId) {
@@ -762,9 +751,93 @@ var SchemaContext = function (_Context) {
             return new _RecordContext2.default(recordId, this._contextAction, this._modelManager);
         }
     }, {
-        key: "addAttribute",
+        key: "updateSchema",
+        value: function updateSchema(schemaName) {
+            var _this2 = this;
+
+            return this.resolveContextAction().then(function (_ref) {
+                var schema = _ref.schema;
+                return _this2.updateFactory(_ModelManager2.default.MODEL.SCHEMA)(schema.id, { name: schemaName });
+            }).then(function () {
+                return true;
+            });
+        }
+    }, {
+        key: "removeSchema",
+        value: function removeSchema() {
+            var _this3 = this;
+
+            return this.resolveContextAction().then(function (_ref2) {
+                var schema = _ref2.schema;
+                return _this3.removeFactory(_ModelManager2.default.MODEL.SCHEMA)(schema.id);
+            }).then(function () {
+                return true;
+            });
+        }
+    }, {
+        key: "getRecord",
+        value: function getRecord(recordId) {
+            var _this4 = this;
+
+            return this.resolveContextAction().then(function (_ref3) {
+                var schema = _ref3.schema;
+                return _this4.getFactory(_ModelManager2.default.MODEL.RECORD)(recordId).then(function (record) {
+                    if (record && record.SchemaId === schema.id) {
+                        return record;
+                    } else {
+                        return null;
+                    }
+                });
+            });
+        }
+    }, {
+        key: "getRecords",
+        value: function getRecords(query) {
+            var _this5 = this;
+
+            return this.resolveContextAction().then(function (_ref4) {
+                var schema = _ref4.schema;
+                return _this5.getListFactory(_ModelManager2.default.MODEL.RECORD)(Object.assign({}, query, { SchemaId: schema.id }));
+            });
+        }
+    }, {
+        key: "createRecord",
+        value: function createRecord(data) {
+            var _this6 = this;
+
+            return this.resolveContextAction().then(function (_ref5) {
+                var schema = _ref5.schema;
+                return _this6.createFactory(_ModelManager2.default.MODEL.RECORD)({ data: data, SchemaId: schema.id });
+            }).then(function (record) {
+                return record.toJSON();
+            });
+        }
+    }, {
+        key: "updateRecord",
+        value: function updateRecord(recordId, data) {
+            var _this7 = this;
+
+            return this.resolveContextAction().then(function () {
+                return _this7.updateFactory(_ModelManager2.default.MODEL.RECORD)(recordId, { data: data });
+            }).then(function () {
+                return true;
+            });
+        }
+    }, {
+        key: "removeRecord",
+        value: function removeRecord(recordId) {
+            var _this8 = this;
+
+            return this.resolveContextAction().then(function () {
+                return _this8.removeFactory(_ModelManager2.default.MODEL.RECORD)(recordId);
+            }).then(function () {
+                return true;
+            });
+        }
+    }, {
+        key: "getAttributes",
         value: function () {
-            var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(attributeName, attributeType) {
+            var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
                 return regeneratorRuntime.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -779,92 +852,8 @@ var SchemaContext = function (_Context) {
                 }, _callee, this);
             }));
 
-            function addAttribute(_x, _x2) {
-                return _ref.apply(this, arguments);
-            }
-
-            return addAttribute;
-        }()
-    }, {
-        key: "getRecord",
-        value: function getRecord(recordId) {
-            var _this2 = this;
-
-            return this.resolveContextAction().then(function (_ref2) {
-                var schema = _ref2.schema;
-                return _this2.getFactory(_ModelManager2.default.MODEL.RECORD)(recordId).then(function (record) {
-                    if (record && record.SchemaId === schema.id) {
-                        return record;
-                    } else {
-                        return null;
-                    }
-                });
-            });
-        }
-    }, {
-        key: "getRecords",
-        value: function getRecords(query) {
-            var _this3 = this;
-
-            return this.resolveContextAction().then(function (_ref3) {
-                var schema = _ref3.schema;
-                return _this3.getListFactory(_ModelManager2.default.MODEL.RECORD)(Object.assign({}, query, { SchemaId: schema.id }));
-            });
-        }
-    }, {
-        key: "createRecord",
-        value: function createRecord(data) {
-            var _this4 = this;
-
-            return this.resolveContextAction().then(function (_ref4) {
-                var schema = _ref4.schema;
-                return _this4.createFactory(_ModelManager2.default.MODEL.RECORD)({ data: data, SchemaId: schema.id });
-            }).then(function (record) {
-                return record.toJSON();
-            });
-        }
-    }, {
-        key: "updateRecord",
-        value: function updateRecord(recordId, data) {
-            var _this5 = this;
-
-            return this.resolveContextAction().then(function () {
-                return _this5.updateFactory(_ModelManager2.default.MODEL.RECORD)(recordId, { data: data });
-            }).then(function () {
-                return true;
-            });
-        }
-    }, {
-        key: "removeRecord",
-        value: function removeRecord(recordId) {
-            var _this6 = this;
-
-            return this.resolveContextAction().then(function () {
-                return _this6.removeFactory(_ModelManager2.default.MODEL.RECORD)(recordId);
-            }).then(function () {
-                return true;
-            });
-        }
-    }, {
-        key: "getAttributes",
-        value: function () {
-            var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-                return regeneratorRuntime.wrap(function _callee2$(_context2) {
-                    while (1) {
-                        switch (_context2.prev = _context2.next) {
-                            case 0:
-                                return _context2.abrupt("return", false);
-
-                            case 1:
-                            case "end":
-                                return _context2.stop();
-                        }
-                    }
-                }, _callee2, this);
-            }));
-
             function getAttributes() {
-                return _ref5.apply(this, arguments);
+                return _ref6.apply(this, arguments);
             }
 
             return getAttributes;

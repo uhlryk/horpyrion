@@ -133,7 +133,7 @@ userContext
 
 Returns promise which resolves to updated schema 
 
-#### remove schema
+#### remove schema actions
 
  * begins from user context
  
@@ -142,7 +142,14 @@ userContext
   .removeSchema(<schema id>)
 ```
 
+
 Returns promise which resolves to true 
+
+#### set schema context
+
+ * begins from user context
+ 
+ 
 
 ## testing
 
