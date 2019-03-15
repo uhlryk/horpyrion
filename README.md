@@ -94,19 +94,6 @@ userContext
 
 Returns promise which resolves to schema 
 
-#### get schema actions
-
-get specific collection info
-
- * begins from user context
- 
-```
-userContext
-  .getSchema(<schema id>)
-```
-
-Returns promise which resolves to schema 
-
 #### get schema list actions
 
 get list of collection info based on query
@@ -120,36 +107,53 @@ userContext
 
 Returns promise which resolves to schema list
 
-#### update schema list actions
+#### set schema context
 
-update collection info
+Specify schema context. Next actions and context will be in relation to selected context 
 
  * begins from user context
  
 ```
 userContext
-.updateSchema(<schema id>, <schema name>)
+.setSchema(<schema id>)
+```
+
+#### update schema actions
+
+update collection info
+
+ * begins from schema context
+ 
+```
+schemaContext
+.updateSchema(<schema name>)
 ```
 
 Returns promise which resolves to updated schema 
 
 #### remove schema actions
 
- * begins from user context
+ * begins from schema context
  
 ```
-userContext
-  .removeSchema(<schema id>)
+schemaContext
+  .removeSchema()
 ```
-
 
 Returns promise which resolves to true 
 
-#### set schema context
+#### get schema data
 
- * begins from user context
+get specific collection info
+
+ * begins from schema context
  
- 
+```
+userContext
+  .getData()
+```
+
+Returns promise which resolves to schema 
 
 ## testing
 
