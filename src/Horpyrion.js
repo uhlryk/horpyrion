@@ -7,14 +7,14 @@ export default class Horpyrion {
     constructor(configuration) {
         this._configuration = configuration;
     }
-    sync(options, onSync) {
+    sync(options, onSyncCallback) {
         this._modelManager = new ModelManager(this._configuration);
         return this._modelManager
             .authenticate()
             .then(() => this._modelManager.sync(options))
             .then(() => {
-                if (onSync) {
-                    return onSync(this);
+                if (onSyncCallback) {
+                    return onSyncCallback(this);
                 }
             });
     }

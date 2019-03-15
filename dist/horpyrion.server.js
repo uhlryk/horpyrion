@@ -424,15 +424,15 @@ var Horpyrion = function () {
 
     _createClass(Horpyrion, [{
         key: "sync",
-        value: function sync(options, onSync) {
+        value: function sync(options, onSyncCallback) {
             var _this = this;
 
             this._modelManager = new _ModelManager2.default(this._configuration);
             return this._modelManager.authenticate().then(function () {
                 return _this._modelManager.sync(options);
             }).then(function () {
-                if (onSync) {
-                    return onSync(_this);
+                if (onSyncCallback) {
+                    return onSyncCallback(_this);
                 }
             });
         }

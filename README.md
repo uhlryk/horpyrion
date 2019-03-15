@@ -11,36 +11,79 @@
 npm install horpyrion
 ```
 
+## about
+
+Library to create schemas with permissions and CRUD operations
+
 ## usage
 
 ```javascript
 import Horpyrion from "horpyrion";
 ```
 
-On start library need to connect to database and create init tables
-```javascript
-const horpyrion = new Horpyrion("mongodb://localhost:27017/testProject")
-await horpyrion.sync();
+### create instance 
+
+#### by passing options
 
 ```
-Do stuff as root user.
-```javascript
-await horpyrion
-    .getRootUser()
-    .createResource(<resource name>)
-    .addAttribute(<attribute name>, <attribute type>); 
-```    
-Do stuff as normal user.  
-```javascript    
-await horpyrion
-    .getUser(<user id>)
-    .createResource(<resource name>)
-    .addAttribute(<attribute name>, <attribute type>);
-await horpyrion
-    .getUser(<user id>)
-    .getResource(<resourceName>)
-    .addAttribute(<attribute name>, <attribute type>);
+let horpyrion = new Horpyrion({
+  type: "postgres",
+  host: "localhost",
+  dbname: "test",
+  user: "test",
+  password: "test",
+  port: "5432",
+  logging: false
+});
 ```
+
+#### by passing existing sequelize instance
+
+```
+const sequelize = <sequelize instance>
+const horpyrion = new Horpyrion(sequelize);
+```
+
+### start syncing to database
+
+```
+const options = <sequelize options>
+// looks unusefull
+const callbackFunction = <callback function when sync happened>
+horpyrion.sync(options, callbackFunction); //return promise
+```
+
+### Contexts and Actions
+
+Each action need to be preceded by setup contexts
+Contexts begins from some other contexts and leads to different actions and contexts
+
+#### user context
+
+Specify user context. Next contexts and actions will be done with this user permissions. and this user will be the owner
+
+##### begins
+
+from instance
+
+##### usage 
+
+There are two variants:
+
+root user, it doesn't specify any user. this will make next actions with root/sudo permissions
+
+```
+horpyrion
+  .setRootUser() 
+```
+
+specific user context:
+
+```
+horpyrion
+  .setUser(<user id>)
+```  
+
 
 ## testing
 

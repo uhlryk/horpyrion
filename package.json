@@ -1,7 +1,7 @@
 {
     "name": "horpyrion",
     "version": "0.31.0",
-    "description": "Persistent data manager for crm/cms systems",
+    "description": "Persistent data manager for crm/cms systems. Create schemas with permissions and CRUD operations",
     "main": "dist/horpyrion.server.js",
     "scripts": {
         "prettier-all": "prettier --config .prettierrc --write 'src/**/*.js'",
