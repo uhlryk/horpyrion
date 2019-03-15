@@ -120,7 +120,18 @@ userContext
 
 Returns promise which resolves to schema list
 
+#### update schema list actions
 
+update collection info
+
+ * begins from user context
+ 
+```
+userContext
+.updateSchema(<schema id>, <schema name>)
+```
+
+Returns promise which resolves to updated schema 
 
 ## testing
 
