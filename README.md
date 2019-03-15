@@ -156,6 +156,19 @@ schemaContext
 
 Returns promise which resolves to true 
 
+#### get record list actions
+
+get list of records in collection based on query
+
+ * begins from schema context
+ 
+```
+schemaContext
+.getRecords(<query object>)
+```
+
+Returns promise which resolves to record list
+
 #### get schema data
 
 get specific collection info
