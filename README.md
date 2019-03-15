@@ -268,6 +268,54 @@ userSchemaContext
 
 Returns promise which resolves to user list
 
+#### set user record context
+
+Specify user record context. Next actions and contexts will be in relation to selected record
+
+ * begins from user schema context
+ 
+```
+userSchemaContext
+.setUserRecord(user id>)
+```
+
+#### update user record actions
+
+update record info
+
+ * begins from user record context
+ 
+```
+userRecordContext
+.updateRecord(<record data>)
+```
+
+Returns promise which resolves to true 
+
+#### remove user actions
+
+ * begins from user record context
+ 
+```
+userRecordContext
+  .removeRecord()
+```
+
+Returns promise which resolves to true 
+
+#### get user record data
+
+get specific record info
+
+ * begins from user record context
+ 
+```
+userRecordContext
+  .getData()
+```
+
+Returns promise which resolves to user record 
+
 
 ## testing
 
