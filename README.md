@@ -62,11 +62,7 @@ Contexts begins from some other contexts and leads to different actions and cont
 
 Specify user context. Next contexts and actions will be done with this user permissions. and this user will be the owner
 
-##### begins
-
-from instance
-
-##### usage 
+ * begins from instance
 
 There are two variants:
 
@@ -88,16 +84,25 @@ horpyrion
 
 Creates new collection in database
 
-##### begins
-
-from user context
-
-##### usage
+ * begins from user context
 
 ```
 userContext
   .createSchema(<unique schema name>)
   
+```
+
+Returns promise which resolves to schema 
+
+#### get schema actions
+
+get collection info
+
+ * begins from user context
+ 
+```
+userContext
+  .getSchema(<schema id>)
 ```
 
 Returns promise which resolves to schema 
