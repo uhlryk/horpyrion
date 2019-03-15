@@ -96,7 +96,7 @@ Returns promise which resolves to schema
 
 #### get schema actions
 
-get collection info
+get specific collection info
 
  * begins from user context
  
@@ -106,6 +106,19 @@ userContext
 ```
 
 Returns promise which resolves to schema 
+
+#### get schema list actions
+
+get list of collection info based on query
+
+ * begins from user context
+ 
+```
+userContext
+.getSchemas(<query object>)
+```
+
+Returns promise which resolves to schema list
 
 
 
