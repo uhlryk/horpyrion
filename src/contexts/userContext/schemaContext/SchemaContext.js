@@ -29,18 +29,6 @@ export default class SchemaContext extends Context {
             .then(() => true);
     }
 
-    getRecord(recordId) {
-        return this.resolveContextAction().then(({ schema }) =>
-            this.getFactory(ModelManager.MODEL.RECORD)(recordId).then(record => {
-                if (record && record.SchemaId === schema.id) {
-                    return record;
-                } else {
-                    return null;
-                }
-            })
-        );
-    }
-
     getRecords(query) {
         return this.resolveContextAction().then(({ schema }) =>
             this.getListFactory(ModelManager.MODEL.RECORD)(Object.assign({}, query, { SchemaId: schema.id }))
@@ -51,18 +39,6 @@ export default class SchemaContext extends Context {
         return this.resolveContextAction()
             .then(({ schema }) => this.createFactory(ModelManager.MODEL.RECORD)({ data: data, SchemaId: schema.id }))
             .then(record => record.toJSON());
-    }
-
-    updateRecord(recordId, data) {
-        return this.resolveContextAction()
-            .then(() => this.updateFactory(ModelManager.MODEL.RECORD)(recordId, { data: data }))
-            .then(() => true);
-    }
-
-    removeRecord(recordId) {
-        return this.resolveContextAction()
-            .then(() => this.removeFactory(ModelManager.MODEL.RECORD)(recordId))
-            .then(() => true);
     }
 
     async getAttributes() {

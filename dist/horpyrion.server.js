@@ -526,19 +526,6 @@ var UserContext = function (_Context) {
                 return schema.toJSON();
             });
         }
-
-        // getSchema(schemaId) {
-        //     return this.resolveContextAction().then(() =>
-        //         this.getFactory(ModelManager.MODEL.SCHEMA)(schemaId).then(schema => {
-        //             if (schema) {
-        //                 return schema;
-        //             } else {
-        //                 return null;
-        //             }
-        //         })
-        //     );
-        // }
-
     }, {
         key: "getSchemas",
         value: function getSchemas(query) {
@@ -548,19 +535,6 @@ var UserContext = function (_Context) {
                 return _this3.getListFactory(_ModelManager2.default.MODEL.SCHEMA)(Object.assign({}, query));
             });
         }
-
-        // updateSchema(schemaId, schemaName) {
-        //     return this.resolveContextAction()
-        //         .then(() => this.updateFactory(ModelManager.MODEL.SCHEMA)(schemaId, { name: schemaName }))
-        //         .then(() => true);
-        // }
-        //
-        // removeSchema(schemaId) {
-        //     return this.resolveContextAction()
-        //         .then(() => this.removeFactory(ModelManager.MODEL.SCHEMA)(schemaId))
-        //         .then(() => true);
-        // }
-
     }, {
         key: "setSchema",
         value: function setSchema(schemaId) {
@@ -775,69 +749,31 @@ var SchemaContext = function (_Context) {
             });
         }
     }, {
-        key: "getRecord",
-        value: function getRecord(recordId) {
+        key: "getRecords",
+        value: function getRecords(query) {
             var _this4 = this;
 
             return this.resolveContextAction().then(function (_ref3) {
                 var schema = _ref3.schema;
-                return _this4.getFactory(_ModelManager2.default.MODEL.RECORD)(recordId).then(function (record) {
-                    if (record && record.SchemaId === schema.id) {
-                        return record;
-                    } else {
-                        return null;
-                    }
-                });
-            });
-        }
-    }, {
-        key: "getRecords",
-        value: function getRecords(query) {
-            var _this5 = this;
-
-            return this.resolveContextAction().then(function (_ref4) {
-                var schema = _ref4.schema;
-                return _this5.getListFactory(_ModelManager2.default.MODEL.RECORD)(Object.assign({}, query, { SchemaId: schema.id }));
+                return _this4.getListFactory(_ModelManager2.default.MODEL.RECORD)(Object.assign({}, query, { SchemaId: schema.id }));
             });
         }
     }, {
         key: "createRecord",
         value: function createRecord(data) {
-            var _this6 = this;
+            var _this5 = this;
 
-            return this.resolveContextAction().then(function (_ref5) {
-                var schema = _ref5.schema;
-                return _this6.createFactory(_ModelManager2.default.MODEL.RECORD)({ data: data, SchemaId: schema.id });
+            return this.resolveContextAction().then(function (_ref4) {
+                var schema = _ref4.schema;
+                return _this5.createFactory(_ModelManager2.default.MODEL.RECORD)({ data: data, SchemaId: schema.id });
             }).then(function (record) {
                 return record.toJSON();
             });
         }
     }, {
-        key: "updateRecord",
-        value: function updateRecord(recordId, data) {
-            var _this7 = this;
-
-            return this.resolveContextAction().then(function () {
-                return _this7.updateFactory(_ModelManager2.default.MODEL.RECORD)(recordId, { data: data });
-            }).then(function () {
-                return true;
-            });
-        }
-    }, {
-        key: "removeRecord",
-        value: function removeRecord(recordId) {
-            var _this8 = this;
-
-            return this.resolveContextAction().then(function () {
-                return _this8.removeFactory(_ModelManager2.default.MODEL.RECORD)(recordId);
-            }).then(function () {
-                return true;
-            });
-        }
-    }, {
         key: "getAttributes",
         value: function () {
-            var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+            var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
                 return regeneratorRuntime.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -853,7 +789,7 @@ var SchemaContext = function (_Context) {
             }));
 
             function getAttributes() {
-                return _ref6.apply(this, arguments);
+                return _ref5.apply(this, arguments);
             }
 
             return getAttributes;

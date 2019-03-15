@@ -271,31 +271,6 @@ describe("Horpyrion", () => {
                         });
                     });
 
-                    describe("when no records in database", () => {
-                        describe("when getting records", () => {
-                            it("should return empty array", () => {
-                                return horpyrion
-                                    .setRootUser()
-                                    .setSchema(SCHEMA_ID)
-                                    .getRecords()
-                                    .then(resp => {
-                                        expect(resp).be.eql([]);
-                                    });
-                            });
-                        });
-
-                        describe("when getting record", () => {
-                            it("should return null", () => {
-                                return horpyrion
-                                    .setRootUser()
-                                    .setSchema(SCHEMA_ID)
-                                    .getRecord(SOME_UUID)
-                                    .then(resp => {
-                                        expect(resp).be.equal(null);
-                                    });
-                            });
-                        });
-                    });
                     describe("when records are in database", () => {
                         let RECORD_ID;
                         beforeEach(() => {
@@ -375,7 +350,8 @@ describe("Horpyrion", () => {
                                             return horpyrion
                                                 .setRootUser()
                                                 .setSchema(SCHEMA_ID)
-                                                .getRecord(RECORD_ID)
+                                                .setRecord(RECORD_ID)
+                                                .getData()
                                                 .then(resp => {
                                                     expect(resp).to.containSubset({
                                                         id: RECORD_ID,
@@ -421,7 +397,8 @@ describe("Horpyrion", () => {
                                 return horpyrion
                                     .setRootUser()
                                     .setSchema(SCHEMA_ID)
-                                    .getRecord(RECORD_ID)
+                                    .setRecord(RECORD_ID)
+                                    .getData()
                                     .then(resp => {
                                         expect(resp).to.containSubset({
                                             id: RECORD_ID,
@@ -437,12 +414,14 @@ describe("Horpyrion", () => {
                                 return horpyrion
                                     .setRootUser()
                                     .setSchema(SCHEMA_ID)
-                                    .updateRecord(RECORD_ID, { testA: "AAA3", testB: "BBB3" })
+                                    .setRecord(RECORD_ID)
+                                    .updateRecord({ testA: "AAA3", testB: "BBB3" })
                                     .then(() => {
                                         return horpyrion
                                             .setRootUser()
                                             .setSchema(SCHEMA_ID)
-                                            .getRecord(RECORD_ID)
+                                            .setRecord(RECORD_ID)
+                                            .getData()
                                             .then(resp => {
                                                 expect(resp).to.containSubset({
                                                     id: RECORD_ID,
@@ -460,7 +439,8 @@ describe("Horpyrion", () => {
                                 return horpyrion
                                     .setRootUser()
                                     .setSchema(SCHEMA_ID)
-                                    .removeRecord(RECORD_ID)
+                                    .setRecord(RECORD_ID)
+                                    .removeRecord()
                                     .then(resp => {
                                         expect(resp).to.be.true();
                                         return horpyrion
@@ -588,7 +568,8 @@ describe("Horpyrion", () => {
                                 return horpyrion
                                     .setUser(USER_ID)
                                     .setSchema(SCHEMA_ID)
-                                    .getRecord(SOME_UUID)
+                                    .setRecord(SOME_UUID)
+                                    .getData()
                                     .then(resp => {
                                         expect(resp).be.equal(null);
                                     });
@@ -674,7 +655,8 @@ describe("Horpyrion", () => {
                                             return horpyrion
                                                 .setRootUser()
                                                 .setSchema(SCHEMA_ID)
-                                                .getRecord(RECORD_ID)
+                                                .setRecord(RECORD_ID)
+                                                .getData()
                                                 .then(resp => {
                                                     expect(resp).to.containSubset({
                                                         id: RECORD_ID,
@@ -719,7 +701,8 @@ describe("Horpyrion", () => {
                                 return horpyrion
                                     .setUser(USER_ID)
                                     .setSchema(SCHEMA_ID)
-                                    .getRecord(RECORD_ID)
+                                    .setRecord(RECORD_ID)
+                                    .getData()
                                     .then(resp => {
                                         expect(resp).to.containSubset({
                                             id: RECORD_ID,
@@ -736,13 +719,15 @@ describe("Horpyrion", () => {
                                 return horpyrion
                                     .setUser(USER_ID)
                                     .setSchema(SCHEMA_ID)
-                                    .updateRecord(RECORD_ID, { testA: "AAA2", testB: "BBB2" })
+                                    .setRecord(RECORD_ID)
+                                    .updateRecord({ testA: "AAA2", testB: "BBB2" })
                                     .then(resp => {
                                         expect(resp).to.be.true();
                                         return horpyrion
                                             .setRootUser()
                                             .setSchema(SCHEMA_ID)
-                                            .getRecord(RECORD_ID)
+                                            .setRecord(RECORD_ID)
+                                            .getData()
                                             .then(resp => {
                                                 expect(resp).to.containSubset({
                                                     id: RECORD_ID,
@@ -760,7 +745,8 @@ describe("Horpyrion", () => {
                                 return horpyrion
                                     .setUser(USER_ID)
                                     .setSchema(SCHEMA_ID)
-                                    .removeRecord(RECORD_ID)
+                                    .setRecord(RECORD_ID)
+                                    .removeRecord()
                                     .then(resp => {
                                         expect(resp).to.be.true();
                                         return horpyrion
