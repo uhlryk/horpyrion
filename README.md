@@ -118,6 +118,20 @@ userContext
 .setSchema(<schema id>)
 ```
 
+#### create record action
+
+Creates new record in specific collection in database
+
+ * begins from schema context
+
+```
+schemaContext
+  .createRecord(<data>)
+  
+```
+
+Returns promise which resolves to record 
+
 #### update schema actions
 
 update collection info
@@ -165,6 +179,7 @@ Specify schema record context. Next actions and contexts will be in relation to 
 schemaContext
 .setRecord(<schema id>)
 ```
+
 
 
 ## testing
