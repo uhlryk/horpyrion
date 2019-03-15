@@ -149,11 +149,23 @@ get specific collection info
  * begins from schema context
  
 ```
-userContext
+schemaContext
   .getData()
 ```
 
 Returns promise which resolves to schema 
+
+#### set schema record context
+
+Specify schema record context. Next actions and contexts will be in relation to selected record
+
+ * begins from schema context
+ 
+```
+schemaContext
+.setRecord(<schema id>)
+```
+
 
 ## testing
 
