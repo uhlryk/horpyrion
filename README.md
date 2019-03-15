@@ -230,6 +230,45 @@ recordContext
 
 Returns promise which resolves to record 
 
+#### set user schema context
+
+Specify user schema context. Next actions and context will be in relation to selected user context 
+
+ * begins from user context
+ 
+```
+userContext
+.setUserSchema()
+```
+
+#### create user action
+
+Creates new user in database
+
+ * begins from user schema context
+
+```
+userSchemaContext
+  .createRecord(<data>)
+  
+```
+
+Returns promise which resolves to record 
+
+#### get user list actions
+
+get list of users based on query
+
+ * begins from user schema context
+ 
+```
+userSchemaContext
+  .getRecords(<query object>)
+```
+
+Returns promise which resolves to user list
+
+
 ## testing
 
 ### localhost testing:
