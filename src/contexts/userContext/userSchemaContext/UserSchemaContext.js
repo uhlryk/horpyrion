@@ -21,30 +21,6 @@ export default class UserSchemaContext extends Context {
             .then(user => user.toJSON());
     }
 
-    updateRecord(recordId, data) {
-        return this.resolveContextAction()
-            .then(() => this.updateFactory(ModelManager.MODEL.USER)(recordId, data))
-            .then(() => true);
-    }
-
-    removeRecord(recordId) {
-        return this.resolveContextAction()
-            .then(() => this.removeFactory(ModelManager.MODEL.USER)(recordId))
-            .then(() => true);
-    }
-
-    getRecord(userId) {
-        return this.resolveContextAction()
-            .then(() => this.getFactory(ModelManager.MODEL.USER)(userId))
-            .then(userRecord => {
-                if (userRecord) {
-                    return userRecord;
-                } else {
-                    return null;
-                }
-            });
-    }
-
     getRecords(query) {
         return this.resolveContextAction()
             .then(() => this.getListFactory(ModelManager.MODEL.USER)(query))

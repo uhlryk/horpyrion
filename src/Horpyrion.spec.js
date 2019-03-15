@@ -102,19 +102,6 @@ describe("Horpyrion", () => {
                             });
                     });
 
-                    it("should return user record", () => {
-                        return horpyrion
-                            .setRootUser()
-                            .setUserSchema()
-                            .getRecord(USER_ID)
-                            .then(resp => {
-                                expect(resp).to.containSubset({
-                                    id: USER_ID,
-                                    name: "SOME_USER"
-                                });
-                            });
-                    });
-
                     it("should return user record list", () => {
                         return horpyrion
                             .setRootUser()
@@ -127,26 +114,6 @@ describe("Horpyrion", () => {
                                         name: "SOME_USER"
                                     }
                                 ]);
-                            });
-                    });
-
-                    it("should update user record", () => {
-                        return horpyrion
-                            .setRootUser()
-                            .setUserSchema()
-                            .updateRecord(USER_ID, { name: "SOME_USER" })
-                            .then(resp => {
-                                expect(resp).to.be.true();
-                            });
-                    });
-
-                    it("should remove user record", () => {
-                        return horpyrion
-                            .setRootUser()
-                            .setUserSchema()
-                            .removeRecord(USER_ID)
-                            .then(resp => {
-                                expect(resp).to.be.true();
                             });
                     });
 

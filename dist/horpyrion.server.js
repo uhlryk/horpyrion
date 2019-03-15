@@ -1068,49 +1068,12 @@ var UserSchemaContext = function (_Context) {
             });
         }
     }, {
-        key: "updateRecord",
-        value: function updateRecord(recordId, data) {
+        key: "getRecords",
+        value: function getRecords(query) {
             var _this3 = this;
 
             return this.resolveContextAction().then(function () {
-                return _this3.updateFactory(_ModelManager2.default.MODEL.USER)(recordId, data);
-            }).then(function () {
-                return true;
-            });
-        }
-    }, {
-        key: "removeRecord",
-        value: function removeRecord(recordId) {
-            var _this4 = this;
-
-            return this.resolveContextAction().then(function () {
-                return _this4.removeFactory(_ModelManager2.default.MODEL.USER)(recordId);
-            }).then(function () {
-                return true;
-            });
-        }
-    }, {
-        key: "getRecord",
-        value: function getRecord(userId) {
-            var _this5 = this;
-
-            return this.resolveContextAction().then(function () {
-                return _this5.getFactory(_ModelManager2.default.MODEL.USER)(userId);
-            }).then(function (userRecord) {
-                if (userRecord) {
-                    return userRecord;
-                } else {
-                    return null;
-                }
-            });
-        }
-    }, {
-        key: "getRecords",
-        value: function getRecords(query) {
-            var _this6 = this;
-
-            return this.resolveContextAction().then(function () {
-                return _this6.getListFactory(_ModelManager2.default.MODEL.USER)(query);
+                return _this3.getListFactory(_ModelManager2.default.MODEL.USER)(query);
             }).then(function (userRecordList) {
                 return userRecordList;
             });
