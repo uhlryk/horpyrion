@@ -217,6 +217,19 @@ recordContext
 
 Returns promise which resolves to true 
 
+#### get record data
+
+get specific record info
+
+ * begins from record context
+ 
+```
+recordContext
+  .getData()
+```
+
+Returns promise which resolves to record 
+
 ## testing
 
 ### localhost testing:
