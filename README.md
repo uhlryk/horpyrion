@@ -193,7 +193,29 @@ schemaContext
 .setRecord(<schema id>)
 ```
 
+#### update record actions
 
+update record info
+
+ * begins from record context
+ 
+```
+recordContext
+.updateRecord(<record data>)
+```
+
+Returns promise which resolves to true 
+
+#### remove schema actions
+
+ * begins from record context
+ 
+```
+recordContext
+  .removeRecord()
+```
+
+Returns promise which resolves to true 
 
 ## testing
 
