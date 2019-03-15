@@ -133,6 +133,17 @@ userContext
 
 Returns promise which resolves to updated schema 
 
+#### remove schema
+
+ * begins from user context
+ 
+```
+userContext
+  .removeSchema(<schema id>)
+```
+
+Returns promise which resolves to true 
+
 ## testing
 
 ### localhost testing:
