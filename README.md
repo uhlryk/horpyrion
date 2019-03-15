@@ -58,7 +58,7 @@ horpyrion.sync(options, callbackFunction); //return promise
 Each action need to be preceded by setup contexts
 Contexts begins from some other contexts and leads to different actions and contexts
 
-#### user context
+#### set user context
 
 Specify user context. Next contexts and actions will be done with this user permissions. and this user will be the owner
 
@@ -83,6 +83,25 @@ specific user context:
 horpyrion
   .setUser(<user id>)
 ```  
+
+#### create schema action
+
+Creates new collection in database
+
+##### begins
+
+from user context
+
+##### usage
+
+```
+userContext
+  .createSchema(<unique schema name>)
+  
+```
+
+Returns promise which resolves to schema 
+
 
 
 ## testing
