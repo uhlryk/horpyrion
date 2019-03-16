@@ -429,17 +429,6 @@ describe("Horpyrion", () => {
                             });
                         });
                     });
-                    describe("when getting attributes", () => {
-                        it("should return false", () => {
-                            return horpyrion
-                                .setRootUser()
-                                .setSchema(SCHEMA_ID)
-                                .getAttributes()
-                                .then(resp => {
-                                    expect(resp).be.false();
-                                });
-                        });
-                    });
                 });
             });
 
@@ -733,18 +722,6 @@ describe("Horpyrion", () => {
                                             });
                                     });
                             });
-                        });
-                    });
-
-                    describe("when getting attributes", () => {
-                        it("should return false", () => {
-                            return horpyrion
-                                .setUser(USER_ID)
-                                .setSchema(SCHEMA_ID)
-                                .getAttributes()
-                                .then(resp => {
-                                    expect(resp).be.false();
-                                });
                         });
                     });
                 });

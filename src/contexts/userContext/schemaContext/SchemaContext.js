@@ -40,8 +40,4 @@ export default class SchemaContext extends Context {
             .then(({ schema }) => this.createFactory(ModelManager.MODEL.RECORD)({ data: data, SchemaId: schema.id }))
             .then(record => record.toJSON());
     }
-
-    async getAttributes() {
-        return false;
-    }
 }
