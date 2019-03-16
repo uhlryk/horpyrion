@@ -1,6 +1,6 @@
 import Horpyrion from "./Horpyrion";
 
-describe("Horpyrion root user and schema context", () => {
+describe("Horpyrion root user and schema context and record context", () => {
     let horpyrion;
     let SCHEMA_ID;
     let RECORD_ID;
