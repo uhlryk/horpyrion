@@ -16,6 +16,20 @@ describe("Horpyrion root user and schema context", () => {
             });
     });
 
+    it("should return schema data", () => {
+        return horpyrion
+            .setRootUser()
+            .setSchema(SCHEMA_ID)
+            .getData()
+            .then(resp => {
+                expect(resp).to.containSubset({
+                    id: expectedValue => expectedValue,
+                    name: "SOME_RESOURCE",
+                    UserId: null
+                });
+            });
+    });
+
     it("should update schema", () => {
         return horpyrion
             .setRootUser()
