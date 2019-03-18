@@ -1,19 +1,23 @@
 import Horpyrion from "./Horpyrion";
 import RecordContext from "./contexts/userContext/schemaContext/recordContext/RecordContext";
 import SchemaContext from "./contexts/userContext/schemaContext/SchemaContext";
-describe("Horpyrion root user and schema context", () => {
+describe.only("Horpyrion root user and schema context", () => {
     let horpyrion;
     let SCHEMA_ID;
     beforeEach(() => {
         horpyrion = new Horpyrion(DB_CONFIGURATION);
         return horpyrion
-            .sync({ force: true })
+            .connect({ force: true })
             .then(() => {
                 return horpyrion.setRootUser().createSchema("SOME_RESOURCE");
             })
-            .then(schema => {
-                SCHEMA_ID = schema.id;
+            .then(schemaId => {
+                SCHEMA_ID = schemaId;
             });
+    });
+
+    afterEach(() => {
+        return new Promise(resolve => horpyrion.getDb().dropDatabase(() => resolve())).then(()=> horpyrion.disconnect())
     });
 
     it("should return schema data", () => {
@@ -24,8 +28,7 @@ describe("Horpyrion root user and schema context", () => {
             .then(resp => {
                 expect(resp).to.containSubset({
                     id: expectedValue => expectedValue,
-                    name: "SOME_RESOURCE",
-                    UserId: null
+                    name: "SOME_RESOURCE"
                 });
             });
     });

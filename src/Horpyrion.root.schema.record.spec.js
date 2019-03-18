@@ -7,7 +7,7 @@ describe("Horpyrion root user and schema context and record context", () => {
     beforeEach(() => {
         horpyrion = new Horpyrion(DB_CONFIGURATION);
         return horpyrion
-            .sync({ force: true })
+            .connect({ force: true })
             .then(() => {
                 return horpyrion.setRootUser().createSchema("SOME_RESOURCE");
             })

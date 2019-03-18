@@ -4,7 +4,7 @@ describe("Horpyrion root user and user schema context", () => {
     let horpyrion;
     beforeEach(() => {
         horpyrion = new Horpyrion(DB_CONFIGURATION);
-        return horpyrion.sync({ force: true });
+        return horpyrion.connect({ force: true });
     });
 
     xit("should return schema data", () => {

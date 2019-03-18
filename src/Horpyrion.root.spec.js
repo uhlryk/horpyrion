@@ -5,19 +5,19 @@ describe("Horpyrion root user context", () => {
     let horpyrion;
     beforeEach(() => {
         horpyrion = new Horpyrion(DB_CONFIGURATION);
-        return horpyrion.sync({ force: true });
+        return horpyrion.connect({ force: true });
+    });
+
+    afterEach(() => {
+        return new Promise(resolve => horpyrion.getDb().dropDatabase(() => resolve())).then(()=> horpyrion.disconnect())
     });
 
     it("should create and return schema data", () => {
         return horpyrion
             .setRootUser()
             .createSchema("SOME_RESOURCE")
-            .then(resp => {
-                expect(resp).to.containSubset({
-                    id: expectedValue => expectedValue,
-                    name: "SOME_RESOURCE",
-                    UserId: null
-                });
+            .then(schemaId => {
+                expect(schemaId).to.be.a.uuid("v4");
             });
     });
 
@@ -57,8 +57,7 @@ describe("Horpyrion root user context", () => {
                     expect(resp).to.containSubset([
                         {
                             id: expectedValue => expectedValue,
-                            name: "SOME_RESOURCE",
-                            UserId: null
+                            name: "SOME_RESOURCE"
                         }
                     ]);
                 });

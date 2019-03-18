@@ -5,6 +5,8 @@ import dirtyChai from "dirty-chai";
 chai.use(dirtyChai);
 import chaiSubset from "chai-subset";
 chai.use(chaiSubset);
+import chaiUuid from "chai-uuid";
+chai.use(chaiUuid);
 import request from "supertest";
 global.request = request;
 import sinon from "sinon";

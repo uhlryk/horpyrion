@@ -1,12 +1,15 @@
-export default function getListFactory(modelId, modelManager) {
+export default function getListFactory(collectionName, modelManager) {
     return (whereData = {}) =>
-        modelManager
-            .getModels()
-            [modelId].findAll({
-                where: whereData,
-                raw: true
-            })
-            .then(entity => {
-                return entity;
-            });
+        new Promise((resolve, reject) => {
+            modelManager
+                .getDb()
+                .collection(collectionName)
+                .find(whereData)
+                .toArray((err, docs) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    return resolve(docs);
+                });
+        });
 }

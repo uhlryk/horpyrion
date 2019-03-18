@@ -21,21 +21,22 @@ describe("Horpyrion", () => {
         beforeEach(() => {
             horpyrion = new Horpyrion(DB_CONFIGURATION);
         });
+
+        afterEach(() => {
+            return new Promise(resolve => horpyrion.getDb().dropDatabase(() => resolve())).then(()=> horpyrion.disconnect())
+        });
+
         it("should connect to database", () => {
-            return horpyrion.sync({ force: true });
+            return horpyrion.connect({ force: true });
         });
 
         it("should connect to database and create init data", () => {
-            return horpyrion.sync({ force: true }, horpyrion => {
+            return horpyrion.connect({ force: true }, horpyrion => {
                 return horpyrion
                     .setRootUser()
                     .createSchema("SOME_RESOURCE")
-                    .then(schema => {
-                        expect(schema).to.containSubset({
-                            id: expectedValue => expectedValue,
-                            name: "SOME_RESOURCE",
-                            UserId: null
-                        });
+                    .then(schemaId => {
+                        expect(schemaId).to.be.a.uuid("v4");
                     });
             });
         });
@@ -51,16 +52,6 @@ describe("Horpyrion", () => {
                     .catch(err => {
                         expect(err.message).to.be.eql("No synchronization with database. Run sync() method");
                     });
-            });
-        });
-
-        describe("when connected to database", () => {
-            beforeEach(async () => {
-                await horpyrion.sync({ force: true });
-            });
-
-            it("should return sequelize instance", () => {
-                expect(horpyrion.getDbInstance()).to.be.instanceOf(Sequelize);
             });
         });
     });

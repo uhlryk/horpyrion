@@ -7,16 +7,18 @@ export default class Horpyrion {
     constructor(configuration) {
         this._configuration = configuration;
     }
-    sync(options, onSyncCallback) {
+    connect(options, onSyncCallback) {
         this._modelManager = new ModelManager(this._configuration);
-        return this._modelManager
-            .authenticate()
-            .then(() => this._modelManager.sync(options))
+        return this._modelManager.connect(options)
             .then(() => {
                 if (onSyncCallback) {
                     return onSyncCallback(this);
                 }
             });
+    }
+
+    disconnect() {
+        return this._modelManager.disconnect();
     }
 
     setRootUser() {
@@ -29,7 +31,7 @@ export default class Horpyrion {
         return new UserContext(userId, contextAction, this._modelManager);
     }
 
-    getDbInstance() {
-        return this._modelManager.getDbInstance();
+    getDb() {
+        return this._modelManager.getDb();
     }
 }

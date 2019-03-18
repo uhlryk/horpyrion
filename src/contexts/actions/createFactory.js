@@ -1,9 +1,16 @@
-export default function createFactory(modelId, modelManager) {
+import uuid from "uuid";
+export default function createFactory(collectionName, modelManager) {
     return (data = {}) =>
-        modelManager
-            .getModels()
-            [modelId].create(data, {})
-            .then(entity => {
-                return entity;
-            });
+        new Promise((resolve, reject) => {
+            const id = uuid.v4();
+            modelManager
+                .getDb()
+                .collection(collectionName)
+                .insertOne(Object.assign({}, data, {id: id}), (err, result) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    return resolve(id);
+                })
+        });
 }
