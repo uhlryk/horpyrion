@@ -774,9 +774,7 @@ var SchemaContext = function (_Context) {
         value: function createRecord(data) {
             var _this5 = this;
 
-            return this.resolveContextAction().tap(function (res) {
-                return console.log(res);
-            }).then(function (_ref4) {
+            return this.resolveContextAction().then(function (_ref4) {
                 var schema = _ref4.schema;
                 return _this5.createFactory(_ModelManager2.default.MODEL.RECORD)({ data: data, SchemaId: schema.id });
             }).then(function (recordId) {
