@@ -1,3 +1,4 @@
+import Promise from "bluebird";
 import uuid from "uuid";
 export default function createFactory(collectionName, modelManager) {
     return (data = {}) =>
@@ -6,11 +7,11 @@ export default function createFactory(collectionName, modelManager) {
             modelManager
                 .getDb()
                 .collection(collectionName)
-                .insertOne(Object.assign({}, data, {id: id}), (err, result) => {
+                .insertOne(Object.assign({}, data, { id: id }), (err, result) => {
                     if (err) {
                         return reject(err);
                     }
                     return resolve(id);
-                })
+                });
         });
 }

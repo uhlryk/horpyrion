@@ -18,7 +18,7 @@ export default class UserSchemaContext extends Context {
     createRecord(name) {
         return this.resolveContextAction()
             .then(() => this.createFactory(ModelManager.MODEL.USER)({ name: name }))
-            .then(user => user.toJSON());
+            .then(userId => userId);
     }
 
     getRecords(query) {

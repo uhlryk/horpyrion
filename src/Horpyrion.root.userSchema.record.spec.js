@@ -13,8 +13,8 @@ describe("Horpyrion root user and user schema context and record context", () =>
                     .setUserSchema()
                     .createRecord("SOME_USER");
             })
-            .then(user => {
-                USER_ID = user.id;
+            .then(userId => {
+                USER_ID = userId;
             });
     });
 
@@ -26,7 +26,7 @@ describe("Horpyrion root user and user schema context and record context", () =>
             .getData()
             .then(resp => {
                 expect(resp).to.containSubset({
-                    id: expectedValue => expectedValue,
+                    id: expectedValue => expect(expectedValue).to.be.a.uuid("v4"),
                     name: "SOME_USER"
                 });
             });

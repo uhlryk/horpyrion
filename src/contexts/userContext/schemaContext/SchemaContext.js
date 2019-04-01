@@ -37,6 +37,7 @@ export default class SchemaContext extends Context {
 
     createRecord(data) {
         return this.resolveContextAction()
+            .tap(res => console.log(res))
             .then(({ schema }) => this.createFactory(ModelManager.MODEL.RECORD)({ data: data, SchemaId: schema.id }))
             .then(recordId => recordId);
     }

@@ -1,3 +1,4 @@
+import Promise from "bluebird";
 import Horpyrion from "./Horpyrion";
 import UserSchemaContext from "./contexts/userContext/userSchemaContext/UserSchemaContext";
 import SchemaContext from "./contexts/userContext/schemaContext/SchemaContext";
@@ -9,7 +10,9 @@ describe("Horpyrion root user context", () => {
     });
 
     afterEach(() => {
-        return new Promise(resolve => horpyrion.getDb().dropDatabase(() => resolve())).then(()=> horpyrion.disconnect())
+        return new Promise(resolve => horpyrion.getDb().dropDatabase(() => resolve())).then(() =>
+            horpyrion.disconnect()
+        );
     });
 
     it("should create and return schema data", () => {
@@ -56,7 +59,7 @@ describe("Horpyrion root user context", () => {
                 .then(resp => {
                     expect(resp).to.containSubset([
                         {
-                            id: expectedValue => expectedValue,
+                            id: expectedValue => expect(expectedValue).to.be.a.uuid("v4"),
                             name: "SOME_RESOURCE"
                         }
                     ]);

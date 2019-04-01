@@ -1,3 +1,4 @@
+import Promise from "bluebird";
 import Horpyrion from "./Horpyrion";
 import RecordContext from "./contexts/userContext/schemaContext/recordContext/RecordContext";
 import SchemaContext from "./contexts/userContext/schemaContext/SchemaContext";
@@ -29,7 +30,7 @@ describe("Horpyrion root user and schema context", () => {
             .getData()
             .then(resp => {
                 expect(resp).to.containSubset({
-                    id: expectedValue => expectedValue,
+                    id: expectedValue => expect(expectedValue).to.be.a.uuid("v4"),
                     name: "SOME_RESOURCE"
                 });
             });
@@ -108,12 +109,12 @@ describe("Horpyrion root user and schema context", () => {
                 .then(resp => {
                     expect(resp).to.containSubset([
                         {
-                            id: expectedValue => expectedValue,
+                            id: expectedValue => expect(expectedValue).to.be.a.uuid("v4"),
                             data: { testA: "AAA1", testB: "BBB1" },
                             SchemaId: SCHEMA_ID
                         },
                         {
-                            id: expectedValue => expectedValue,
+                            id: expectedValue => expect(expectedValue).to.be.a.uuid("v4"),
                             data: { testA: "AAA2", testB: "BBB2" },
                             SchemaId: SCHEMA_ID
                         }

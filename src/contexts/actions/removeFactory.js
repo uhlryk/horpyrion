@@ -1,3 +1,4 @@
+import Promise from "bluebird";
 export default function removeFactory(collectionName, modelManager) {
     return entityId =>
         new Promise((resolve, reject) => {
@@ -5,7 +6,7 @@ export default function removeFactory(collectionName, modelManager) {
                 .getDb()
                 .collection(collectionName)
                 .deleteOne({ id: entityId }, err => {
-                    if(err) {
+                    if (err) {
                         return reject(err);
                     }
                     return resolve(true);

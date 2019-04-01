@@ -1,3 +1,4 @@
+import Promise from "bluebird";
 export default function getListFactory(collectionName, modelManager) {
     return (whereData = {}) =>
         new Promise((resolve, reject) => {

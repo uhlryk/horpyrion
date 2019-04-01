@@ -1,3 +1,4 @@
+import Promise from "bluebird";
 export default function getFactory(collectionName, modelManager) {
     return entityId =>
         new Promise((resolve, reject) => {
@@ -9,6 +10,6 @@ export default function getFactory(collectionName, modelManager) {
                         return reject(err);
                     }
                     return resolve(docs);
-                })
+                });
         });
 }
