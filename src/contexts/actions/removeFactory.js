@@ -1,12 +1,15 @@
-export default function removeRecordFactory(modelId, modelManager) {
+import Promise from "bluebird";
+export default function removeFactory(collectionName, modelManager) {
     return entityId =>
-        modelManager
-            .getModels()
-            [modelId].destroy({
-                where: {
-                    id: entityId
-                }
-            })
-
-            .then(() => true);
+        new Promise((resolve, reject) => {
+            modelManager
+                .getDb()
+                .collection(collectionName)
+                .deleteOne({ id: entityId }, err => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    return resolve(true);
+                });
+        });
 }

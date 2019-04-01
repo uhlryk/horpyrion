@@ -1,17 +1,4 @@
 import ModelManager from "../../../../ModelManager";
+import getFactory from "../../../actions/getFactory";
 
-export default userRecordId => modelManager => () => {
-    return modelManager
-        .getModels()
-        [ModelManager.MODEL.USER].findOne({
-            where: {
-                id: userRecordId
-            },
-            raw: true
-        })
-        .then(record => {
-            if (!record) {
-            }
-            return record;
-        });
-};
+export default userRecordId => modelManager => () => getFactory(ModelManager.MODEL.USER, modelManager)(userRecordId);

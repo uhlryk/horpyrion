@@ -1,3 +1,4 @@
+import Promise from "bluebird";
 import Horpyrion from "./Horpyrion";
 import RecordContext from "./contexts/userContext/schemaContext/recordContext/RecordContext";
 import SchemaContext from "./contexts/userContext/schemaContext/SchemaContext";
@@ -7,13 +8,19 @@ describe("Horpyrion root user and schema context", () => {
     beforeEach(() => {
         horpyrion = new Horpyrion(DB_CONFIGURATION);
         return horpyrion
-            .sync({ force: true })
+            .connect({ force: true })
             .then(() => {
                 return horpyrion.setRootUser().createSchema("SOME_RESOURCE");
             })
-            .then(schema => {
-                SCHEMA_ID = schema.id;
+            .then(schemaId => {
+                SCHEMA_ID = schemaId;
             });
+    });
+
+    afterEach(() => {
+        return new Promise(resolve => horpyrion.getDb().dropDatabase(() => resolve())).then(() =>
+            horpyrion.disconnect()
+        );
     });
 
     it("should return schema data", () => {
@@ -23,9 +30,8 @@ describe("Horpyrion root user and schema context", () => {
             .getData()
             .then(resp => {
                 expect(resp).to.containSubset({
-                    id: expectedValue => expectedValue,
-                    name: "SOME_RESOURCE",
-                    UserId: null
+                    id: expectedValue => expect(expectedValue).to.be.a.uuid("v4"),
+                    name: "SOME_RESOURCE"
                 });
             });
     });
@@ -58,16 +64,8 @@ describe("Horpyrion root user and schema context", () => {
                 testA: "AAA",
                 testB: "BBB"
             })
-            .then(resp => {
-                expect(resp).to.containSubset({
-                    id: expectedValue => expectedValue,
-                    SchemaId: expectedValue => expectedValue,
-                    data: {
-                        testA: "AAA",
-                        testB: "BBB"
-                    },
-                    UserId: null
-                });
+            .then(recordId => {
+                expect(recordId).to.be.a.uuid("v4");
             });
     });
 
@@ -111,15 +109,13 @@ describe("Horpyrion root user and schema context", () => {
                 .then(resp => {
                     expect(resp).to.containSubset([
                         {
-                            id: expectedValue => expectedValue,
+                            id: expectedValue => expect(expectedValue).to.be.a.uuid("v4"),
                             data: { testA: "AAA1", testB: "BBB1" },
-                            UserId: null,
                             SchemaId: SCHEMA_ID
                         },
                         {
-                            id: expectedValue => expectedValue,
+                            id: expectedValue => expect(expectedValue).to.be.a.uuid("v4"),
                             data: { testA: "AAA2", testB: "BBB2" },
-                            UserId: null,
                             SchemaId: SCHEMA_ID
                         }
                     ]);

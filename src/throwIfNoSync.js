@@ -1,3 +1,4 @@
+import Promise from "bluebird";
 export default function throwIfNoSync(modelManager) {
     if (modelManager && modelManager.isSync()) {
         return Promise.resolve();

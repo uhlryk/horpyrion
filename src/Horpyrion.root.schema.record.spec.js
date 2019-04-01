@@ -7,12 +7,12 @@ describe("Horpyrion root user and schema context and record context", () => {
     beforeEach(() => {
         horpyrion = new Horpyrion(DB_CONFIGURATION);
         return horpyrion
-            .sync({ force: true })
+            .connect({ force: true })
             .then(() => {
                 return horpyrion.setRootUser().createSchema("SOME_RESOURCE");
             })
-            .then(schema => {
-                SCHEMA_ID = schema.id;
+            .then(schemaId => {
+                SCHEMA_ID = schemaId;
                 return horpyrion
                     .setRootUser()
                     .setSchema(SCHEMA_ID)
@@ -21,8 +21,8 @@ describe("Horpyrion root user and schema context and record context", () => {
                         testB: "BBB"
                     });
             })
-            .then(record => {
-                RECORD_ID = record.id;
+            .then(recordId => {
+                RECORD_ID = recordId;
             });
     });
 
@@ -34,9 +34,8 @@ describe("Horpyrion root user and schema context and record context", () => {
             .getData()
             .then(resp => {
                 expect(resp).to.containSubset({
-                    id: expectedValue => expectedValue,
+                    id: expectedValue => expect(expectedValue).to.be.a.uuid("v4"),
                     data: { testA: "AAA", testB: "BBB" },
-                    UserId: null,
                     SchemaId: SCHEMA_ID
                 });
             });
@@ -61,8 +60,7 @@ describe("Horpyrion root user and schema context and record context", () => {
                         expect(resp).to.containSubset({
                             id: RECORD_ID,
                             data: { testA: "AAA3", testB: "BBB3" },
-                            UserId: null,
-                            SchemaId: expectedValue => expectedValue
+                            SchemaId: expectedValue => expect(expectedValue).to.be.a.uuid("v4")
                         });
                     });
             });

@@ -1,14 +1,15 @@
-export default function getFactory(modelId, modelManager) {
+import Promise from "bluebird";
+export default function getFactory(collectionName, modelManager) {
     return entityId =>
-        modelManager
-            .getModels()
-            [modelId].findOne({
-                where: {
-                    id: entityId
-                },
-                raw: true
-            })
-            .then(entity => {
-                return entity;
-            });
+        new Promise((resolve, reject) => {
+            modelManager
+                .getDb()
+                .collection(collectionName)
+                .findOne({ id: entityId }, (err, docs) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    return resolve(docs);
+                });
+        });
 }
