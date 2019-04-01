@@ -1,7 +1,7 @@
 import Horpyrion from "./Horpyrion";
 import RecordContext from "./contexts/userContext/schemaContext/recordContext/RecordContext";
 import SchemaContext from "./contexts/userContext/schemaContext/SchemaContext";
-describe.only("Horpyrion root user and schema context", () => {
+describe("Horpyrion root user and schema context", () => {
     let horpyrion;
     let SCHEMA_ID;
     beforeEach(() => {
@@ -17,7 +17,9 @@ describe.only("Horpyrion root user and schema context", () => {
     });
 
     afterEach(() => {
-        return new Promise(resolve => horpyrion.getDb().dropDatabase(() => resolve())).then(()=> horpyrion.disconnect())
+        return new Promise(resolve => horpyrion.getDb().dropDatabase(() => resolve())).then(() =>
+            horpyrion.disconnect()
+        );
     });
 
     it("should return schema data", () => {
@@ -61,16 +63,8 @@ describe.only("Horpyrion root user and schema context", () => {
                 testA: "AAA",
                 testB: "BBB"
             })
-            .then(resp => {
-                expect(resp).to.containSubset({
-                    id: expectedValue => expectedValue,
-                    SchemaId: expectedValue => expectedValue,
-                    data: {
-                        testA: "AAA",
-                        testB: "BBB"
-                    },
-                    UserId: null
-                });
+            .then(recordId => {
+                expect(recordId).to.be.a.uuid("v4");
             });
     });
 
@@ -116,13 +110,11 @@ describe.only("Horpyrion root user and schema context", () => {
                         {
                             id: expectedValue => expectedValue,
                             data: { testA: "AAA1", testB: "BBB1" },
-                            UserId: null,
                             SchemaId: SCHEMA_ID
                         },
                         {
                             id: expectedValue => expectedValue,
                             data: { testA: "AAA2", testB: "BBB2" },
-                            UserId: null,
                             SchemaId: SCHEMA_ID
                         }
                     ]);

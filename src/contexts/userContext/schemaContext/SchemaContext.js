@@ -38,6 +38,6 @@ export default class SchemaContext extends Context {
     createRecord(data) {
         return this.resolveContextAction()
             .then(({ schema }) => this.createFactory(ModelManager.MODEL.RECORD)({ data: data, SchemaId: schema.id }))
-            .then(record => record.toJSON());
+            .then(recordId => recordId);
     }
 }
