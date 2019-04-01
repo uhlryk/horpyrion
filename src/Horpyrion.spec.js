@@ -1,20 +1,9 @@
 import Horpyrion from "./Horpyrion";
-import Sequelize from "sequelize";
 import Promise from "bluebird";
 
 describe("Horpyrion", () => {
     it("should create instance from configuration", () => {
         const horpyrion = new Horpyrion(DB_CONFIGURATION);
-        expect(horpyrion).to.be.instanceof(Horpyrion);
-    });
-    it("should create instance from sequelize instance", () => {
-        const sequelize = new Sequelize(DB_CONFIGURATION.dbname, DB_CONFIGURATION.user, DB_CONFIGURATION.password, {
-            dialect: DB_CONFIGURATION.type,
-            port: DB_CONFIGURATION.port,
-            host: DB_CONFIGURATION.host,
-            logging: DB_CONFIGURATION.logging
-        });
-        const horpyrion = new Horpyrion(sequelize);
         expect(horpyrion).to.be.instanceof(Horpyrion);
     });
     describe("when instance exist", () => {

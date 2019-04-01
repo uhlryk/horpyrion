@@ -9,17 +9,17 @@ export default class ModelManager {
         ATTRIBUTE: "Attribute"
     };
 
-    constructor() {
+    constructor(configuration) {
         this._isSync = false;
-        const url = "mongodb://localhost:27017";
-        this._client = new MongoClient(url);
+        this._configuration = configuration;
+        this._client = new MongoClient(this._configuration.host);
     }
 
     getDb() {
         return this._db;
     }
 
-    async connect() {
+    connect() {
         return new Promise((resolve, reject) => {
             this._client.connect(err => {
                 if (err) {
@@ -29,7 +29,7 @@ export default class ModelManager {
                 }
                 console.log("Connected successfully to server");
                 this._isSync = true;
-                this._db = this._client.db("myproject");
+                this._db = this._client.db(this._configuration.dbName);
 
                 return resolve();
             });

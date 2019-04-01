@@ -94,17 +94,15 @@ var _mongodb = __webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new _bluebird2.default(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return _bluebird2.default.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ModelManager = function () {
-    function ModelManager() {
+    function ModelManager(configuration) {
         _classCallCheck(this, ModelManager);
 
         this._isSync = false;
-        var url = "mongodb://localhost:27017";
-        this._client = new _mongodb.MongoClient(url);
+        this._configuration = configuration;
+        this._client = new _mongodb.MongoClient(this._configuration.host);
     }
 
     _createClass(ModelManager, [{
@@ -114,43 +112,24 @@ var ModelManager = function () {
         }
     }, {
         key: "connect",
-        value: function () {
-            var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-                var _this = this;
+        value: function connect() {
+            var _this = this;
 
-                return regeneratorRuntime.wrap(function _callee$(_context) {
-                    while (1) {
-                        switch (_context.prev = _context.next) {
-                            case 0:
-                                return _context.abrupt("return", new _bluebird2.default(function (resolve, reject) {
-                                    _this._client.connect(function (err) {
-                                        if (err) {
-                                            console.log("ERROR");
-                                            console.log(err);
-                                            return reject(err);
-                                        }
-                                        console.log("Connected successfully to server");
-                                        _this._isSync = true;
-                                        _this._db = _this._client.db("myproject");
-
-                                        return resolve();
-                                    });
-                                }));
-
-                            case 1:
-                            case "end":
-                                return _context.stop();
-                        }
+            return new _bluebird2.default(function (resolve, reject) {
+                _this._client.connect(function (err) {
+                    if (err) {
+                        console.log("ERROR");
+                        console.log(err);
+                        return reject(err);
                     }
-                }, _callee, this);
-            }));
+                    console.log("Connected successfully to server");
+                    _this._isSync = true;
+                    _this._db = _this._client.db(_this._configuration.dbName);
 
-            function connect() {
-                return _ref.apply(this, arguments);
-            }
-
-            return connect;
-        }()
+                    return resolve();
+                });
+            });
+        }
     }, {
         key: "disconnect",
         value: function disconnect() {
