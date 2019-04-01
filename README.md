@@ -23,34 +23,17 @@ import Horpyrion from "horpyrion";
 
 ### create instance 
 
-#### by passing options
 
 ```
 let horpyrion = new Horpyrion({
-  type: "postgres",
-  host: "localhost",
-  dbname: "test",
-  user: "test",
-  password: "test",
-  port: "5432",
-  logging: false
+connect
 });
-```
-
-#### by passing existing sequelize instance
-
-```
-const sequelize = <sequelize instance>
-const horpyrion = new Horpyrion(sequelize);
 ```
 
 ### start syncing to database
 
 ```
-const options = <sequelize options>
-// looks unusefull
-const callbackFunction = <callback function when sync happened>
-horpyrion.sync(options, callbackFunction); //return promise
+horpyrion.connect(); //return promise
 ```
 
 ### Contexts and Actions
