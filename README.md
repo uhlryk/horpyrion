@@ -90,6 +90,19 @@ userContext
 
 Returns promise which resolves to schema list
 
+#### get schema actions
+
+get collection info based on id
+
+ * begins from user context
+ 
+```
+userContext
+.getSchema(<schema id>)
+```
+
+Returns promise which resolves to schema
+
 #### set schema context
 
 Specify schema context. Next actions and context will be in relation to selected context 
@@ -151,6 +164,19 @@ schemaContext
 ```
 
 Returns promise which resolves to record list
+
+#### get record actions
+
+get record in collection based on record id
+
+ * begins from schema context
+ 
+```
+schemaContext
+.getRecord(<record id>)
+```
+
+Returns promise which resolves to record
 
 #### get schema data
 
