@@ -1,6 +1,6 @@
 {
     "name": "horpyrion",
-    "version": "0.34.0",
+    "version": "0.35.0",
     "description": "Persistent data manager for crm/cms systems. Create schemas with permissions and CRUD operations",
     "main": "dist/horpyrion.server.js",
     "scripts": {
