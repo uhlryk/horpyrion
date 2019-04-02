@@ -285,7 +285,7 @@ Specify user record context. Next actions and contexts will be in relation to se
  
 ```
 userSchemaContext
-.setUserRecord(user id>)
+.setRecord(user id>)
 ```
 
 #### update user record actions
