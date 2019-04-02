@@ -1,4 +1,5 @@
 import Horpyrion from "./Horpyrion";
+import Promise from "bluebird";
 
 describe("Horpyrion root user and schema context and record context", () => {
     let horpyrion;
@@ -7,7 +8,7 @@ describe("Horpyrion root user and schema context and record context", () => {
     beforeEach(() => {
         horpyrion = new Horpyrion(DB_CONFIGURATION);
         return horpyrion
-            .connect({ force: true })
+            .connect()
             .then(() => {
                 return horpyrion.setRootUser().insertSchema("SOME_RESOURCE");
             })
@@ -24,6 +25,12 @@ describe("Horpyrion root user and schema context and record context", () => {
             .then(recordId => {
                 RECORD_ID = recordId;
             });
+    });
+
+    afterEach(() => {
+        return new Promise(resolve => horpyrion.getDb().dropDatabase(() => resolve())).then(() =>
+            horpyrion.disconnect()
+        );
     });
 
     it("should return record data", () => {
@@ -60,7 +67,7 @@ describe("Horpyrion root user and schema context and record context", () => {
                         expect(resp).to.containSubset({
                             id: RECORD_ID,
                             data: { testA: "AAA3", testB: "BBB3" },
-                            SchemaId: expectedValue => expect(expectedValue).to.be.a.uuid("v4")
+                            SchemaId: SCHEMA_ID
                         });
                     });
             });

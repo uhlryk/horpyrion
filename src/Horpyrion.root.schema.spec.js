@@ -8,7 +8,7 @@ describe("Horpyrion root user and schema context", () => {
     beforeEach(() => {
         horpyrion = new Horpyrion(DB_CONFIGURATION);
         return horpyrion
-            .connect({ force: true })
+            .connect()
             .then(() => {
                 return horpyrion.setRootUser().insertSchema("SOME_RESOURCE");
             })
@@ -30,8 +30,7 @@ describe("Horpyrion root user and schema context", () => {
             .getData()
             .then(resp => {
                 expect(resp).to.containSubset({
-                    id: expectedValue => expect(expectedValue).to.be.a.uuid("v4"),
-                    name: "SOME_RESOURCE"
+                    id: SCHEMA_ID
                 });
             });
     });

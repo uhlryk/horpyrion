@@ -1,20 +1,20 @@
+import Promise from "bluebird";
 import UserContext from "./contexts/userContext/UserContext";
 import ContextAction from "./contexts/ContextAction";
 import RootUser from "./RootUser";
 import ModelManager from "./ModelManager";
+import InitDataManager from "./InitDataManager";
 
 export default class Horpyrion {
     constructor(configuration) {
         this._configuration = configuration;
     }
-    connect(options, onSyncCallback) {
+    connect(options) {
         this._modelManager = new ModelManager(this._configuration);
-        return this._modelManager.connect(options)
-            .then(() => {
-                if (onSyncCallback) {
-                    return onSyncCallback(this);
-                }
-            });
+        const initDataManager = new InitDataManager(this);
+        return this._modelManager.connect(options).then(() => {
+            return Promise.all([initDataManager.createSchemaIfNotExist("SYSTEM_USER")]);
+        });
     }
 
     disconnect() {

@@ -3,7 +3,12 @@ import uuid from "uuid";
 export default function insertFactory(collectionName, modelManager) {
     return (data = {}) =>
         new Promise((resolve, reject) => {
-            const id = uuid.v4();
+            let id;
+            if (data.id) {
+                id = data.id;
+            } else {
+                id = uuid.v4();
+            }
             modelManager
                 .getDb()
                 .collection(collectionName)

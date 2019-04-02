@@ -1,12 +1,11 @@
 import Promise from "bluebird";
 import Horpyrion from "./Horpyrion";
-import UserSchemaContext from "./contexts/userContext/userSchemaContext/UserSchemaContext";
 import SchemaContext from "./contexts/userContext/schemaContext/SchemaContext";
 describe("Horpyrion root user context", () => {
     let horpyrion;
     beforeEach(() => {
         horpyrion = new Horpyrion(DB_CONFIGURATION);
-        return horpyrion.connect({ force: true });
+        return horpyrion.connect();
     });
 
     afterEach(() => {
@@ -20,13 +19,13 @@ describe("Horpyrion root user context", () => {
             .setRootUser()
             .insertSchema("SOME_RESOURCE")
             .then(schemaId => {
-                expect(schemaId).to.be.a.uuid("v4");
+                expect(schemaId).to.be.equal("SOME_RESOURCE");
             });
     });
 
     it("should return user schema context", () => {
-        const userSchemaContext = horpyrion.setRootUser().setUserSchema();
-        expect(userSchemaContext).to.be.instanceof(UserSchemaContext);
+        const userSchemaContext = horpyrion.setRootUser().setSchema("SYSTEM_USER");
+        expect(userSchemaContext).to.be.instanceof(SchemaContext);
     });
 
     xdescribe("Schema doesn't exist", function() {
@@ -59,8 +58,10 @@ describe("Horpyrion root user context", () => {
                 .then(resp => {
                     expect(resp).to.containSubset([
                         {
-                            id: expectedValue => expect(expectedValue).to.be.a.uuid("v4"),
-                            name: "SOME_RESOURCE"
+                            id: "SYSTEM_USER"
+                        },
+                        {
+                            id: "SOME_RESOURCE"
                         }
                     ]);
                 });
@@ -72,8 +73,7 @@ describe("Horpyrion root user context", () => {
                 .getSchema(SCHEMA_ID)
                 .then(resp => {
                     expect(resp).to.containSubset({
-                        id: expectedValue => expect(expectedValue).to.be.a.uuid("v4"),
-                        name: "SOME_RESOURCE"
+                        id: "SOME_RESOURCE"
                     });
                 });
         });

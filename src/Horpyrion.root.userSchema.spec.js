@@ -1,16 +1,24 @@
 import Horpyrion from "./Horpyrion";
-import UserRecordContext from "./contexts/userContext/userSchemaContext/userRecordContext/UserRecordContext";
+// import UserRecordContext from "./contexts/userContext/userSchemaContext/userRecordContext/UserRecordContext";
+import RecordContext from "./contexts/userContext/schemaContext/recordContext/RecordContext";
+import Promise from "bluebird";
 describe("Horpyrion root user and user schema context", () => {
     let horpyrion;
     beforeEach(() => {
         horpyrion = new Horpyrion(DB_CONFIGURATION);
-        return horpyrion.connect({ force: true });
+        return horpyrion.connect();
+    });
+
+    afterEach(() => {
+        return new Promise(resolve => horpyrion.getDb().dropDatabase(() => resolve())).then(() =>
+            horpyrion.disconnect()
+        );
     });
 
     xit("should return schema data", () => {
         return horpyrion
             .setRootUser()
-            .setUserSchema()
+            .setSchema("SYSTEM_USER")
             .getData()
             .then(resp => {});
     });
@@ -18,7 +26,7 @@ describe("Horpyrion root user and user schema context", () => {
     it("should insert and return id", () => {
         return horpyrion
             .setRootUser()
-            .setUserSchema()
+            .setSchema("SYSTEM_USER")
             .insertRecord("SOME_USER")
             .then(userRecordId => {
                 expect(userRecordId).to.be.a.uuid("v4");
@@ -30,8 +38,8 @@ describe("Horpyrion root user and user schema context", () => {
         beforeEach(() => {
             return horpyrion
                 .setRootUser()
-                .setUserSchema()
-                .insertRecord("SOME_USER")
+                .setSchema("SYSTEM_USER")
+                .insertRecord({ name: "SOME_USER" })
                 .then(userId => {
                     USER_ID = userId;
                 });
@@ -40,13 +48,14 @@ describe("Horpyrion root user and user schema context", () => {
         it("should return user record list", () => {
             return horpyrion
                 .setRootUser()
-                .setUserSchema()
+                .setSchema("SYSTEM_USER")
                 .getRecords()
                 .then(resp => {
                     expect(resp).to.containSubset([
                         {
                             id: USER_ID,
-                            name: "SOME_USER"
+                            SchemaId: "SYSTEM_USER",
+                            data: { name: "SOME_USER" }
                         }
                     ]);
                 });
@@ -55,9 +64,9 @@ describe("Horpyrion root user and user schema context", () => {
         it("should return user record context", () => {
             const userRecordContext = horpyrion
                 .setRootUser()
-                .setUserSchema()
-                .setUserRecord(USER_ID);
-            expect(userRecordContext).to.be.instanceof(UserRecordContext);
+                .setSchema("SYSTEM_USER")
+                .setRecord(USER_ID);
+            expect(userRecordContext).to.be.instanceof(RecordContext);
         });
     });
 });

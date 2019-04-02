@@ -1,7 +1,6 @@
 import Context from "../Context";
 import SchemaContext from "./schemaContext/SchemaContext";
 import getUserContextFactory from "./getUserContextFactory";
-import UserSchemaContext from "./userSchemaContext/UserSchemaContext";
 import ModelManager from "../../ModelManager";
 
 export default class UserContext extends Context {
@@ -14,10 +13,8 @@ export default class UserContext extends Context {
         });
     }
 
-    insertSchema(schemaName) {
-        return this.resolveContextAction().then(() =>
-            this.insertFactory(ModelManager.MODEL.SCHEMA)({ name: schemaName })
-        );
+    insertSchema(schemaId) {
+        return this.resolveContextAction().then(() => this.insertFactory(ModelManager.MODEL.SCHEMA)({ id: schemaId }));
     }
 
     getSchema(schemaId) {
@@ -35,6 +32,6 @@ export default class UserContext extends Context {
     }
 
     setUserSchema() {
-        return this.createContext(null, UserSchemaContext);
+        return this.setSchema("SYSTEM_USER");
     }
 }
