@@ -10,7 +10,7 @@ describe("Horpyrion root user and schema context", () => {
         return horpyrion
             .connect({ force: true })
             .then(() => {
-                return horpyrion.setRootUser().createSchema("SOME_RESOURCE");
+                return horpyrion.setRootUser().insertSchema("SOME_RESOURCE");
             })
             .then(schemaId => {
                 SCHEMA_ID = schemaId;
@@ -56,11 +56,11 @@ describe("Horpyrion root user and schema context", () => {
             });
     });
 
-    it("should create record data", () => {
+    it("should insert record data", () => {
         return horpyrion
             .setRootUser()
             .setSchema(SCHEMA_ID)
-            .createRecord({
+            .insertRecord({
                 testA: "AAA",
                 testB: "BBB"
             })
@@ -86,14 +86,14 @@ describe("Horpyrion root user and schema context", () => {
                 horpyrion
                     .setRootUser()
                     .setSchema(SCHEMA_ID)
-                    .createRecord({
+                    .insertRecord({
                         testA: "AAA1",
                         testB: "BBB1"
                     }),
                 horpyrion
                     .setRootUser()
                     .setSchema(SCHEMA_ID)
-                    .createRecord({
+                    .insertRecord({
                         testA: "AAA2",
                         testB: "BBB2"
                     })

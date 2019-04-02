@@ -15,10 +15,10 @@ describe("Horpyrion root user context", () => {
         );
     });
 
-    it("should create and return schema data", () => {
+    it("should insert and return schema id", () => {
         return horpyrion
             .setRootUser()
-            .createSchema("SOME_RESOURCE")
+            .insertSchema("SOME_RESOURCE")
             .then(schemaId => {
                 expect(schemaId).to.be.a.uuid("v4");
             });
@@ -41,7 +41,7 @@ describe("Horpyrion root user context", () => {
         beforeEach(() => {
             return horpyrion
                 .setRootUser()
-                .createSchema("SOME_RESOURCE")
+                .insertSchema("SOME_RESOURCE")
                 .then(schema => {
                     SCHEMA_ID = schema.id;
                 });

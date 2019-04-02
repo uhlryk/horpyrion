@@ -1,4 +1,4 @@
-import createFactory from "./actions/createFactory";
+import insertFactory from "./actions/insertFactory";
 import updateFactory from "./actions/updateFactory";
 import getFactory from "./actions/getFactory";
 import getListFactory from "./actions/getListFactory";
@@ -38,8 +38,8 @@ export default class ContextAction {
         return new Context(id, this.getContextAction(), this.getModelManager());
     }
 
-    createFactory(modelId) {
-        return createFactory(modelId, this.getModelManager());
+    insertFactory(modelId) {
+        return insertFactory(modelId, this.getModelManager());
     }
 
     updateFactory(modelId) {

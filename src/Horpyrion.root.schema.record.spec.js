@@ -9,14 +9,14 @@ describe("Horpyrion root user and schema context and record context", () => {
         return horpyrion
             .connect({ force: true })
             .then(() => {
-                return horpyrion.setRootUser().createSchema("SOME_RESOURCE");
+                return horpyrion.setRootUser().insertSchema("SOME_RESOURCE");
             })
             .then(schemaId => {
                 SCHEMA_ID = schemaId;
                 return horpyrion
                     .setRootUser()
                     .setSchema(SCHEMA_ID)
-                    .createRecord({
+                    .insertRecord({
                         testA: "AAA",
                         testB: "BBB"
                     });

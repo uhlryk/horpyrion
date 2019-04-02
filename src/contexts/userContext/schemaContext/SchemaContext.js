@@ -35,9 +35,9 @@ export default class SchemaContext extends Context {
         );
     }
 
-    createRecord(data) {
+    insertRecord(data) {
         return this.resolveContextAction()
-            .then(({ schema }) => this.createFactory(ModelManager.MODEL.RECORD)({ data: data, SchemaId: schema.id }))
+            .then(({ schema }) => this.insertFactory(ModelManager.MODEL.RECORD)({ data: data, SchemaId: schema.id }))
             .then(recordId => recordId);
     }
 }

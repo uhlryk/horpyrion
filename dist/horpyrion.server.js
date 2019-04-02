@@ -172,9 +172,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _createFactory2 = __webpack_require__(9);
+var _insertFactory2 = __webpack_require__(9);
 
-var _createFactory3 = _interopRequireDefault(_createFactory2);
+var _insertFactory3 = _interopRequireDefault(_insertFactory2);
 
 var _updateFactory2 = __webpack_require__(11);
 
@@ -244,9 +244,9 @@ var ContextAction = function () {
             return new Context(id, this.getContextAction(), this.getModelManager());
         }
     }, {
-        key: "createFactory",
-        value: function createFactory(modelId) {
-            return (0, _createFactory3.default)(modelId, this.getModelManager());
+        key: "insertFactory",
+        value: function insertFactory(modelId) {
+            return (0, _insertFactory3.default)(modelId, this.getModelManager());
         }
     }, {
         key: "updateFactory",
@@ -486,12 +486,12 @@ var UserContext = function (_Context) {
     }
 
     _createClass(UserContext, [{
-        key: "createSchema",
-        value: function createSchema(schemaName) {
+        key: "insertSchema",
+        value: function insertSchema(schemaName) {
             var _this2 = this;
 
             return this.resolveContextAction().then(function () {
-                return _this2.createFactory(_ModelManager2.default.MODEL.SCHEMA)({ name: schemaName });
+                return _this2.insertFactory(_ModelManager2.default.MODEL.SCHEMA)({ name: schemaName });
             });
         }
     }, {
@@ -530,7 +530,7 @@ exports.default = UserContext;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = createFactory;
+exports.default = insertFactory;
 
 var _bluebird = __webpack_require__(1);
 
@@ -542,7 +542,7 @@ var _uuid2 = _interopRequireDefault(_uuid);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function createFactory(collectionName, modelManager) {
+function insertFactory(collectionName, modelManager) {
     return function () {
         var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
         return new _bluebird2.default(function (resolve, reject) {
@@ -749,13 +749,13 @@ var SchemaContext = function (_Context) {
             });
         }
     }, {
-        key: "createRecord",
-        value: function createRecord(data) {
+        key: "insertRecord",
+        value: function insertRecord(data) {
             var _this5 = this;
 
             return this.resolveContextAction().then(function (_ref4) {
                 var schema = _ref4.schema;
-                return _this5.createFactory(_ModelManager2.default.MODEL.RECORD)({ data: data, SchemaId: schema.id });
+                return _this5.insertFactory(_ModelManager2.default.MODEL.RECORD)({ data: data, SchemaId: schema.id });
             }).then(function (recordId) {
                 return recordId;
             });
@@ -990,12 +990,12 @@ var UserSchemaContext = function (_Context) {
             return new _UserRecordContext2.default(userRecordId, this._contextAction, this._modelManager);
         }
     }, {
-        key: "createRecord",
-        value: function createRecord(name) {
+        key: "insertRecord",
+        value: function insertRecord(name) {
             var _this2 = this;
 
             return this.resolveContextAction().then(function () {
-                return _this2.createFactory(_ModelManager2.default.MODEL.USER)({ name: name });
+                return _this2.insertFactory(_ModelManager2.default.MODEL.USER)({ name: name });
             }).then(function (userId) {
                 return userId;
             });

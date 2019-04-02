@@ -1,6 +1,6 @@
 import Promise from "bluebird";
 import uuid from "uuid";
-export default function createFactory(collectionName, modelManager) {
+export default function insertFactory(collectionName, modelManager) {
     return (data = {}) =>
         new Promise((resolve, reject) => {
             const id = uuid.v4();

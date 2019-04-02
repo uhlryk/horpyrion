@@ -11,7 +11,7 @@ describe("Horpyrion root user and user schema context and record context", () =>
                 return horpyrion
                     .setRootUser()
                     .setUserSchema()
-                    .createRecord("SOME_USER");
+                    .insertRecord("SOME_USER");
             })
             .then(userId => {
                 USER_ID = userId;

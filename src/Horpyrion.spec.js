@@ -28,7 +28,7 @@ describe("Horpyrion", () => {
                 horpyrion => {
                     return horpyrion
                         .setRootUser()
-                        .createSchema("SOME_RESOURCE")
+                        .insertSchema("SOME_RESOURCE")
                         .then(schemaId => {
                             expect(schemaId).to.be.a.uuid("v4");
                         });
@@ -40,7 +40,7 @@ describe("Horpyrion", () => {
             it("should throw error", () => {
                 return horpyrion
                     .setRootUser()
-                    .createSchema("SOME_RESOURCE")
+                    .insertSchema("SOME_RESOURCE")
                     .then(() => {
                         expect.fail();
                     })

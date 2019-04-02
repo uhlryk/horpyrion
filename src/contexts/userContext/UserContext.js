@@ -14,9 +14,9 @@ export default class UserContext extends Context {
         });
     }
 
-    createSchema(schemaName) {
+    insertSchema(schemaName) {
         return this.resolveContextAction().then(() =>
-            this.createFactory(ModelManager.MODEL.SCHEMA)({ name: schemaName })
+            this.insertFactory(ModelManager.MODEL.SCHEMA)({ name: schemaName })
         );
     }
 

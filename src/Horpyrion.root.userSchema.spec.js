@@ -15,11 +15,11 @@ describe("Horpyrion root user and user schema context", () => {
             .then(resp => {});
     });
 
-    it("should create and return user data", () => {
+    it("should insert and return id", () => {
         return horpyrion
             .setRootUser()
             .setUserSchema()
-            .createRecord("SOME_USER")
+            .insertRecord("SOME_USER")
             .then(userRecordId => {
                 expect(userRecordId).to.be.a.uuid("v4");
             });
@@ -31,7 +31,7 @@ describe("Horpyrion root user and user schema context", () => {
             return horpyrion
                 .setRootUser()
                 .setUserSchema()
-                .createRecord("SOME_USER")
+                .insertRecord("SOME_USER")
                 .then(userId => {
                     USER_ID = userId;
                 });

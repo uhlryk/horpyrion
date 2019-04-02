@@ -15,9 +15,9 @@ export default class UserSchemaContext extends Context {
         return new UserRecordContext(userRecordId, this._contextAction, this._modelManager);
     }
 
-    createRecord(name) {
+    insertRecord(name) {
         return this.resolveContextAction()
-            .then(() => this.createFactory(ModelManager.MODEL.USER)({ name: name }))
+            .then(() => this.insertFactory(ModelManager.MODEL.USER)({ name: name }))
             .then(userId => userId);
     }
 
