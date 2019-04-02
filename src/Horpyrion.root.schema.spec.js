@@ -97,8 +97,8 @@ describe("Horpyrion root user and schema context", () => {
                         testA: "AAA2",
                         testB: "BBB2"
                     })
-            ]).then(records => {
-                RECORD_ID = records[0].id;
+            ]).then(recordIds => {
+                RECORD_ID = recordIds[0];
             });
         });
         it("should return array of records", () => {
@@ -119,6 +119,20 @@ describe("Horpyrion root user and schema context", () => {
                             SchemaId: SCHEMA_ID
                         }
                     ]);
+                });
+        });
+
+        it("should return record data", () => {
+            return horpyrion
+                .setUser()
+                .setSchema(SCHEMA_ID)
+                .getRecord(RECORD_ID)
+                .then(resp => {
+                    expect(resp).to.containSubset({
+                        id: expectedValue => expect(expectedValue).to.be.a.uuid("v4"),
+                        data: { testA: "AAA1", testB: "BBB1" },
+                        SchemaId: SCHEMA_ID
+                    });
                 });
         });
 

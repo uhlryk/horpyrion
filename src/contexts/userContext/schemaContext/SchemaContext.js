@@ -17,6 +17,10 @@ export default class SchemaContext extends Context {
         return new RecordContext(recordId, this._contextAction, this._modelManager);
     }
 
+    getRecord(recordId) {
+        return this.resolveContextAction().then(() => this.getFactory(ModelManager.MODEL.RECORD)(recordId));
+    }
+
     updateSchema(schemaName) {
         return this.resolveContextAction()
             .then(({ schema }) => this.updateFactory(ModelManager.MODEL.SCHEMA)(schema.id, { name: schemaName }))

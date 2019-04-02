@@ -42,8 +42,8 @@ describe("Horpyrion root user context", () => {
             return horpyrion
                 .setRootUser()
                 .insertSchema("SOME_RESOURCE")
-                .then(schema => {
-                    SCHEMA_ID = schema.id;
+                .then(schemaId => {
+                    SCHEMA_ID = schemaId;
                 });
         });
 
@@ -63,6 +63,18 @@ describe("Horpyrion root user context", () => {
                             name: "SOME_RESOURCE"
                         }
                     ]);
+                });
+        });
+
+        it("should return schema", () => {
+            return horpyrion
+                .setRootUser()
+                .getSchema(SCHEMA_ID)
+                .then(resp => {
+                    expect(resp).to.containSubset({
+                        id: expectedValue => expect(expectedValue).to.be.a.uuid("v4"),
+                        name: "SOME_RESOURCE"
+                    });
                 });
         });
     });
